@@ -1,4 +1,5 @@
 import React from 'react';
+import mainLogo from '../images/white.png';
 import { Grid, Cell } from 'react-mdl';
 
 function Landing() {
@@ -7,9 +8,9 @@ function Landing() {
       <Grid className="landing-grid">
         <Cell col={12}>
           <img
-            src="https://cdn4.iconfinder.com/data/icons/zb-sports/20/multisport-512.png"
+            src={mainLogo}
             alt="sports"
-            className="sports-img"
+            id="sports-img"
           />
           <div>
             <h1 style={{ color: 'white', textAlign: "center" }}>Sports Manager</h1>

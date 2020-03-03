@@ -5,16 +5,16 @@ import { Layout, Content } from 'react-mdl';
 
 import * as serviceWorker from './utils/serviceWorker';
 
-import './styles/index.css';
 import 'react-mdl/extra/material.css';
 import 'react-mdl/extra/material.js';
+import './styles/index.css';
 
 import Navbar from './components/Navbar';
 import LandingPage from './pages/landingpage';
 import Contact from './pages/contact';
 import Login from './pages/login';
 import Signup from './pages/signup';
-
+ import Register from './pages/register';
 
 const SportsManager = () => (
     <BrowserRouter>
@@ -28,6 +28,7 @@ const SportsManager = () => (
                         <Route path="/contact" component={Contact} />
                         <Route path="/login" component={Login} />
                         <Route path="/signup" component={Signup} />
+                        <Route path="/register" component={Register} />
                     </Switch>
                 </Content>
             </Layout>
