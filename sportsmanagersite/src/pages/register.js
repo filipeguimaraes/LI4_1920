@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cell, Grid } from 'react-mdl';
+import { Cell, Grid} from 'react-mdl';
 import profileLogo from '../images/male_avatar-512.png';
 import '../styles/register.css';
 
@@ -24,7 +24,7 @@ const anos = Array.from({ length: 51 }, (v, i) => i + 1970);
 
 const Register = () => (
     <div className="form-wrap">
-        <Grid>
+        <Grid >
             <Cell col={6} className="profile">
                 <img height='400' alt="profile" src={profileLogo} />
             </Cell>
@@ -41,14 +41,14 @@ const Register = () => (
                             <Cell col={6}>
                                 <label>
                                     <input type="radio" name="sex" value="female" />Female
-        <div className="radio-control male"></div>
+        <div className="radio-control female"></div>
 
                                 </label>
                             </Cell>
                             <Cell col={6}>
                                 <label>
-                                    <input type="radio" name="sex" value="женский" />Male
-        <div className="radio-control female"></div>
+                                    <input type="radio" name="sex" value="male" />Male
+        <div className="radio-control male"></div>
                                 </label>
                             </Cell>
                         </Grid>
@@ -62,12 +62,12 @@ const Register = () => (
                         <input type="email" name="email" required />
                     </div>
                     <span>Date of birth</span>
-                    <Grid style={{ margin: '0', padding: '0', width: '100%' }}>
+                    <Grid >
                         <Cell col={4}>
 
                             <div>
 
-                                <select name="country">
+                                <select name="day">
                                     <option>Day</option>
                                     {dias.map(dia => (
                                         <option value={dia}>{dia}</option>
@@ -77,7 +77,7 @@ const Register = () => (
                         </Cell>
                         <Cell col={4}>
                             <div>
-                                <select name="country">
+                                <select name="month">
                                     <option>Month</option>
                                     {meses.map(mes => (
                                         <option value={mes}>{mes}</option>
@@ -88,7 +88,7 @@ const Register = () => (
                         </Cell>
                         <Cell col={4}>
                             <div>
-                                <select name="country">
+                                <select name="year">
                                     <option>Year</option>
                                     {anos.map(ano => (
                                         <option value={ano}>{ano}</option>

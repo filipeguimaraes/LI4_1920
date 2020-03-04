@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route} from 'react-router-dom';
 import { Layout, Content } from 'react-mdl';
 
 import * as serviceWorker from './utils/serviceWorker';
@@ -14,7 +14,8 @@ import LandingPage from './pages/landingpage';
 import Contact from './pages/contact';
 import Login from './pages/login';
 import Signup from './pages/signup';
- import Register from './pages/register';
+import Register from './pages/register';
+import Instructor from './pages/instructor';
 
 const SportsManager = () => (
     <BrowserRouter>
@@ -29,6 +30,7 @@ const SportsManager = () => (
                         <Route path="/login" component={Login} />
                         <Route path="/signup" component={Signup} />
                         <Route path="/register" component={Register} />
+                        <Route path="/instructor" component={Instructor} /> 
                     </Switch>
                 </Content>
             </Layout>
