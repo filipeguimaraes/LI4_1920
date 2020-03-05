@@ -2,10 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-
 import * as serviceWorker from './utils/serviceWorker';
-
-
 
 import LandingPage from './pages/landingpage';
 import Contact from './pages/contact';
@@ -13,8 +10,6 @@ import Login from './pages/login';
 import Signup from './pages/signup';
 import Register from './pages/register';
 import Instructor from './pages/instructor';
-
-
 
 const SportsManager = () => (
     <BrowserRouter>
