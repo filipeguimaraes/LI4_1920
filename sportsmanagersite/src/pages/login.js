@@ -1,8 +1,11 @@
 import React from 'react';
 import '../styles/signup.css';
 
+import Layout from '../layouts/BaseLayout';
+
 function Login() {
   return (
+    <Layout>
     <div class="login-page">
       <div class="form">
         <form class="login-form">
@@ -13,6 +16,7 @@ function Login() {
         </form>
       </div>
     </div>
+    </Layout>
   );
 }
 

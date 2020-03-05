@@ -2,8 +2,10 @@ import React from 'react';
 import { DataTable, TableHeader, Grid, Cell, Tooltip, Icon } from 'react-mdl';
 import '../styles/instructor.css';
 
-const Instructor = () => (
+import Layout from '../layouts/AuthenticatedLayout';
 
+const Instructor = () => (
+    <Layout>
     <div >
         <Grid className="table">
             <Cell col={6} style={{ margin: 'auto' }}>
@@ -32,6 +34,7 @@ const Instructor = () => (
 
         </Grid>
     </div>
+    </Layout>
 );
 
 export default Instructor;

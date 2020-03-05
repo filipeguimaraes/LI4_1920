@@ -1,8 +1,10 @@
 import React from 'react';
 import '../styles/signup.css'
 
+import Layout from '../layouts/BaseLayout';
 
 const Signup = () => (
+  <Layout>
   <div class="login-page">
     <div class="form">
       <form action="/register" class="login-form">
@@ -14,6 +16,7 @@ const Signup = () => (
       </form>
     </div>
   </div>
+  </Layout>
 );
 
 export default Signup;

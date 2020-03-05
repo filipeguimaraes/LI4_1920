@@ -3,6 +3,8 @@ import { Cell, Grid} from 'react-mdl';
 import profileLogo from '../images/male_avatar-512.png';
 import '../styles/register.css';
 
+import Layout from '../layouts/BaseLayout';
+
 const meses = [
     "Janeiro",
     "Fevereiro",
@@ -23,6 +25,7 @@ const dias = Array.from({ length: 31 }, (v, i) => i + 1);
 const anos = Array.from({ length: 51 }, (v, i) => i + 1970);
 
 const Register = () => (
+    <Layout>
     <div className="form-wrap">
         <Grid >
             <Cell col={6} className="profile">
@@ -114,6 +117,7 @@ const Register = () => (
             </Cell>
         </Grid>
     </div>
+    </Layout>
 );
 
 export default Register;
