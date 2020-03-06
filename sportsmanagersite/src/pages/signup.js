@@ -12,7 +12,7 @@ const Signup = () => (
           <input type="password" placeholder="password" />
           <input type="password" placeholder="confirm password" />
           <button>Sign up</button>
-          <p class="message">Already registered? <a href="/login">Log In</a></p>
+          <p class="message">Already registered? <a href="/login">Log in</a></p>
         </form>
       </div>
     </div>

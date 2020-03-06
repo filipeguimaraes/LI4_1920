@@ -77,3 +77,6 @@ select::-ms-expand {
   border-color: #7b7b7b transparent transparent transparent;
 }
 
+#profile-img{
+  height:250px;
+}

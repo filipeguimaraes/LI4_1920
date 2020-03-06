@@ -37,7 +37,11 @@ const Register = () => (
         <div className="form-wrap">
             <Grid >
                 <Cell col={6} className="profile">
-                    <img height='400' alt="profile" src={profileLogo} />
+                    <img 
+                    alt="profile" 
+                    src={profileLogo}
+                    id="profile-img" 
+                    />
                 </Cell>
                 <Cell col={6}>
                     <form method="post" action="form.php">
