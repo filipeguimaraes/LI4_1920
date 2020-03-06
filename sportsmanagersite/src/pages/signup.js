@@ -1,11 +1,13 @@
 import React from 'react';
 import '../styles/signup.css'
 
-function Signup() {
-  return (
+import Layout from '../layouts/BaseLayout';
+
+const Signup = () => (
+  <Layout>
     <div class="login-page">
       <div class="form">
-        <form class="login-form">
+        <form action="/register" class="login-form">
           <input type="text" placeholder="email" />
           <input type="password" placeholder="password" />
           <input type="password" placeholder="confirm password" />
@@ -14,7 +16,7 @@ function Signup() {
         </form>
       </div>
     </div>
-  );
-}
+  </Layout>
+);
 
 export default Signup;
