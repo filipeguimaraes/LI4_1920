@@ -20,12 +20,20 @@ const meses = [
     "Dezembro"
 ]
 
+
+const links = [
+    {
+        link: "/",
+        text: "Home"
+    }
+]
+
 const dias = Array.from({ length: 31 }, (v, i) => i + 1);
 
 const anos = Array.from({ length: 51 }, (v, i) => i + 1970);
 
 const Register = () => (
-    <Layout>
+    <Layout pages={links}>
         <div className="form-wrap">
             <Grid >
                 <Cell col={6} className="profile">

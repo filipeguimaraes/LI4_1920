@@ -9,6 +9,10 @@ import '../styles/index.css';
 
 const links = [
     {
+        link: "/",
+        text: "Home"
+    },
+    {
         link: "/login",
         text: "Log in"
     },
@@ -22,10 +26,9 @@ const links = [
     }
 ]
 
-const BaseLayout = ({ children }) => (
+const BaseLayout = ({ children, pages }) => (
     <div className="demo-big-content">
-        <Layout>
-            <Navbar pages={links} />
+        <Layout>{pages?<Navbar pages={pages} />:<Navbar pages={links} />}
             <Content>
                 <div className="page-content" />
                 {children}
