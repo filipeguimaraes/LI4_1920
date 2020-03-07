@@ -314,11 +314,11 @@
     position: relative;
     overflow: hidden;
     color: white;
-    background-color:  #85D8CE;
+    background-color:  #96DEDA;
   }
   
   .note--secondary {
-    background-color:  #85D8CE;
+    background-color:  #96DEDA;
   }
   
   .note--success {
@@ -348,7 +348,7 @@
     text-align: center;
     font-size: 32px;
     font-size: 2rem;
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: rgb(109, 204, 199);
   }
   
   .note__text {
@@ -364,12 +364,12 @@
     font-size: 24px;
     text-align: center;
     color: white;
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: rgb(109, 204, 199);
     opacity: 0;
     transition: all 0.25s;
   }
   .note__close:hover {
-    background-color: rgba(0, 0, 0, 0.15);
+    background-color: rgb(109, 204, 199);
   }
   .note:hover .note__close {
     opacity: 1;
