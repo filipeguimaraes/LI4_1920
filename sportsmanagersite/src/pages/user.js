@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import '../styles/user.css';
 import { Grid, Cell } from 'react-mdl';
 
@@ -10,7 +10,7 @@ import statistcsIcon from '../images/menu-3.png';
 import settingsIcon from '../images/menu-4.png';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBasketballBall, faBiking} from '@fortawesome/free-solid-svg-icons'
+import { faBasketballBall, faBiking } from '@fortawesome/free-solid-svg-icons'
 
 import Layout from '../layouts/UserLayout';
 
@@ -41,75 +41,89 @@ const menus = [
     }
 ]
 
-const notes = [
+const notifications = [
     {
+        "id": 1,
         "flag": "flag note",
-        "img": "flag__image note__icon",
         "icon": faBasketballBall,
-        "text": "flag__body note__text",
-        "notification": "Book basketball court",
-        "ref": "note__close",
-        "cross": "fa fa-times"
+        "message": "Book basketball court"
     },
     {
+        "id": 2,
         "flag": "flag note note--secondary",
-        "img": "flag__image note__icon",
         "icon": faBiking,
-        "text": "flag__body note__text",
-        "notification": "Attend cycling class",
-        "ref": "note__close",
-        "cross": "fa fa-times"
+        "message": "Attend cycling class"
     }
 ]
 
-const User = () => (
-    <Layout>
-        <div style={{ width: '100%', margin: 'auto' }}>
-            <Grid className="user-grid">
-                <Cell col={12}>
-                    <img
-                        src={userLogo}
-                        alt="sports"
-                        id="profile-img"
-                    />
-                    <div>
-                        <h1 style={{ color: '#85D8CE', textAlign: "center" }}>Welcome, John!</h1>
-                    </div>
-                </Cell>
-                <Cell col={12}>
-                    <div id="icon-wrapper">
-                        {menus.map(menu => (
-                            <a href={menu.link}>
-                                <div class={`icons${menu.number}`}>
-                                    <div class="icon-slide-container">
-                                        <img class="slide-icon" alt={menu.name} height="100" src={menu.img} />
-                                    </div>
-                                </div>
-                            </a>
-                        ))}
-                    </div>
-                </Cell>
-                <Cell style={{ margin: '80px' }} col={12}>
-                    <div class="sugestions-container">
-                        <h1 style={{ color: '#85D8CE', textAlign: "left" }}>Based on your last purchases</h1>
-                        {notes.map(note => (
-                            <div class={note.flag}>
-                                <div class={note.img}>
-                                <FontAwesomeIcon icon={note.icon} />
-                                </div>
-                                <div class={note.text}>
-                                    {note.notification}
-                                </div>
-                                <a href="#" class={note.ref}>
-                                    <i class={note.cross}></i>
-                                </a>
+class User extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            notifications
+        }
+    }
+
+    removeNotification(id) {
+        let newNotificatons = this.state.notifications;
+        const index = newNotificatons.findIndex(a => a.id === id);
+
+        newNotificatons.splice(index, 1);
+
+        this.setState(newNotificatons);
+    }
+
+    render() {
+        return (
+            <Layout>
+                <div style={{ width: '100%', margin: 'auto' }}>
+                    <Grid className="user-grid">
+                        <Cell col={12}>
+                            <img
+                                src={userLogo}
+                                alt="sports"
+                                id="profile-img"
+                            />
+                            <div>
+                                <h1 style={{ color: '#85D8CE', textAlign: "center" }}>Welcome, John!</h1>
                             </div>
-                        ))}
-                    </div>
-                </Cell>
-            </Grid>
-        </div>
-    </Layout>
-);
+                        </Cell>
+                        <Cell col={12}>
+                            <div id="icon-wrapper">
+                                {menus.map(menu => (
+                                    <a href={menu.link}>
+                                        <div class={`icons${menu.number}`}>
+                                            <div class="icon-slide-container">
+                                                <img class="slide-icon" alt={menu.name} height="100" src={menu.img} />
+                                            </div>
+                                        </div>
+                                    </a>
+                                ))}
+                            </div>
+                        </Cell>
+                        <Cell style={{ margin: '80px' }} col={12}>
+                            <div class="sugestions-container">
+                                <h1 style={{ color: '#85D8CE', textAlign: "left" }}>Based on your last purchases</h1>
+                                {this.state.notifications.map(notification => (
+                                    <div class={notification.flag}>
+                                        <div class="flag__image note__icon">
+                                            <FontAwesomeIcon icon={notification.icon} />
+                                        </div>
+                                        <div class="flag__body note__text">
+                                            {notification.message}
+                                        </div>
+                                        <a onClick={() => this.removeNotification()} class="note__close">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                ))}
+                            </div>
+                        </Cell>
+                    </Grid>
+                </div>
+            </Layout>
+        );
+    }
+}
 
 export default User;
