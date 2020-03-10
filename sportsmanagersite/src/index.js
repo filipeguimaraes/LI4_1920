@@ -21,9 +21,9 @@ const SportsManager = () => (
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/register" component={Register} />
-            <Route path="/instructor" component={Instructor} />
             <Route path="/user" component={User} />
             <Route path="/statistics" component={Statistics} />
+            <Route path="/instructor" component={Instructor} />
         </Switch>
     </BrowserRouter>
 );
