@@ -37,11 +37,18 @@ const Register = () => (
         <div className="form-wrap">
             <Grid >
                 <Cell col={6} className="profile">
-                    <img 
-                    alt="profile" 
-                    src={profileLogo}
-                    id="profile-img" 
-                    />
+                    <div class="avatar" id="avatar">
+                        <div id="preview"><img src={profileLogo} id="avatar-image" class="avatar_img" id="" />
+                        </div>
+                        <div class="avatar_upload">
+                            <label class="upload_label">Upload
+            <input type="file" id="upload" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="nickname">
+                        <span id="name" tabindex="4" data-key="1" contenteditable="true" onkeyup="changeAvatarName(event, this.dataset.key, this.textContent)" onblur="changeAvatarName('blur', this.dataset.key, this.textContent)"></span>
+                    </div>
                 </Cell>
                 <Cell col={6}>
                     <form method="post" action="form.php">
