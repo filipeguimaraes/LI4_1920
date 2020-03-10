@@ -5,3 +5,8 @@
     margin: 0 auto;
     display: block;
 }
+
+.table-instructor {
+  position: relative;
+  width: '10px';
+}

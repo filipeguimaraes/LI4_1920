@@ -69,9 +69,11 @@ class Instructor extends Component {
                             <Chart chartData={this.state.chartData} />
                         </Cell>
                     </Grid>
-                    <Grid className="table-instructor">
+                    <Grid >
                         <Cell col={8} style={{ margin: 'auto', align: 'center' }}>
-                            <DataTable align='right'
+                            <DataTable
+                                className="table-instructor"
+                                align='center'
                                 shadow={0}
                                 rows={[
                                     { class: 'Aerobics', quantity: 'Gym', price: 2.90, capacity: '20', begin: '12:00', end: '13:00' },
@@ -89,23 +91,28 @@ class Instructor extends Component {
 
                         </Cell>
                         <Cell col={4} style={{ margin: 'auto', align: 'center' }}>
-                            <div style={{ margin: 'auto', align: 'center' }}>
-                                <FABButton mini style={{ color: '#85D8CE', textAlign: "center" }}>
-                                    <Icon name="add" />
-                                </FABButton> New Class
-                            </div>
-                            <div style={{ margin: 'auto', align: 'center' }}>
-                                <FABButton mini style={{ color: '#85D8CE', textAlign: "center" }}>
-                                    <Icon name="cancel" />
-                                </FABButton> Cancel Class
-                            </div>
-                            <div style={{ margin: 'auto', align: 'center' }}>
-                                <FABButton mini style={{ color: '#85D8CE', textAlign: "center" }}>
-                                    <Icon name="history" />
-                                </FABButton> See History
-                            </div>
+                            <Grid >
+                                <Cell col={12}>
+                                    <FABButton mini style={{ color: '#85D8CE', textAlign: "center" }}>
+                                        <Icon name="add" />
+                                    </FABButton> New Class
+                                </Cell>
+                            </Grid>
+                            <Grid >
+                                <Cell col={12}>
+                                    <FABButton mini style={{ color: '#85D8CE', textAlign: "center" }}>
+                                        <Icon name="cancel" />
+                                    </FABButton> Cancel Class
+                                </Cell>
+                            </Grid>
+                            <Grid >
+                                <Cell col={12}>
+                                    <FABButton mini style={{ color: '#85D8CE', textAlign: "center" }}>
+                                        <Icon name="history" />
+                                    </FABButton> See History
+                                </Cell>
+                            </Grid>
                         </Cell>
-
                     </Grid>
                 </div>
             </Layout>
