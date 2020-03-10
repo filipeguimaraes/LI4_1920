@@ -11,6 +11,7 @@ import Signup from './pages/signup';
 import Register from './pages/register';
 import Instructor from './pages/instructor';
 import User from './pages/user';
+import Statistics from './pages/statistics';
 
 const SportsManager = () => (
     <BrowserRouter>
@@ -22,6 +23,7 @@ const SportsManager = () => (
             <Route path="/register" component={Register} />
             <Route path="/instructor" component={Instructor} />
             <Route path="/user" component={User} />
+            <Route path="/statistics" component={Statistics} />
         </Switch>
     </BrowserRouter>
 );
