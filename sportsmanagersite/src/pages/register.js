@@ -42,7 +42,7 @@ const Register = () => (
                         </div>
                         <div class="avatar_upload">
                             <label class="upload_label">Upload
-            <input type="file" id="upload" />
+                            <input type="file" id="upload" />
                             </label>
                         </div>
                     </div>
@@ -50,11 +50,11 @@ const Register = () => (
                         <span id="name" tabindex="4" data-key="1" contenteditable="true" onkeyup="changeAvatarName(event, this.dataset.key, this.textContent)" onblur="changeAvatarName('blur', this.dataset.key, this.textContent)"></span>
                     </div>
                 </Cell>
-                <Cell col={6}>
+                <Cell col={6} style={{maxWidth: '400px', margin: '0 auto'}}>
                     <form method="post" action="form.php">
                         <div>
                             <label for="name">Name</label>
-                            <input type="text" name="name" required />
+                            <input type="text" name="name" />
                         </div>
 
                         <div className="radio">
@@ -63,8 +63,7 @@ const Register = () => (
                                 <Cell col={6}>
                                     <label>
                                         <input type="radio" name="sex" value="female" />Female
-        <div className="radio-control female"></div>
-
+                                        <div className="radio-control female" />
                                     </label>
                                 </Cell>
                                 <Cell col={6}>
@@ -77,11 +76,11 @@ const Register = () => (
                         </div>
                         <div>
                             <label for="email">Address</label>
-                            <input type="email" name="email" required />
+                            <input type="email" name="email" />
                         </div>
                         <div>
                             <label for="email">Phone number</label>
-                            <input type="email" name="email" required />
+                            <input type="email" name="email" />
                         </div>
                         <span>Date of birth</span>
                         <Grid >
@@ -121,15 +120,15 @@ const Register = () => (
                         </Grid>
                         <div>
                             <label for="email">Tax ID number</label>
-                            <input type="email" name="email" required />
+                            <input type="email" name="email" />
                         </div>
                         <div>
                             <label for="email">Height</label>
-                            <input type="email" name="email" required />
+                            <input type="email" name="email" />
                         </div>
                         <div>
                             <label for="email">Weight</label>
-                            <input type="email" name="email" required />
+                            <input type="email" name="email" />
                         </div>
                         <button type="submit">submit</button>
                     </form>

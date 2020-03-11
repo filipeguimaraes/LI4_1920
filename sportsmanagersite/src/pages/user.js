@@ -77,7 +77,7 @@ class User extends Component {
         return (
             <Layout>
                 <div style={{ width: '100%', margin: 'auto' }}>
-                    <Grid className="user-grid">
+                    <Grid  className="user-grid">
                         <Cell col={12}>
                             <img
                                 src={userLogo}
