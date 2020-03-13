@@ -85,7 +85,7 @@ const dataHorizontalBar = {
 const Statistics = () => (
     <Layout>
         <Grid>
-            <Cell col={6} style={{padding:'5em'}}>
+            <Cell col={6} style={{margin:'auto'}}>
                 <Bar
                     data={dataVerticalBar}
                     options={{
@@ -93,13 +93,13 @@ const Statistics = () => (
                     }}
                 />
             </Cell>
-            <Cell col={6} style={{padding:'5em'}}>
+            <Cell col={6} style={{margin:'auto'}}>
                 <Doughnut data={dataDoughnut} />
             </Cell>
-            <Cell col={6} style={{padding:'5em'}}>
+            <Cell col={6} style={{margin:'auto'}}>
                 <Pie data={dataPie} />
             </Cell>
-            <Cell col={6} style={{padding:'5em'}}> 
+            <Cell col={6} style={{margin:'auto'}}> 
                 <HorizontalBar data={dataHorizontalBar} />
             </Cell>
         </Grid>
