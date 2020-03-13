@@ -1,6 +1,6 @@
 
 .profile-instructor-img {
-    max-width: 150px;
+    max-width: 250px;
     border-radius: 50%;
     margin: 0 auto;
     display: block;
@@ -9,4 +9,9 @@
 .table-instructor {
   position: relative;
   width: '10px';
+}
+
+.actions {
+  color: #85D8CE;
+  text-align: center;
 }

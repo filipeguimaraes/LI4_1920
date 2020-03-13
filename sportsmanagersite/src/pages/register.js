@@ -38,7 +38,7 @@ const Register = () => (
             <Grid >
                 <Cell col={6} className="profile">
                     <div class="avatar" id="avatar">
-                        <div id="preview"><img src={profileLogo} id="avatar-image" class="avatar_img" id="" />
+                        <div id="preview"><img src={profileLogo} alt="register" id="avatar-image" class="avatar_img" />
                         </div>
                         <div class="avatar_upload">
                             <label class="upload_label">Upload

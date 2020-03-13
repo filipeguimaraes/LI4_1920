@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { DataTable, TableHeader, Grid, Cell, FABButton, Icon } from 'react-mdl';
 import '../styles/instructor.css';
 
-import instructorLogo from '../images/instructor.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
+
+import userLogo from '../images/marcelo.jpg';
 
 import Layout from '../layouts/AuthenticatedLayout';
 import Chart from '../components/Chart.js';
@@ -24,7 +27,7 @@ class Instructor extends Component {
         // Ajax calls here
         this.setState({
             chartData: {
-                labels: ['Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto'],
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
                 datasets: [
                     {
                         label: 'Income',
@@ -32,19 +35,17 @@ class Instructor extends Component {
                             700,
                             800,
                             933,
-                            1024,
-                            5000,
-                            4099
+                            965,
+                            543,
+                            456,
+                            768,
+                            954,
+                            453,
+                            964,
+                            865,
+                            458
                         ],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.6)',
-                            'rgba(54, 162, 235, 0.6)',
-                            'rgba(255, 206, 86, 0.6)',
-                            'rgba(75, 192, 192, 0.6)',
-                            'rgba(153, 102, 255, 0.6)',
-                            'rgba(255, 159, 64, 0.6)',
-                            'rgba(255, 99, 132, 0.6)'
-                        ]
+                        backgroundColor: '#96DEDA'
                     }
                 ]
             }
@@ -58,19 +59,19 @@ class Instructor extends Component {
                         <Cell col={4} style={{ align: 'center', margin: 'auto' }}>
                             <div>
                                 <img
-                                    src={instructorLogo}
+                                    src={userLogo}
                                     alt="Imagem"
                                     className="profile-instructor-img"
                                 />
-                                <h3 style={{ color: '#85D8CE', textAlign: "center" }}>Hi! Instructor</h3>
+                                <h3 style={{ color: '#85D8CE', textAlign: "center" }}>Welcome,  John!</h3>
                             </div>
                         </Cell>
                         <Cell col={8} style={{ margin: 'auto' }}>
                             <Chart chartData={this.state.chartData} />
                         </Cell>
                     </Grid>
-                    <Grid >
-                        <Cell col={8} style={{ margin: 'auto', align: 'center' }}>
+                    <Grid>
+                        <Cell col={8} offsetTablet={12} style={{ margin: 'auto', align: 'center' }}>
                             <DataTable
                                 className="table-instructor"
                                 align='center'
@@ -90,24 +91,24 @@ class Instructor extends Component {
                             </DataTable>
 
                         </Cell>
-                        <Cell col={4} style={{ margin: 'auto', align: 'center' }}>
+                        <Cell col={4} offsetTablet={12} style={{ paddingLeft: '60px', margin: 'auto', align: 'center' }}>
                             <Grid >
                                 <Cell col={12}>
-                                    <FABButton mini style={{ color: '#85D8CE', textAlign: "center" }}>
+                                    <FABButton mini className='actions'>
                                         <Icon name="add" />
                                     </FABButton> New Class
                                 </Cell>
                             </Grid>
                             <Grid >
                                 <Cell col={12}>
-                                    <FABButton mini style={{ color: '#85D8CE', textAlign: "center" }}>
-                                        <Icon name="cancel" />
+                                    <FABButton mini className='actions'>
+                                        <FontAwesomeIcon icon={faTimes} />
                                     </FABButton> Cancel Class
                                 </Cell>
                             </Grid>
                             <Grid >
                                 <Cell col={12}>
-                                    <FABButton mini style={{ color: '#85D8CE', textAlign: "center" }}>
+                                    <FABButton mini className='actions'>
                                         <Icon name="history" />
                                     </FABButton> See History
                                 </Cell>
