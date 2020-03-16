@@ -22,7 +22,7 @@ const menus = [
         "number": "1"
     },
     {
-        "link": "#2",
+        "link": "/classes",
         "img": classIcon,
         "name": "Cena 2",
         "number": "2"
