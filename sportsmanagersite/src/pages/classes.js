@@ -1,25 +1,31 @@
 import React, { Component } from 'react';
 import Layout from '../layouts/UserLayout';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import '../styles/classes.css';
 
 const values1 = [
-        { id: 'Aerobics', title: 'Gym', priority: 2.90, type: '20', complete: '12:00', incomplete: '13:00' },
-        { id: 'Cycling', title: 'Gym', priority: 1.25, type: '15', complete: '16:00', incomplete: '17:00' },
-        { id: 'Tennis', title: 'Tennis court', priority: 2.35, type: '6', complete: '18:00', incomplete: '20:00' }
-    ];
+    { id: 'Aerobics', title: 'Gym', priority: 2.90, type: '20', complete: '12:00', incomplete: '13:00' },
+    { id: 'Cycling', title: 'Gym', priority: 1.25, type: '15', complete: '16:00', incomplete: '17:00' },
+    { id: 'Tennis', title: 'Tennis court', priority: 2.35, type: '6', complete: '18:00', incomplete: '20:00' }
+];
 
 
 
 
-const Row = ({ id, title, priority, type, complete, incomplete, remove }) => (
+const Row = ({ id, title, priority, type, complete, incomplete, toRemove, remove }) => (
     <div className="row">
         <div className="remove">
-            <a href="#" onClick={() => remove(id)} style={{ color: '#85D8CE', fontSize: '20px' }}>
-                <FontAwesomeIcon icon={faTrash} />
-            </a>
+            {toRemove ?
+                <a href="#" onClick={() => remove(id)} style={{ color: '#85D8CE', fontSize: '20px' }}>
+                    <FontAwesomeIcon icon={faTrash} />
+                </a>
+                :
+                <a href="#" style={{ color: '#85D8CE', fontSize: '20px' }}>
+                    <FontAwesomeIcon icon={faPlus} />
+                </a>
+            }
         </div>
         <div style={{ fontSize: '20px' }}>{id}</div>
         <div style={{ fontSize: '20px' }}>{title}</div>
@@ -39,7 +45,7 @@ class Table extends Component {
     }
 
     componentDidMount() {
-        this.setState({data: this.props.data });
+        this.setState({ data: this.props.data });
     }
 
     /* 
@@ -82,7 +88,7 @@ class Table extends Component {
                     <div onClick={() => this.sortBy('incomplete')} style={{ color: 'white', fontSize: '20px' }}>End</div>
                 </div>
                 <div className="body">
-                    {this.state.data.map((rowData) => <Row remove={this.remove} {...rowData} />)}
+                    {this.state.data.map((rowData) => <Row toRemove={this.props.toRemove} remove={this.remove} {...rowData} />)}
                 </div>
             </div>
         );
@@ -92,8 +98,8 @@ class Table extends Component {
 const Classes = () => (
     <Layout>
         <h2 style={{ margin: '35px 0px 0px 75px', color: '#85D8CE' }}>Next classes</h2>
-        <Table data={values1} />
-        <Table data={[]}/>
+        <Table data={values1} toRemove={true} />
+        <Table data={values1} toRemove={false} />
     </Layout>
 );
 
