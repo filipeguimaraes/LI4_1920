@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Layout from '../layouts/UserLayout';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 
 import '../styles/classes.css';
 
@@ -23,7 +23,7 @@ const Row = ({ id, title, priority, type, complete, incomplete, toRemove, remove
                 </a>
                 :
                 <a href="#" style={{ color: '#85D8CE', fontSize: '20px' }}>
-                    <FontAwesomeIcon icon={faPlus} />
+                    <FontAwesomeIcon icon={faPlusCircle} />
                 </a>
             }
         </div>
@@ -99,6 +99,7 @@ const Classes = () => (
     <Layout>
         <h2 style={{ margin: '35px 0px 0px 75px', color: '#85D8CE' }}>Next classes</h2>
         <Table data={values1} toRemove={true} />
+        <h2 style={{ margin: '35px 0px 0px 75px', color: '#85D8CE' }}>Available classes</h2>
         <Table data={values1} toRemove={false} />
     </Layout>
 );
