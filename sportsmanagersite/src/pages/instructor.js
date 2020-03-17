@@ -7,7 +7,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 import userLogo from '../images/marcelo.jpg';
 
-import Layout from '../layouts/AuthenticatedLayout';
+import Layout from '../layouts/InstructorLayout';
 import Chart from '../components/Chart.js';
 
 
@@ -104,6 +104,13 @@ class Instructor extends Component {
                                     <FABButton mini className='actions'>
                                         <FontAwesomeIcon icon={faTimes} />
                                     </FABButton> Cancel Class
+                                </Cell>
+                            </Grid>
+                            <Grid >
+                                <Cell col={12}>
+                                    <FABButton mini className='actions'>
+                                        <Icon name="edit" />
+                                    </FABButton> Edit Class
                                 </Cell>
                             </Grid>
                             <Grid >

@@ -13,6 +13,7 @@ import Instructor from './pages/instructor';
 import User from './pages/user';
 import Statistics from './pages/statistics';
 import Classes from './pages/classes';
+import NewClass from './pages/newclass';
 
 const SportsManager = () => (
     <BrowserRouter>
@@ -26,6 +27,8 @@ const SportsManager = () => (
             <Route path="/statistics" component={Statistics} />
             <Route path="/instructor" component={Instructor} />
             <Route path="/classes" component={Classes} />
+            <Route path="/newclass" component={NewClass} />
+
         </Switch>
     </BrowserRouter>
 );
