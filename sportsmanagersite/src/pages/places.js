@@ -6,12 +6,12 @@ import { faTrash, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import '../styles/classes.css';
 
 const values1 = [
-    { id: 'Aerobics', title: 'Gym', priority: 2.90, type: '20', complete: '12:00', incomplete: '13:00' },
-    { id: 'Cycling', title: 'Gym', priority: 1.25, type: '15', complete: '16:00', incomplete: '17:00' },
-    { id: 'Tennis', title: 'Tennis court', priority: 2.35, type: '6', complete: '18:00', incomplete: '20:00' }
+    { id: 'Gym', title: 'Braga', priority: 170, type: 20, complete: '20', incomplete: 'Sunny', begin:'16:00', end:'18:00' },
+    { id: 'Tennis court', title: 'Guimarães', priority: 100, type: 15, complete: '10', incomplete: 'Rainy' , begin:'14:00', end:'16:00' },
+    { id: 'Basketball court', title: 'Viana do Castelo', priority: 120, type: 12, complete: '15', incomplete: 'Cloudy' , begin:'10:00', end:'12:00' }
 ];
 
-const Row = ({ id, title, priority, type, complete, incomplete, toRemove, remove }) => (
+const Row = ({ id, title, priority, type, complete, incomplete, begin, end, toRemove, remove }) => (
     <div className="row">
         <div className="remove">
             {toRemove ?
@@ -30,6 +30,8 @@ const Row = ({ id, title, priority, type, complete, incomplete, toRemove, remove
         <div style={{ fontSize: '20px' }}>{type}</div>
         <div style={{ fontSize: '20px' }}>{complete}</div>
         <div style={{ fontSize: '20px' }}>{incomplete}</div>
+        <div style={{ fontSize: '20px' }}>{begin}</div>
+        <div style={{ fontSize: '20px' }}>{end}</div>
     </div>
 );
 
@@ -69,12 +71,14 @@ class Table extends Component {
             <div className="table">
                 <div className="header">
                     <div className="remove" style={{ fontSize: '35px' }}></div>
-                    <div onClick={() => this.sortBy('id')} style={{ color: 'white', fontSize: '20px' }}>Class</div>
-                    <div onClick={() => this.sortBy('title')} style={{ color: 'white', fontSize: '20px' }}>Place</div>
-                    <div onClick={() => this.sortBy('priority')} style={{ color: 'white', fontSize: '20px' }}>Price</div>
+                    <div onClick={() => this.sortBy('id')} style={{ color: 'white', fontSize: '20px' }}>Place</div>
+                    <div onClick={() => this.sortBy('title')} style={{ color: 'white', fontSize: '20px' }}>Location</div>
+                    <div onClick={() => this.sortBy('priority')} style={{ color: 'white', fontSize: '20px' }}>Area (m²)</div>
                     <div onClick={() => this.sortBy('type')} style={{ color: 'white', fontSize: '20px' }}>Capacity</div>
-                    <div onClick={() => this.sortBy('complete')} style={{ color: 'white', fontSize: '20px' }}>Begin</div>
-                    <div onClick={() => this.sortBy('incomplete')} style={{ color: 'white', fontSize: '20px' }}>End</div>
+                    <div onClick={() => this.sortBy('complete')} style={{ color: 'white', fontSize: '20px' }}>Price</div>
+                    <div onClick={() => this.sortBy('incomplete')} style={{ color: 'white', fontSize: '20px' }}>Weather</div>
+                    <div onClick={() => this.sortBy('begin')} style={{ color: 'white', fontSize: '20px' }}>Begin</div>
+                    <div onClick={() => this.sortBy('end')} style={{ color: 'white', fontSize: '20px' }}>End</div>
                 </div>
                 <div className="body">
                     {this.state.data.map((rowData) => <Row toRemove={this.props.toRemove} remove={this.remove} {...rowData} />)}
@@ -84,13 +88,13 @@ class Table extends Component {
     }
 };
 
-const Classes = () => (
+const Places = () => (
     <Layout>
-        <h2 style={{ margin: '35px 0px 0px 75px', color: '#85D8CE' }}>Next classes</h2>
+        <h2 style={{ margin: '35px 0px 0px 75px', color: '#85D8CE' }}>Next appointments</h2>
         <Table data={values1} toRemove={true} />
-        <h2 style={{ margin: '35px 0px 0px 75px', color: '#85D8CE' }}>Available classes</h2>
+        <h2 style={{ margin: '35px 0px 0px 75px', color: '#85D8CE' }}>Available places</h2>
         <Table data={values1} toRemove={false} />
     </Layout>
 );
 
-export default Classes;
+export default Places;

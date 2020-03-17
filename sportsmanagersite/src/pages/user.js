@@ -16,7 +16,7 @@ import Layout from '../layouts/UserLayout';
 
 const menus = [
     {
-        "link": "#1",
+        "link": "/places",
         "img": placeIcon,
         "name": "Cena 1",
         "number": "1"
