@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { Cell, Grid } from 'react-mdl';
 import DatePicker from "react-datepicker";
-import Layout from '../layouts/AuthenticatedLayout';
+import Layout from '../layouts/InstructorLayout';
 import "react-datepicker/dist/react-datepicker.css";
 
 
