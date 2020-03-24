@@ -3,18 +3,21 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import * as serviceWorker from './utils/serviceWorker';
-
+//MainPage
 import LandingPage from './pages/landingpage';
 import Contact from './pages/contact';
 import Login from './pages/login';
 import Signup from './pages/signup';
 import Register from './pages/register';
-import Instructor from './pages/instructor';
+//User
 import User from './pages/user';
 import Statistics from './pages/statistics';
 import Classes from './pages/classes';
-import NewClass from './pages/newclass';
 import Places from './pages/places';
+//Instructor
+import Instructor from './pages/instructor';
+import NewClass from './pages/newclass';
+import CancelClass from './pages/cancelclass';
 
 const SportsManager = () => (
     <BrowserRouter>
@@ -26,10 +29,11 @@ const SportsManager = () => (
             <Route path="/register" component={Register} />
             <Route path="/user" component={User} />
             <Route path="/statistics" component={Statistics} />
-            <Route path="/instructor" component={Instructor} />
             <Route path="/classes" component={Classes} />
-            <Route path="/newclass" component={NewClass} />
             <Route path="/places" component={Places} />
+            <Route path="/instructor" component={Instructor} />
+            <Route path="/newclass" component={NewClass} />
+            <Route path="/cancelclass" component={CancelClass} />
         </Switch>
     </BrowserRouter>
 );

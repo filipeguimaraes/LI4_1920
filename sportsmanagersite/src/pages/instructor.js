@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { DataTable, TableHeader, Grid, Cell, FABButton, Icon } from 'react-mdl';
 import '../styles/instructor.css';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
-
 import userLogo from '../images/marcelo.jpg';
 
 import Layout from '../layouts/InstructorLayout';
@@ -94,16 +91,16 @@ class Instructor extends Component {
                         <Cell col={4} offsetTablet={12} style={{ paddingLeft: '60px', margin: 'auto', align: 'center' }}>
                             <Grid >
                                 <Cell col={12}>
-                                    <FABButton mini className='actions'>
+                                    <FABButton mini className='actions' href='/newclass'>
                                         <Icon name="add" />
                                     </FABButton> New Class
                                 </Cell>
                             </Grid>
                             <Grid >
                                 <Cell col={12}>
-                                    <FABButton mini className='actions'>
-                                        <FontAwesomeIcon icon={faTimes} />
-                                    </FABButton> Cancel Class
+                                    <FABButton mini className='actions' href='/cancelclass'>
+                                        <Icon name="close" />
+                                    </FABButton> Cancel Classes
                                 </Cell>
                             </Grid>
                             <Grid >
