@@ -128,7 +128,7 @@ const Settings = () => (
                             <label for="email">Weight</label>
                             <input name="email" />
                         </div>
-                        <button type="submit">submit</button>
+                        <button type="submit">save</button>
                     </form>
                 </Cell>
             </Grid>
