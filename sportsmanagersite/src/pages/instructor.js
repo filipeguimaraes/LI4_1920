@@ -15,7 +15,8 @@ let classesData = [
         price: "2.90",
         capacity: "20",
         begin: "12:00",
-        end: "13:00"
+        end: "13:00",
+        editable: false
     },
     {
         id: 2,
@@ -24,7 +25,8 @@ let classesData = [
         price: "1.25",
         capacity: "15",
         begin: "16:00",
-        end: "17:00"
+        end: "17:00",
+        editable: false
     }
 ];
 
@@ -46,6 +48,19 @@ class Instructor extends Component {
         this.setState({
             classes: classesData
         })
+    }
+
+    changeClass(event){
+        console.log(event);
+    }
+
+    makeEditable = (classId) => {
+        const newArray = this.state.classes.map((row) => (
+            row.id === classId ?  {...row,editable:true}
+                        :
+            row 
+        ));
+        this.setState({ classes: newArray });
     }
 
     removeClass = (classId) => {
@@ -115,22 +130,48 @@ class Instructor extends Component {
                                 </thead>
                                 <tbody>
                                     {this.state.classes.map(c => (
-                                        <tr>
-                                            <td className="data">{c.name}</td>
-                                            <td className="data">{c.place}</td>
-                                            <td className="data">{c.price}</td>
-                                            <td className="data">{c.capacity}</td>
-                                            <td className="data">{c.begin}</td>
-                                            <td className="data">{c.end}</td>
-                                            {/* <td className="data" >
-                                            <input type="blavada" value={c.editable}/> 
-                                            </td> */}
-                                            <td>
-                                                <button className="save">Save</button>
-                                                <button className="edit">Edit</button>
-                                                <button onClick={() => this.removeClass(c.id)} className="delete">Cancel</button>
-                                            </td>
-                                        </tr>
+                                        (
+                                            c.editable ? (
+                                                <tr key={c.id}>
+                                                    <td className="data">
+                                                        <input type="text" name="name" placeholder={c.name} />
+                                                    </td>
+                                                    <td className="data">
+                                                        <input type="text" name="place" placeholder={c.place}/>
+                                                    </td>
+                                                    <td className="data">
+                                                        <input type="text" name="price" placeholder={c.price}/>
+                                                    </td>
+                                                    <td className="data">
+                                                        <input type="text" name="capacity" placeholder={c.capacity}/>
+                                                    </td>
+                                                    <td className="data">
+                                                        <input type="text" name="begin" placeholder={c.begin}/>
+                                                    </td>
+                                                    <td className="data">
+                                                        <input type="text" name="end" placeholder={c.end}/>
+                                                    </td>
+                                                    <td>
+                                                        <input type="submit" value="Save" className="save"/>
+                                                    </td>
+                                                </tr>
+                                            )
+                                                :
+                                                (
+                                                    <tr key={c.id}>
+                                                        <td className="data">{c.name}</td>
+                                                        <td className="data">{c.place}</td>
+                                                        <td className="data">{c.price}</td>
+                                                        <td className="data">{c.capacity}</td>
+                                                        <td className="data">{c.begin}</td>
+                                                        <td className="data">{c.end}</td>
+                                                        <td>
+                                                            <button onClick={() => this.makeEditable(c.id)} className="edit">Edit</button>
+                                                            <button onClick={() => this.removeClass(c.id)} className="delete">Cancel</button>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                        )
                                     ))}
                                 </tbody>
                             </table>
