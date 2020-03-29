@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DataTable, TableHeader, Grid, Cell, FABButton, Icon } from 'react-mdl';
+import { Grid, Cell } from 'react-mdl';
 import '../styles/instructor.css';
 
 import userLogo from '../images/marcelo.jpg';
@@ -7,18 +7,51 @@ import userLogo from '../images/marcelo.jpg';
 import Layout from '../layouts/InstructorLayout';
 import Chart from '../components/Chart.js';
 
+let classesData = [
+    {
+        id: 1,
+        name: "Aerobics",
+        place: "Gym",
+        price: "2.90",
+        capacity: "20",
+        begin: "12:00",
+        end: "13:00"
+    },
+    {
+        id: 2,
+        name: "Cycling",
+        place: "Gym",
+        price: "1.25",
+        capacity: "15",
+        begin: "16:00",
+        end: "17:00"
+    }
+];
 
 class Instructor extends Component {
     constructor() {
         super();
         this.state = {
-            chartData: {}
+            chartData: {},
+            classes: []
         }
     }
 
     componentWillMount() {
         this.getChartData();
+        this.getClassesData();
     }
+
+    getClassesData() {
+        this.setState({
+            classes: classesData
+        })
+    }
+
+    removeClass = (classId) => {
+        const arrayCopy = this.state.classes.filter((row) => row.id !== classId);
+        this.setState({ classes: arrayCopy });
+    };
 
     getChartData() {
         // Ajax calls here
@@ -48,6 +81,7 @@ class Instructor extends Component {
             }
         });
     }
+
     render() {
         return (
             <Layout>
@@ -66,57 +100,40 @@ class Instructor extends Component {
                         <Cell col={8} style={{ margin: 'auto' }}>
                             <Chart chartData={this.state.chartData} />
                         </Cell>
-                    </Grid>
-                    <Grid>
-                        <Cell col={8} offsetTablet={12} style={{ margin: 'auto', align: 'center' }}>
-                            <DataTable
-                                className="table-instructor"
-                                align='center'
-                                shadow={0}
-                                rows={[
-                                    { class: 'Aerobics', quantity: 'Gym', price: 2.90, capacity: '20', begin: '12:00', end: '13:00' },
-                                    { class: 'Cycling', quantity: 'Gym', price: 1.25, capacity: '15', begin: '16:00', end: '17:00' },
-                                    { class: 'Tennis', quantity: 'Tennis court', price: 2.35, capacity: '6', begin: '18:00', end: '20:00' }
-                                ]}
-                            >
-                                <TableHeader name="class" >Class</TableHeader>
-                                <TableHeader name="quantity" >Place</TableHeader>
-                                <TableHeader name="price" cellFormatter={(price) => `$${price.toFixed(2)}`} >Price</TableHeader>
-                                <TableHeader name="capacity" >Capacity</TableHeader>
-                                <TableHeader name="begin" >Begin</TableHeader>
-                                <TableHeader name="end" >End</TableHeader>
-                            </DataTable>
-
-                        </Cell>
-                        <Cell col={4} offsetTablet={12} style={{ paddingLeft: '60px', margin: 'auto', align: 'center' }}>
-                            <Grid >
-                                <Cell col={12}>
-                                    <FABButton mini className='actions' href='/newclass'>
-                                        <Icon name="add" />
-                                    </FABButton> New Class
-                                </Cell>
-                            </Grid>
-                            <Grid >
-                                <Cell col={12}>
-                                    <FABButton mini className='actions' href='/cancelclass'>
-                                        <Icon name="close" />
-                                    </FABButton> Cancel Classes
-                                </Cell>
-                            </Grid>
-                            <Grid >
-                                <Cell col={12}>
-                                    <FABButton mini className='actions'>
-                                        <Icon name="edit" />
-                                    </FABButton> Edit Class
-                                </Cell>
-                            </Grid>
-                            <Grid >
-                                <Cell col={12}>
-                                    <FABButton mini className='actions'>
-                                        <Icon name="history" />
-                                    </FABButton> See History
-                                </Cell>
-                            </Grid>
+                        <Cell col={12}>
+                            <table className="table-instructor">
+                                <thead>
+                                    <tr>
+                                        <th>Class</th>
+                                        <th>Place</th>
+                                        <th>Price</th>
+                                        <th>Capacity</th>
+                                        <th>Begin</th>
+                                        <th>End</th>
+                                        <th>Actions <button className="add">New</button></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {this.state.classes.map(c => (
+                                        <tr>
+                                            <td className="data">{c.name}</td>
+                                            <td className="data">{c.place}</td>
+                                            <td className="data">{c.price}</td>
+                                            <td className="data">{c.capacity}</td>
+                                            <td className="data">{c.begin}</td>
+                                            <td className="data">{c.end}</td>
+                                            {/* <td className="data" >
+                                            <input type="blavada" value={c.editable}/> 
+                                            </td> */}
+                                            <td>
+                                                <button className="save">Save</button>
+                                                <button className="edit">Edit</button>
+                                                <button onClick={() => this.removeClass(c.id)} className="delete">Cancel</button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </Cell>
                     </Grid>
                 </div>

@@ -34,7 +34,7 @@ const menus = [
         "number": "3"
     },
     {
-        "link": "#4",
+        "link": "/settings",
         "img": settingsIcon,
         "name": "Cena 4",
         "number": "4"

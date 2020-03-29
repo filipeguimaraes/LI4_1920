@@ -1,9 +1,10 @@
 import React from 'react';
+
+import Layout from '../layouts/UserLayout';
+
 import { Cell, Grid } from 'react-mdl';
 import profileLogo from '../images/male_avatar-512.png';
 import '../styles/register.css';
-
-import Layout from '../layouts/BaseLayout';
 
 const meses = [
     "Janeiro",
@@ -20,20 +21,13 @@ const meses = [
     "Dezembro"
 ]
 
-
-const links = [
-    {
-        link: "/",
-        text: "Home"
-    }
-]
-
 const dias = Array.from({ length: 31 }, (v, i) => i + 1);
 
 const anos = Array.from({ length: 51 }, (v, i) => i + 1970);
 
-const Register = () => (
-    <Layout pages={links}>
+
+const Settings = () => (
+    <Layout>
         <div className="form-wrap">
             <Grid >
                 <Cell col={6} className="profile">
@@ -50,8 +44,16 @@ const Register = () => (
                         <span id="name" tabindex="4" data-key="1" contenteditable="true" onkeyup="changeAvatarName(event, this.dataset.key, this.textContent)" onblur="changeAvatarName('blur', this.dataset.key, this.textContent)"></span>
                     </div>
                 </Cell>
-                <Cell col={6} style={{maxWidth: '400px', margin: '0 auto'}}>
+                <Cell col={6} style={{ maxWidth: '400px', margin: '0 auto' }}>
                     <form method="post" action="form.php">
+                        <div>
+                            <label for="email">Email</label>
+                            <input type="text" name="name" />
+                        </div>
+                        <div>
+                            <label for="name">Password</label>
+                            <input type="password" name="name" />
+                        </div>
                         <div>
                             <label for="name">Name</label>
                             <input type="text" name="name" />
@@ -119,10 +121,6 @@ const Register = () => (
                             </Cell>
                         </Grid>
                         <div>
-                            <label for="email">Tax ID number</label>
-                            <input name="email" />
-                        </div>
-                        <div>
                             <label for="email">Height</label>
                             <input name="email" />
                         </div>
@@ -138,4 +136,4 @@ const Register = () => (
     </Layout>
 );
 
-export default Register;
+export default Settings;

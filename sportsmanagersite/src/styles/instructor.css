@@ -6,10 +6,103 @@
     display: block;
 }
 
-.table-instructor {
-  position: relative;
-  width: '10px';
+body {
+  font-family: Arial, sans-serif;
 }
+
+.table-instructor {
+  width: 100%;
+  margin-top: 5%;
+}
+.table-instructor thead th {
+  padding: 10px 10px;
+  background: #85D8CE;
+  font-size: 15px;
+  text-transform: uppercase;
+  vertical-align: top;
+  color: rgb(255, 255, 255);
+  font-weight: normal;
+  text-align: left;
+}
+.table-instructor tbody tr td {
+  padding: 10px;
+  background: #f2f2f2;
+  font-size: 14px;
+}
+
+.add, .edit, .save, .delete {
+  outline: none;
+  background: none;
+  border: none;
+}
+
+.edit, .save, .delete {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.add {
+  float: right;
+  background: transparent;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  font-size: 13px;
+  padding: 0;
+  padding: 3px 5px;
+  cursor: pointer;
+}
+.add:hover {
+  background: #ffffff;
+  color: #85D8CE;
+}
+
+.save {
+  display: none;
+  background: #85D8CE;
+  color: #ffffff;
+}
+.save:hover {
+  background: rgb(0, 216, 191);
+}
+
+.edit {
+  background: #85D8CE;
+  color: #ffffff;
+}
+.edit:hover {
+  background: rgb(0, 216, 191);
+}
+
+.delete {
+  background: rgb(250, 203, 191);
+  color: #ffffff;
+}
+.delete:hover {
+  background: #e23317;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .actions {
   color: #85D8CE;
