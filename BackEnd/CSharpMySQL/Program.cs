@@ -56,13 +56,26 @@ namespace CSharpMySQL
         {
             this.user = null;
         }
+
+        public void comprarBilhete(int codAula, string userEmail)
+        {
+            if(aDAO.bilhetesDisponiveis(codAula) && !uDAO.comprouBilhete(codAula, userEmail))
+            {
+                aDAO.addUserToAula(codAula, userEmail);
+            }
+            else
+            {
+                Console.WriteLine("JA COMPROU BILHETE");
+            }
+        }
+
         static void Main(string[] args)
         {
 
-            /*Program p = new Program();
+            Program p = new Program();
 
-            p.signup("emailFIFIFIFIFI", "fracn", "f", "rua das ruas", "91002339", "555666888", 178, "aaaa", new DateTime(2019, 10, 02), "admin");
-            */
+            p.comprarBilhete(1, "emailNOVOKIKONOVO");
+            
 
         }
     }

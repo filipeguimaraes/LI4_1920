@@ -186,6 +186,102 @@ namespace ClassesDAO {
             return existe;
         }
 
+        public int bilhetesAula(int codAula)
+        {
+            int numBilhetes = 0;
+
+            var dbCon = db.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+
+            if(dbCon.IsConnect()) 
+            {
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                
+                cmd.CommandText = "SELECT num_bilhetes FROM AULA WHERE cod_aula = @em";
+
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@em", codAula);
+                
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while(reader.Read())
+                {
+                    numBilhetes = reader.GetInt32(0);
+                }
+
+                dbCon.Close();
+            }
+            
+            return numBilhetes;
+        } 
+
+        public Boolean bilhetesDisponiveis(int codAula)
+        {
+            Boolean disponivel = false;
+
+            int num = bilhetesAula(codAula);
+
+            var dbCon = db.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+
+            if(dbCon.IsConnect()) 
+            {
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                
+                cmd.CommandText = "SELECT COUNT(cod_aula) FROM FREQUENTA WHERE cod_aula = @em";
+
+                cmd.Connection.Open(); 
+
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@em", codAula);
+                
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while(reader.Read())
+                {
+                    if(reader.GetInt32(0) < num)
+                        disponivel = true;
+                }
+
+                dbCon.Close();
+            }
+            Console.WriteLine(disponivel.ToString());
+            return disponivel;
+        }
+
+        public void addUserToAula(int codAula, string email)
+        {
+            var dbCon = db.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+
+            if(dbCon.IsConnect()) 
+            {
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                
+                cmd.CommandText = "INSERT INTO FREQUENTA VALUES(@em, @a)";
+
+                cmd.Connection.Open(); 
+
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@em", email);
+                cmd.Parameters.AddWithValue("@a", codAula);
+                
+                cmd.ExecuteNonQuery();
+
+                dbCon.Close();
+            }
+        }
+
     }
 
 }

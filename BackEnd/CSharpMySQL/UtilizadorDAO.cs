@@ -299,6 +299,43 @@ namespace UserDAO {
             Console.WriteLine(match.ToString());
             return match;
         }
+
+        public Boolean comprouBilhete(int codAula, string email)
+        {
+           Boolean comprou = false;
+
+            var dbCon = db.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+
+            if(dbCon.IsConnect()) 
+            {
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                
+                cmd.CommandText = "SELECT COUNT(email) FROM FREQUENTA WHERE email = @em AND cod_aula = @a";
+
+                cmd.Connection.Open();
+
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@em", email);
+                cmd.Parameters.AddWithValue("@a", codAula);
+                
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while(reader.Read())
+                {
+                    if(reader.GetInt32(0) > 1);
+                        comprou = true;
+                }
+
+                dbCon.Close();
+            }
+            Console.WriteLine(comprou.ToString());
+            return comprou;
+        }
     }
 
 }
