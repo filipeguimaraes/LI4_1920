@@ -7,6 +7,12 @@ import userLogo from '../images/marcelo.jpg';
 import Layout from '../layouts/InstructorLayout';
 import Chart from '../components/Chart.js';
 
+import axios from 'axios'; 
+import { Redirect } from 'react-router-dom';
+import { baseURL , baseConfig } from '../components/WebAPI';
+import { faLessThanEqual } from '@fortawesome/free-solid-svg-icons';
+
+
 let classesData = [
     {
         id: 1,
@@ -35,13 +41,26 @@ class Instructor extends Component {
         super();
         this.state = {
             chartData: {},
-            classes: []
+            classes: [],
+            loading: true,
+            logged: false
         }
     }
 
     componentWillMount() {
         this.getChartData();
         this.getClassesData();
+        this.getApiResult();
+    }
+
+    async getApiResult(){
+        await axios.get(baseURL+'/Instructor?log=true',baseConfig)
+        .then(result => {
+            console.log(result);
+            this.setState({loading: false, logged: result.data.log});
+            
+        })
+        .catch(e => { this.setState({ loading: false, logged: false }); })
     }
 
     getClassesData() {
@@ -98,6 +117,8 @@ class Instructor extends Component {
     }
 
     render() {
+        if(this.state.loading) return("loading screen");
+        if(!this.state.logged) return (<Redirect to={{ pathname: '/login' }}/>) ;
         return (
             <Layout>
                 <div style={{ width: '80%', margin: 'auto' }}>
