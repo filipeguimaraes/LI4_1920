@@ -10,8 +10,6 @@ import Chart from '../components/Chart.js';
 import axios from 'axios'; 
 import { Redirect } from 'react-router-dom';
 import { baseURL , baseConfig } from '../components/WebAPI';
-import { faLessThanEqual } from '@fortawesome/free-solid-svg-icons';
-
 
 let classesData = [
     {
@@ -50,19 +48,20 @@ class Instructor extends Component {
     componentWillMount() {
         this.getChartData();
         this.getClassesData();
-        this.getApiResult();
+//        this.getApiResult();
     }
 
-    async getApiResult(){
+/*    async getApiResult(){
         await axios.get(baseURL+'/Instructor?log=true',baseConfig)
         .then(result => {
-            console.log(result);
             this.setState({loading: false, logged: result.data.log});
-            
+            if(!localStorage.getItem('instructor object')){
+                localStorage.setItem('instructor object',JSON.stringify(result.data));
+                console.log(JSON.parse(localStorage.getItem('instructor object')));}
         })
-        .catch(e => { this.setState({ loading: false, logged: false }); })
+        .catch(e => { this.setState({ loading: true, logged: true }); })
     }
-
+*/
     getClassesData() {
         this.setState({
             classes: classesData
@@ -71,6 +70,15 @@ class Instructor extends Component {
 
     changeClass(event){
         console.log(event);
+    }
+
+    saveEditable = (classId) => {
+        const newArray = this.state.classes.map((row) => (
+            row.id === classId ?  {...row,editable:false}
+                        :
+            row 
+        ));
+        this.setState({ classes: newArray });
     }
 
     makeEditable = (classId) => {
@@ -117,8 +125,13 @@ class Instructor extends Component {
     }
 
     render() {
-        if(this.state.loading) return("loading screen");
-        if(!this.state.logged) return (<Redirect to={{ pathname: '/login' }}/>) ;
+
+//        if(this.state.loading && this.state.logged) return("error server");
+        
+//        if(this.state.loading) return("loading screen");
+        
+//        if(!this.state.logged) return (<Redirect to={{ pathname: '/login' }}/>) ;
+        
         return (
             <Layout>
                 <div style={{ width: '80%', margin: 'auto' }}>
@@ -173,7 +186,7 @@ class Instructor extends Component {
                                                         <input type="text" name="end" placeholder={c.end}/>
                                                     </td>
                                                     <td>
-                                                        <input type="submit" value="Save" className="save"/>
+                                                        <input type="submit" value="Save" className="save" onClick={() => this.saveEditable(c.id)}/>
                                                     </td>
                                                 </tr>
                                             )

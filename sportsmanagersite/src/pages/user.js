@@ -14,6 +14,11 @@ import { faBasketballBall, faBiking } from '@fortawesome/free-solid-svg-icons'
 
 import Layout from '../layouts/UserLayout';
 
+import axios from 'axios'; 
+import { Redirect } from 'react-router-dom';
+import { baseURL , baseConfig } from '../components/WebAPI';
+
+
 const menus = [
     {
         "link": "/places",
@@ -60,10 +65,26 @@ class User extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            notifications
+            notifications,
+            loading: true,
+            logged: false
         }
     }
 
+/*    componentWillMount() {
+        this.getApiResult();
+    }
+
+    async getApiResult(){
+        await axios.get(baseURL+'/Instructor?log=true',baseConfig)
+        .then(result => {
+            console.log(result);
+            this.setState({loading: false, logged: result.data.log});
+            
+        })
+        .catch(e => { this.setState({ loading: true, logged: true }); })
+    }
+*/
     removeNotification(id) {
         let newNotificatons = this.state.notifications;
         const index = newNotificatons.findIndex(a => a.id === id);
@@ -74,6 +95,13 @@ class User extends Component {
     }
 
     render() {
+        
+//        if(this.state.loading && this.state.logged) return("error server");
+        
+//        if(this.state.loading) return ("loading page");
+        
+//        if(!this.state.logged) return (<Redirect to={{ pathname: '/login' }}/>) ;
+        
         return (
             <Layout>
                 <div style={{ width: '100%', margin: 'auto' }}>
