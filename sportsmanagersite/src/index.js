@@ -17,6 +17,9 @@ import Places from './pages/places';
 import Settings from './pages/settings';
 //Instructor
 import Instructor from './pages/instructor';
+//Aditional pages
+import Loading from './pages/loading';
+import Error from './pages/error';
 
 const SportsManager = () => (
     <BrowserRouter>
@@ -32,6 +35,8 @@ const SportsManager = () => (
             <Route path="/places" component={Places} />
             <Route path="/settings" component={Settings} />
             <Route path="/instructor" component={Instructor} />
+            <Route path="/loading" component={Loading} />
+            <Route path="/error" component={Error} />
         </Switch>
     </BrowserRouter>
 );
