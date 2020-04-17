@@ -14,7 +14,7 @@ import { faBasketballBall, faBiking } from '@fortawesome/free-solid-svg-icons'
 
 import Layout from '../layouts/UserLayout';
 
-import { authentication, validateAuth } from '../components/WebAPI';
+import { checkAuthentication, validateAuth } from '../components/WebAPI';
 
 
 export const validUser = 'user';
@@ -72,7 +72,7 @@ class User extends Component {
     }
 
     async componentWillMount() {
-        await authentication(this);
+        await checkAuthentication(this);
     }
 
     removeNotification(id) {

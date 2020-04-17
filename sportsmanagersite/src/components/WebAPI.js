@@ -64,7 +64,7 @@ export async function checkLogin (obj) {
         obj.setState({ alreadyLogged: 'loading'});
         sessionStorage.removeItem(inEMAIL);
         sessionStorage.removeItem(inPASSWORD);
-            
+
         await Axios.get(baseURL+`Login?email=${lEmail}&password=${lPass}`,baseConfig)
             .then(r => {
                 if (r.data === 'user' || r.data === 'instructor') {
@@ -87,7 +87,7 @@ export async function checkLogin (obj) {
  * 
  * @param obj: acess this.state.alreadyLogged 
  */
-export async function authentication (obj) {
+export async function checkAuthentication (obj) {
     var vUid = localStorage.getItem(sessionID);
     var kUid = localStorage.getItem(sessionKEY);
 
@@ -117,7 +117,7 @@ export function validateAuth (obj, val) {
 }
 
 /** MY SANDBOX OF JS
- * 
+ *
  *  await axios.get(baseURL+'Instructor?log=true',baseConfig)
             .then(result => {
                 this.setState({loading: false, logged: result.data.log});

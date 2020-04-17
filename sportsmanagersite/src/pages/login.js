@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import '../styles/signup.css';
 
 import Layout from '../layouts/BaseLayout';
-import { Redirect } from 'react-router-dom';
 
-import { authentication, checkLogin, varsLogin, validateAuth } from '../components/WebAPI';
-import loadingPage from './loading';
+import { checkAuthentication, checkLogin, varsLogin, validateAuth } from '../components/WebAPI';
 
+
+export const validLogin = null;
 
 class Login extends Component{
     constructor () {
@@ -19,7 +19,7 @@ class Login extends Component{
         };
 
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
-    
+
         this.handleChangePassword = this.handleChangePassword.bind(this);
 
         this.handleLogin = this.handleLogin.bind(this);
@@ -27,7 +27,7 @@ class Login extends Component{
 
     async componentWillMount() {
         await checkLogin(this);
-        await authentication(this);
+        await checkAuthentication(this);
     }
 
     handleChangeEmail(e) {
@@ -43,9 +43,7 @@ class Login extends Component{
     }
 
     render() {
-        if(this.state.alreadyLogged !== null) return validateAuth(this, null);
-//        if(this.state.alreadyLogged === 'loading') return loadingPage();
-//        if(this.state.alreadyLogged !== null) return (<Redirect to={{ pathname: '/'+this.state.alreadyLogged }}/>);
+        if(this.state.alreadyLogged !== validLogin) return validateAuth(this, validLogin);
 
         return (
             <Layout>

@@ -7,12 +7,7 @@ import userLogo from '../images/marcelo.jpg';
 import Layout from '../layouts/InstructorLayout';
 import Chart from '../components/Chart.js';
 
-import { Redirect } from 'react-router-dom';
-
-import loadingPage from './loading';
-import errorPage from './error';
-
-import { authentication, validateAuth } from '../components/WebAPI';
+import { checkAuthentication, validateAuth } from '../components/WebAPI';
 
 
 export const validInstructor = 'instructor';
@@ -54,7 +49,7 @@ class Instructor extends Component {
     async componentWillMount() {
         this.getChartData();
         this.getClassesData();
-        await authentication(this);
+        await checkAuthentication(this);
     }
 
     getClassesData() {
