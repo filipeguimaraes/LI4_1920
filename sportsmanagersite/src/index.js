@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import * as serviceWorker from './utils/serviceWorker';
 //MainPage
@@ -37,6 +37,7 @@ const SportsManager = () => (
             <Route path="/instructor" component={Instructor} />
             <Route path="/loading" component={Loading} />
             <Route path="/error" component={Error} />
+            <Redirect to={{ pathname: '/' }}/>
         </Switch>
     </BrowserRouter>
 );

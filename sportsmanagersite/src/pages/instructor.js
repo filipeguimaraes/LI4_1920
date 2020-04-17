@@ -7,9 +7,15 @@ import userLogo from '../images/marcelo.jpg';
 import Layout from '../layouts/InstructorLayout';
 import Chart from '../components/Chart.js';
 
-import axios from 'axios'; 
 import { Redirect } from 'react-router-dom';
-import { baseURL , baseConfig } from '../components/WebAPI';
+
+import loadingPage from './loading';
+import errorPage from './error';
+
+import { authentication, validateAuth } from '../components/WebAPI';
+
+
+export const validInstructor = 'instructor';
 
 let classesData = [
     {
@@ -37,31 +43,20 @@ let classesData = [
 class Instructor extends Component {
     constructor() {
         super();
+
         this.state = {
             chartData: {},
             classes: [],
-            loading: true,
-            logged: false
+            alreadyLogged: 'loading'
         }
     }
 
-    componentWillMount() {
+    async componentWillMount() {
         this.getChartData();
         this.getClassesData();
-//        this.getApiResult();
+        await authentication(this);
     }
 
-/*    async getApiResult(){
-        await axios.get(baseURL+'/Instructor?log=true',baseConfig)
-        .then(result => {
-            this.setState({loading: false, logged: result.data.log});
-            if(!localStorage.getItem('instructor object')){
-                localStorage.setItem('instructor object',JSON.stringify(result.data));
-                console.log(JSON.parse(localStorage.getItem('instructor object')));}
-        })
-        .catch(e => { this.setState({ loading: true, logged: true }); })
-    }
-*/
     getClassesData() {
         this.setState({
             classes: classesData
@@ -125,13 +120,8 @@ class Instructor extends Component {
     }
 
     render() {
+        if(this.state.alreadyLogged !== validInstructor) return validateAuth(this, validInstructor);
 
-//        if(this.state.loading && this.state.logged) return("error server");
-        
-//        if(this.state.loading) return("loading screen");
-        
-//        if(!this.state.logged) return (<Redirect to={{ pathname: '/login' }}/>) ;
-        
         return (
             <Layout>
                 <div style={{ width: '80%', margin: 'auto' }}>

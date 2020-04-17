@@ -8,7 +8,7 @@ const Navbar = ({ pages }) => (
             <Navigation>
                 {
                     pages.map((entry) => (
-                        <Link to={entry.link}>{entry.text}</Link>
+                        <Link to={entry.link} onClick={entry.onClick}>{entry.text}</Link>
                     ))
                 }
             </Navigation>
@@ -17,7 +17,7 @@ const Navbar = ({ pages }) => (
             <Navigation>
                 {
                     pages.map((entry) => (
-                        <Link to={entry.link} style={{ color: '#85D8CE' }}>{entry.text}</Link>
+                        <Link to={entry.link} style={{ color: '#85D8CE' }} onClick={entry.onClick}>{entry.text}</Link>
                     ))
                 }
             </Navigation>

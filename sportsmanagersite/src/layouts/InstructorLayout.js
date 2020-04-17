@@ -7,6 +7,8 @@ import 'react-mdl/extra/material.css';
 import 'react-mdl/extra/material.js';
 import '../styles/index.css';
 
+import { logout } from '../components/WebAPI';
+
 const links = [
     {
         link: "/instructor",
@@ -14,7 +16,8 @@ const links = [
     },
     {
         link: "/",
-        text: "Log out"
+        text: "Log out",
+        onClick: logout
     }
 ]
 

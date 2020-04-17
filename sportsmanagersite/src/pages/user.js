@@ -14,10 +14,10 @@ import { faBasketballBall, faBiking } from '@fortawesome/free-solid-svg-icons'
 
 import Layout from '../layouts/UserLayout';
 
-import axios from 'axios'; 
-import { Redirect } from 'react-router-dom';
-import { baseURL , baseConfig } from '../components/WebAPI';
+import { authentication, validateAuth } from '../components/WebAPI';
 
+
+export const validUser = 'user';
 
 const menus = [
     {
@@ -64,27 +64,17 @@ const notifications = [
 class User extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             notifications,
-            loading: true,
-            logged: false
+            alreadyLogged: 'loading'
         }
     }
 
-/*    componentWillMount() {
-        this.getApiResult();
+    async componentWillMount() {
+        await authentication(this);
     }
 
-    async getApiResult(){
-        await axios.get(baseURL+'/Instructor?log=true',baseConfig)
-        .then(result => {
-            console.log(result);
-            this.setState({loading: false, logged: result.data.log});
-            
-        })
-        .catch(e => { this.setState({ loading: true, logged: true }); })
-    }
-*/
     removeNotification(id) {
         let newNotificatons = this.state.notifications;
         const index = newNotificatons.findIndex(a => a.id === id);
@@ -95,13 +85,8 @@ class User extends Component {
     }
 
     render() {
-        
-//        if(this.state.loading && this.state.logged) return("error server");
-        
-//        if(this.state.loading) return ("loading page");
-        
-//        if(!this.state.logged) return (<Redirect to={{ pathname: '/login' }}/>) ;
-        
+        if(this.state.alreadyLogged !== validUser) return validateAuth(this, validUser);
+
         return (
             <Layout>
                 <div style={{ width: '100%', margin: 'auto' }}>
