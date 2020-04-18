@@ -96,7 +96,7 @@ namespace UserDAO {
                 //este Open bugava ao tentar abrir apos o IsConnect (como estava antes)
                 //o que dava um erro de tentar abrir um canal que já está aberto.
                 //não vi mais metodos pq so estava mesmo o testar cenas elementares...
-                //mas se este dá os outros também vão dar 
+                //mas se este dá os outros também vão dar...depois temos é de ver o model
                 //cmd.Connection.Open();
 
                 cmd.Prepare();
