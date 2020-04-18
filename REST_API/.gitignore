@@ -355,3 +355,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# My ignores
+REST_API/WebApi_SP/obj/*
+REST_API/WebApi_SP/bin/*
