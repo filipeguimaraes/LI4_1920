@@ -85,12 +85,12 @@ class User extends Component {
     }
 
     render() {
-        if(this.state.alreadyLogged !== validUser) return validateAuth(this, validUser);
+        if (this.state.alreadyLogged !== validUser) return validateAuth(this, validUser);
 
         return (
             <Layout>
                 <div style={{ width: '100%', margin: 'auto' }}>
-                    <Grid  className="user-grid">
+                    <Grid className="user-grid">
                         <Cell col={12}>
                             <img
                                 src={userLogo}

@@ -15,7 +15,7 @@ export const baseURL = 'https://localhost:44384/'
 export const proxyURL = 'https://cors-anywhere.herokuapp.com/'
 
 export const baseConfig = {
-    headers:{
+    headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
         'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
@@ -37,7 +37,7 @@ const inPASSWORD = 'loginPassword';
 const errorAPI = 'error';
 
 // Remove the keys of the sessions a sends the API logout request
-export function logout () {
+export function logout() {
     /**
      * LOGOUT REQUEST API
      */
@@ -46,37 +46,37 @@ export function logout () {
 }
 
 // Sets the inputs in sessionStorage for logging in.
-export function varsLogin (email, password) {
-    sessionStorage.setItem(inEMAIL,email);
-    sessionStorage.setItem(inPASSWORD,password);
+export function varsLogin(email, password) {
+    sessionStorage.setItem(inEMAIL, email);
+    sessionStorage.setItem(inPASSWORD, password);
 }
 
 /** Gets the unique ids for authentication session. 
  * 
  * @param obj: acess this.state.alreadyLogged 
  */
-export async function checkLogin (obj) {
+export async function checkLogin(obj) {
     var lEmail = sessionStorage.getItem(inEMAIL);
     var lPass = sessionStorage.getItem(inPASSWORD);
 
     if (lEmail !== null && lPass !== null) {
 
-        obj.setState({ alreadyLogged: 'loading'});
+        obj.setState({ alreadyLogged: 'loading' });
         sessionStorage.removeItem(inEMAIL);
         sessionStorage.removeItem(inPASSWORD);
 
-        await Axios.get(baseURL+`Login?email=${lEmail}&password=${lPass}`,baseConfig)
+        await Axios.get(baseURL + `Login?email=${lEmail}&password=${lPass}`, baseConfig)
             .then(r => {
                 if (r.data === 'user' || r.data === 'instructor') {
-                    localStorage.setItem(sessionID,r.data);
-                    localStorage.setItem(sessionKEY,r.data);
+                    localStorage.setItem(sessionID, r.data);
+                    localStorage.setItem(sessionKEY, r.data);
                 }
                 else {
-                    obj.setState({ alreadyLogged: null});
+                    obj.setState({ alreadyLogged: null });
                 }
             })
             .catch(() => {
-                obj.setState({ alreadyLogged: errorAPI});
+                obj.setState({ alreadyLogged: errorAPI });
             });
     }
 }
@@ -87,33 +87,33 @@ export async function checkLogin (obj) {
  * 
  * @param obj: acess this.state.alreadyLogged 
  */
-export async function checkAuthentication (obj) {
+export async function checkAuthentication(obj) {
     var vUid = localStorage.getItem(sessionID);
     var kUid = localStorage.getItem(sessionKEY);
 
     if (vUid !== null && kUid !== null) {
 
-        await Axios.get(baseURL+`Authentication?${sessionKEY}=${kUid}&${sessionID}=${vUid}`,baseConfig)
+        await Axios.get(baseURL + `Authentication?${sessionKEY}=${kUid}&${sessionID}=${vUid}`, baseConfig)
             .then(r => {
                 if (r.data === 'user' || r.data === 'instructor') {
-                    obj.setState({ alreadyLogged: r.data});
+                    obj.setState({ alreadyLogged: r.data });
                 }
                 else {
-                    obj.setState({ alreadyLogged: null});
+                    obj.setState({ alreadyLogged: null });
                 }
             })
             .catch(() => {
-                obj.setState({ alreadyLogged: errorAPI});
+                obj.setState({ alreadyLogged: errorAPI });
             });
     }
 }
 
-//
-export function validateAuth (obj, val) {
-    if(obj.state.alreadyLogged === null) return (<Redirect to={{ pathname: '/login' }}/>);
-    if(obj.state.alreadyLogged === 'loading') return loadingPage();
-    if(obj.state.alreadyLogged === 'error') return errorPage();
-    if(obj.state.alreadyLogged !== val) return (<Redirect to={{ pathname: '/'+obj.state.alreadyLogged }}/>);
+// 
+export function validateAuth(obj, val) {
+    if (obj.state.alreadyLogged === null) return <Redirect to={{ pathname: '/login' }} />;
+    if (obj.state.alreadyLogged === 'loading') return loadingPage();
+    if (obj.state.alreadyLogged === 'error') return errorPage();
+    if (obj.state.alreadyLogged !== val) return <Redirect to={{ pathname: '/' + obj.state.alreadyLogged }} />;
 }
 
 /** MY SANDBOX OF JS

@@ -37,7 +37,7 @@ const SportsManager = () => (
             <Route path="/instructor" component={Instructor} />
             <Route path="/loading" component={Loading} />
             <Route path="/error" component={Error} />
-            <Redirect to={{ pathname: '/' }}/>
+            <Redirect to={{ pathname: '/' }} />
         </Switch>
     </BrowserRouter>
 );
