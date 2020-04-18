@@ -17,7 +17,7 @@ namespace WebApi_SP.Controllers
         [EnableCors("MyPolicy")]
         public ActionResult<string> Get(string ssKeyId, string ssValueUid)
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             return Ok(ssKeyId);
         }
     }

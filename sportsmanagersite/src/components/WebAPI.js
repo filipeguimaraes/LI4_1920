@@ -108,7 +108,7 @@ export async function checkAuthentication(obj) {
     }
 }
 
-// 
+// Validates da Authentication
 export function validateAuth(obj, val) {
     if (obj.state.alreadyLogged === null) return <Redirect to={{ pathname: '/login' }} />;
     if (obj.state.alreadyLogged === 'loading') return loadingPage();
