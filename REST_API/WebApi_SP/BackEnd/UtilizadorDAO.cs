@@ -94,7 +94,7 @@ namespace UserDAO {
                 cmd.CommandText = "SELECT * FROM UTILIZADOR WHERE email = @email";
                
                 //este Open bugava ao tentar abrir apos o IsConnect (como estava antes)
-                // o que dava um erro de tentar abrir um canal que já está aberto.
+                //o que dava um erro de tentar abrir um canal que já está aberto.
                 //não vi mais metodos pq so estava mesmo o testar cenas elementares...
                 //mas se este dá os outros também vão dar 
                 //cmd.Connection.Open();

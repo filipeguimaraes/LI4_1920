@@ -44,7 +44,7 @@ namespace Data {
                 connection.Open();
             }
 
-            //faltava verificar isto assim esta class é completamente responsavel pela conexão
+            //faltava verificar isto assim esta class é completamente responsavel pela conexão fica um pouco mais modelar
             if (Connection.State == System.Data.ConnectionState.Closed)
                 Connection.Open();
 
