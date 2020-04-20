@@ -17,9 +17,8 @@ namespace Classes {
         {
         }
 
-        public Aula(int codAula, int numBilhetes, float precoBilhete, DateTime dataINI, DateTime dataFIM, string modalidade, int codEspaco, string email)
+        public Aula(int numBilhetes, float precoBilhete, DateTime dataINI, DateTime dataFIM, string modalidade, string email, int codEspaco)
         {
-            this.CodAula = codAula;
             this.NumBilhetes = numBilhetes;
             this.PrecoBilhete = precoBilhete;
             this.DataINI = dataINI;

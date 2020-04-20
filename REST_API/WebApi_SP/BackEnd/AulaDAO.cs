@@ -23,11 +23,11 @@ namespace ClassesDAO {
             {
                 var cmd = new MySqlCommand();
                 cmd.Connection = dbCon.Connection;
-                cmd.CommandText = "Insert INTO AULA VALUES(@codAula, @numBilhetes, @precoBilhete, @dataI, @dataF, @mod, @codEs, @em)";
+                cmd.CommandText = "Insert INTO AULA(num_bilhetes, preco_bilhete, data_ini, data_fim, modalidade, email, espaco) VALUES(@numBilhetes, @precoBilhete, @dataI, @dataF, @mod, @em, @codEs)";
                
                 cmd.Prepare();
 
-                cmd.Parameters.AddWithValue("@codAula", aula.CodAula);
+                //cmd.Parameters.AddWithValue("@codAula", aula.CodAula);
                 cmd.Parameters.AddWithValue("@numBilhetes", aula.NumBilhetes);
                 cmd.Parameters.AddWithValue("@precoBilhete", aula.PrecoBilhete);
                 cmd.Parameters.AddWithValue("@dataI", aula.DataINI.ToString("yyyy-MM-dd HH:mm"));
