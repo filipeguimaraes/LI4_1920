@@ -17,9 +17,9 @@ namespace Spaces {
         {
         }
 
-        public Espaco(int codEspaco, string tipo, int lotacao, string local, float precoHora, int area, DateTime disponivelIni, DateTime disponivelFim)
+        public Espaco(string tipo, int lotacao, string local, float precoHora, int area, DateTime disponivelIni, DateTime disponivelFim)
         {
-            this.CodEspaco = codEspaco;
+            
             this.Tipo = tipo;
             this.Lotacao = lotacao;
             this.Local = local;

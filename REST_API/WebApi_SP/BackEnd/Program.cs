@@ -59,16 +59,89 @@ namespace CSharpMySQL
 
         public void comprarBilhete(int codAula, string userEmail)
         {
-            if(aDAO.bilhetesDisponiveis(codAula) && !uDAO.comprouBilhete(codAula, userEmail))
+            lock (this)
             {
-                aDAO.addUserToAula(codAula, userEmail);
-            }
-            else
-            {
-                Console.WriteLine("JA COMPROU BILHETE");
+                if (aDAO.bilhetesDisponiveis(codAula) && !uDAO.comprouBilhete(codAula, userEmail))
+                {
+                    aDAO.addUserToAula(codAula, userEmail);
+                }
+                else
+                {
+                    Console.WriteLine("JA COMPROU BILHETE");
+                }
             }
         }
-        
+
+        public void newSpace(string tipo, int lotacao, string local, float preco, int area, DateTime ini, DateTime fim)
+        {
+            Espaco e = new Espaco(tipo, lotacao, local, preco, area, ini, fim);
+
+            lock(this)
+            {
+                eDAO.put(e);
+            }
+        }
+
+        public void newEvent(int numBilhetes, float precoBilhete, DateTime dataIni, DateTime dataFim, string modalidade, int espaco)
+        {
+            Aula a = new Aula(numBilhetes, precoBilhete, dataIni, dataFim, modalidade, this.user.Email, espaco);
+
+            lock(this)
+            {
+                if(eDAO.spaceAvailable(espaco, dataIni, dataFim))
+                {
+                    aDAO.put(a);
+                    eDAO.rent(this.user.Email, espaco, dataIni, dataFim);
+                }
+            }
+        }
+
+        public void rentSpace(int espaco, DateTime dataIni, DateTime dataFim)
+        {
+            lock(this)
+            {
+                if (eDAO.spaceAvailable(espaco, dataIni, dataFim))
+                {
+                    eDAO.rent(this.user.Email, espaco, dataIni, dataFim);
+                }
+            }
+        }
+
+        public void mudarLotacao(int espaco, int novaLotacao)
+        {
+            eDAO.update(espaco, "lotacao", (int)novaLotacao);
+        }
+
+        public void alterarReserva(int reserva, int espaco, string tipo, DateTime novaData)
+        {
+            switch(tipo)
+            {
+                case "inicio":
+                    if (eDAO.canChangeDate(espaco, "data_ini", novaData))
+                    {
+                        eDAO.updateReserva(reserva, "data_ini", novaData);
+                    }
+                    break;
+                case "fim":
+                    if (eDAO.canChangeDate(espaco, "data_fim", novaData))
+                    {
+                        eDAO.updateReserva(reserva, "data_fim", novaData);
+                    }
+                    break;
+            }
+        }
+
+        public void cancelarReserva(int reserva)
+        {
+            eDAO.deleteReserva(reserva);
+        }
+
+        public void deleteUser()
+        {
+            uDAO.remove(this.user.Email);
+            logout();
+        }
+
         /*
         static void Main(string[] args)
         {
