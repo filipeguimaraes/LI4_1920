@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
+using WebApi_SP.ViewObj;
 
 namespace WebApi_SP.Controllers
 {
@@ -15,10 +16,9 @@ namespace WebApi_SP.Controllers
 
         [HttpGet]
         [EnableCors("MyPolicy")]
-        public ActionResult<string> Get(string email, string password)
+        public ActionResult<AuthenticationObj<Object>> Get(string email, string password)
         {
-
-            return Ok(email);
+            return Ok(new ModelController().Instance().Login(email, password));
         }
     }
 }

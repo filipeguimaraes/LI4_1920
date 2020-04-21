@@ -30,17 +30,22 @@ export const baseConfig = {
 // LOGIN and LOGOUT and AUTHENTICATION
 
 // Constants
-const sessionKEY = 'ssKeyId';
-const sessionID = 'ssValueUid';
+const sessionKEY = 'ssKey';
+const sessionID = 'ssValue';
 const inEMAIL = 'loginEmail';
 const inPASSWORD = 'loginPassword';
 const errorAPI = 'error';
 
 // Remove the keys of the sessions a sends the API logout request
-export function logout() {
-    /**
-     * LOGOUT REQUEST API
-     */
+export async function logout() {
+    var kUid = localStorage.getItem(sessionKEY);
+    var vUid = localStorage.getItem(sessionID);
+
+    if (vUid !== null && kUid !== null) {
+
+        await Axios.get(baseURL + `Logout?${sessionKEY}=${kUid}&${sessionID}=${vUid}`, baseConfig);
+    }
+
     localStorage.removeItem(sessionID);
     localStorage.removeItem(sessionKEY);
 }
@@ -67,9 +72,9 @@ export async function checkLogin(obj) {
 
         await Axios.get(baseURL + `Login?email=${lEmail}&password=${lPass}`, baseConfig)
             .then(r => {
-                if (r.data === 'user' || r.data === 'instructor') {
-                    localStorage.setItem(sessionID, r.data);
-                    localStorage.setItem(sessionKEY, r.data);
+                if (r.data.result === 'user' || r.data.result === 'instructor') {
+                    localStorage.setItem(sessionKEY, r.data.ssKey);
+                    localStorage.setItem(sessionID, r.data.ssValue);
                 }
                 else {
                     obj.setState({ alreadyLogged: null });
@@ -88,23 +93,30 @@ export async function checkLogin(obj) {
  * @param obj: acess this.state.alreadyLogged 
  */
 export async function checkAuthentication(obj) {
-    var vUid = localStorage.getItem(sessionID);
     var kUid = localStorage.getItem(sessionKEY);
+    var vUid = localStorage.getItem(sessionID);
 
     if (vUid !== null && kUid !== null) {
 
+        obj.setState({ alreadyLogged: 'loading' });
         await Axios.get(baseURL + `Authentication?${sessionKEY}=${kUid}&${sessionID}=${vUid}`, baseConfig)
             .then(r => {
-                if (r.data === 'user' || r.data === 'instructor') {
-                    obj.setState({ alreadyLogged: r.data });
+                if (r.data.result === 'user' || r.data.result === 'instructor') {
+                    obj.setState({ alreadyLogged: r.data.result });
                 }
                 else {
                     obj.setState({ alreadyLogged: null });
+                    localStorage.removeItem(sessionKEY);
+                    localStorage.removeItem(sessionID);
                 }
             })
             .catch(() => {
                 obj.setState({ alreadyLogged: errorAPI });
             });
+    }
+    else {
+        localStorage.removeItem(sessionKEY);
+        localStorage.removeItem(sessionID);
     }
 }
 

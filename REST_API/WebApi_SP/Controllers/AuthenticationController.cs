@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 using System.Threading;
+using WebApi_SP.ViewObj;
 
 namespace WebApi_SP.Controllers
 {
@@ -15,10 +16,10 @@ namespace WebApi_SP.Controllers
     {
         [HttpGet]
         [EnableCors("MyPolicy")]
-        public ActionResult<string> Get(string ssKeyId, string ssValueUid)
+        public ActionResult<string> Get(string ssKey, string ssValue)
         {
             Thread.Sleep(500);
-            return Ok(ssKeyId);
+            return Ok(new ModelController().Instance().Authentication(ssKey,ssValue));
         }
     }
 }
