@@ -32,6 +32,7 @@ export const baseConfig = {
 // Constants
 const sessionKEY = 'ssKey';
 const sessionID = 'ssValue';
+const sessionTIME = 'ssTime';
 const inEMAIL = 'loginEmail';
 const inPASSWORD = 'loginPassword';
 const errorAPI = 'error';
@@ -72,6 +73,7 @@ export async function checkLogin(obj) {
 
         await Axios.get(baseURL + `Login?email=${lEmail}&password=${lPass}`, baseConfig)
             .then(r => {
+                console.log(r);
                 if (r.data.result === 'user' || r.data.result === 'instructor') {
                     localStorage.setItem(sessionKEY, r.data.ssKey);
                     localStorage.setItem(sessionID, r.data.ssValue);
@@ -96,9 +98,8 @@ export async function checkAuthentication(obj) {
     var kUid = localStorage.getItem(sessionKEY);
     var vUid = localStorage.getItem(sessionID);
 
-    if (vUid !== null && kUid !== null) {
+    if (obj.state.alreadyLogged === 'loading' && vUid !== null && kUid !== null) {
 
-        obj.setState({ alreadyLogged: 'loading' });
         await Axios.get(baseURL + `Authentication?${sessionKEY}=${kUid}&${sessionID}=${vUid}`, baseConfig)
             .then(r => {
                 if (r.data.result === 'user' || r.data.result === 'instructor') {
@@ -109,6 +110,7 @@ export async function checkAuthentication(obj) {
                     localStorage.removeItem(sessionKEY);
                     localStorage.removeItem(sessionID);
                 }
+                if(r.data!=="")localStorage.setItem(sessionTIME,new Date().getTime().toString() +" "+ JSON.parse(r.data.expire).toString());
             })
             .catch(() => {
                 obj.setState({ alreadyLogged: errorAPI });

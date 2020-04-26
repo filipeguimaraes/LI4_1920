@@ -28,12 +28,6 @@ namespace WebApi_SP
             services.AddControllers();
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowOrigin",
-                    builder => builder.WithOrigins("http://localhost:3000")
-                                      .WithMethods("GET"));
-            });
-            services.AddCors(options =>
-            {
                 options.AddPolicy("MyPolicy",
                     builder =>
                     {

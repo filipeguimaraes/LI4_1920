@@ -9,13 +9,13 @@ using WebApi_SP.ViewObj;
 
 namespace WebApi_SP.Controllers
 {
-    [Route("[controller]")]
+    [EnableCors("MyPolicy")]
+    [Route("[Controller]")]
     [ApiController]
     public class LoginController : ControllerBase
     {
 
         [HttpGet]
-        [EnableCors("MyPolicy")]
         public ActionResult<AuthenticationObj<Object>> Get(string email, string password)
         {
             return Ok(new ModelController().Instance().Login(email, password));

@@ -38,11 +38,14 @@ namespace WebApi_SP.ViewObj
             auth.SsKey = ssKey;
             auth.SsValue = ssValue;
             auth.Email = password;
+            DateTimeOffset d = DateTimeOffset.Now.AddSeconds(15);
+            auth.Expire = d.ToUnixTimeMilliseconds().ToString();
 
-
-            while (this.sessionsCache.AddOrGetExisting(auth.GetKey(), auth, DateTimeOffset.Now.AddSeconds(10), null) != null) {
+            while (this.sessionsCache.AddOrGetExisting(auth.GetKey(), auth, d) != null) {
                 auth.SsKey = Guid.NewGuid().ToString();
                 auth.SsValue = Guid.NewGuid().ToString();
+                d = DateTimeOffset.Now.AddSeconds(15);
+                auth.Expire = d.ToUnixTimeMilliseconds().ToString();
             }
 
             return auth;
@@ -52,7 +55,10 @@ namespace WebApi_SP.ViewObj
         {
             Object l = sessionsCache.Remove(ssKey + ssValue);
             if (l != null) {
-                sessionsCache.Set(ssKey + ssValue,l, DateTimeOffset.Now.AddSeconds(10));
+                AuthenticationObj<Object> authObj = (AuthenticationObj<Object>) l;
+                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(15);
+                authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
+                sessionsCache.Set(ssKey + ssValue,l,d);
             }
             return l;
         }

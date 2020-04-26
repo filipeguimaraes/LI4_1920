@@ -10,13 +10,12 @@ using WebApi_SP.ViewObj;
 
 namespace WebApi_SP.Controllers
 {
-    [Route("[controller]")]
+    [EnableCors("MyPolicy")]
+    [Route("[Controller]")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        [HttpGet]
-        [EnableCors("MyPolicy")]
-        public ActionResult<string> Get(string ssKey, string ssValue)
+        public ActionResult<AuthenticationObj<Object>> Authentication(string ssKey, string ssValue)
         {
             Thread.Sleep(500);
             return Ok(new ModelController().Instance().Authentication(ssKey,ssValue));
