@@ -67,6 +67,7 @@ class User extends Component {
 
         this.state = {
             notifications,
+            name: 'N/A',
             alreadyLogged: 'loading'
         }
     }
@@ -98,7 +99,7 @@ class User extends Component {
                                 id="profile-img"
                             />
                             <div>
-                                <h1 style={{ color: '#85D8CE', textAlign: "center" }}>Welcome, John!</h1>
+        <h1 style={{ color: '#85D8CE', textAlign: "center" }}>Welcome, {this.state.name}!</h1>
                             </div>
                         </Cell>
                         <Cell col={12}>

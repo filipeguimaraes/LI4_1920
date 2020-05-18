@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Runtime.Caching;
 using System.Collections.Specialized;
 using ViewObj;
+using User;
+using UserDAO;
 
 namespace WebApi_SP.ViewObj
 {
@@ -30,23 +32,35 @@ namespace WebApi_SP.ViewObj
 
         public AuthenticationObj<Object> Login(string email, string password)
         {
-            string ssKey = Guid.NewGuid().ToString();
-            string ssValue = Guid.NewGuid().ToString();
+            Utilizador u = new UtilizadorDAO().get(email);
+            AuthenticationObj<Object> auth = new AuthenticationObj<object>();
 
-            AuthenticationObj<Object> auth = new AuthenticationObj<Object>(this.sessionsCache.GetCount());
-            auth.Result = email;
-            auth.SsKey = ssKey;
-            auth.SsValue = ssValue;
-            auth.Email = password;
-            DateTimeOffset d = DateTimeOffset.Now.AddSeconds(15);
-            auth.Expire = d.ToUnixTimeMilliseconds().ToString();
+            if (u != null && password.Equals(u.Password))
+            {
+                string ssKey = Guid.NewGuid().ToString();
+                string ssValue = Guid.NewGuid().ToString();
 
-            while (this.sessionsCache.AddOrGetExisting(auth.GetKey(), auth, d) != null) {
-                auth.SsKey = Guid.NewGuid().ToString();
-                auth.SsValue = Guid.NewGuid().ToString();
-                d = DateTimeOffset.Now.AddSeconds(15);
+                auth.Info = this.sessionsCache.GetCount();
+                auth.Result = u.Perfil;
+                auth.SsKey = ssKey;
+                auth.SsValue = ssValue;
+                auth.Email = email;
+                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(15);
                 auth.Expire = d.ToUnixTimeMilliseconds().ToString();
+
+                while (this.sessionsCache.AddOrGetExisting(auth.GetKey(), auth, d) != null)
+                {
+                    auth.SsKey = Guid.NewGuid().ToString();
+                    auth.SsValue = Guid.NewGuid().ToString();
+                    d = DateTimeOffset.Now.AddSeconds(15);
+                    auth.Expire = d.ToUnixTimeMilliseconds().ToString();
+                }
             }
+            else
+            {
+                auth.Result = "invalid";
+            }
+            
 
             return auth;
         }
@@ -68,6 +82,42 @@ namespace WebApi_SP.ViewObj
             sessionsCache.Remove(ssKey + ssValue);
 
             return null;
+        }
+
+
+        public AuthenticationObj<Object> Register(string email, string password)
+        {
+            UtilizadorDAO uDAO = new UtilizadorDAO();
+            Utilizador u = uDAO.get(email);
+            AuthenticationObj<Object> r = new AuthenticationObj<object>();
+
+            if (u == null)
+            {
+                u = new Utilizador();
+                u.Email = email;
+                u.Nome = "Username";
+                u.Password = password;
+                u.Perfil = "user";
+                u.Dob = DateTime.Now;
+                u.Altura = 0;
+                u.Genero = "I";
+                u.Telemovel = "";
+                u.Morada = "";
+                u.Nif = "";
+
+                uDAO.put(u);
+
+                r.Info = u;
+                r.Email = email;
+                r.Result = "login";
+            }
+            else
+            {
+                r.Result = "invalid";
+            }
+
+
+            return r;
         }
     }
 }

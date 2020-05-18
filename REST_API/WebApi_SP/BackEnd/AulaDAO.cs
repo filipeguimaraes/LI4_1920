@@ -64,10 +64,10 @@ namespace ClassesDAO {
 
                 while(reader.Read())
                 {
-                    aula = new Aula(reader.GetInt32(0), reader.GetInt32(1), reader.GetFloat(2),
+/*                    aula = new Aula(reader.GetInt32(0), reader.GetInt32(1), reader.GetFloat(2),
                                                 reader.GetDateTime(3), reader.GetDateTime(4), reader.GetString(5),
                                                 reader.GetInt32(6), reader.GetString(7));
-                     
+*/                     
                 }
 
                 dbCon.Close();

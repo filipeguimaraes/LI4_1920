@@ -14,6 +14,15 @@ namespace WebApi_SP.ViewObj
         private string expire;
         private T info;
 
+        public AuthenticationObj()
+        {
+            this.result = null;
+            this.ssKey = null;
+            this.ssValue = null;
+            this.email = null;
+            this.expire = null;
+        }
+
         public AuthenticationObj(T t){
             this.result = null;
             this.ssKey = null;

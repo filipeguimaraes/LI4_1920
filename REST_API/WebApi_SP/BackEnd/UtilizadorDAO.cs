@@ -59,7 +59,7 @@ namespace UserDAO {
                 cmd.Connection = dbCon.Connection;
                 cmd.CommandText = "Insert INTO UTILIZADOR VALUES(@email, @nif, @nome, @genero, @telemovel, @dob, @altura, @password, @morada, @perfil)";
                
-                cmd.Connection.Open();
+                //cmd.Connection.Open();
 
                 cmd.Prepare();
 
@@ -120,7 +120,6 @@ namespace UserDAO {
 
                 dbCon.Close();
             }
-            Console.WriteLine(utilizador.Nome);
             return utilizador;
         }
 

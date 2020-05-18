@@ -73,10 +73,10 @@ export async function checkLogin(obj) {
 
         await Axios.get(baseURL + `Login?email=${lEmail}&password=${lPass}`, baseConfig)
             .then(r => {
-                console.log(r);
                 if (r.data.result === 'user' || r.data.result === 'instructor') {
                     localStorage.setItem(sessionKEY, r.data.ssKey);
                     localStorage.setItem(sessionID, r.data.ssValue);
+                    // localStorage.setItem(sessionTIME, JSON.parse(r.data.expire).toString());
                 }
                 else {
                     obj.setState({ alreadyLogged: null });
@@ -97,6 +97,7 @@ export async function checkLogin(obj) {
 export async function checkAuthentication(obj) {
     var kUid = localStorage.getItem(sessionKEY);
     var vUid = localStorage.getItem(sessionID);
+    // var time = localStorage.getItem(sessionTIME);
 
     if (obj.state.alreadyLogged === 'loading' && vUid !== null && kUid !== null) {
 
@@ -104,21 +105,24 @@ export async function checkAuthentication(obj) {
             .then(r => {
                 if (r.data.result === 'user' || r.data.result === 'instructor') {
                     obj.setState({ alreadyLogged: r.data.result });
+                    obj.setState({ name: r.data.email });
                 }
                 else {
                     obj.setState({ alreadyLogged: null });
                     localStorage.removeItem(sessionKEY);
                     localStorage.removeItem(sessionID);
+                    // localStorage.removeItem(sessionTIME);
                 }
-                if(r.data!=="")localStorage.setItem(sessionTIME,new Date().getTime().toString() +" "+ JSON.parse(r.data.expire).toString());
             })
             .catch(() => {
                 obj.setState({ alreadyLogged: errorAPI });
             });
     }
     else {
+        obj.setState({ alreadyLogged: null });
         localStorage.removeItem(sessionKEY);
         localStorage.removeItem(sessionID);
+        // localStorage.removeItem(sessionTIME);
     }
 }
 
@@ -128,6 +132,40 @@ export function validateAuth(obj, val) {
     if (obj.state.alreadyLogged === 'loading') return loadingPage();
     if (obj.state.alreadyLogged === 'error') return errorPage();
     if (obj.state.alreadyLogged !== val) return <Redirect to={{ pathname: '/' + obj.state.alreadyLogged }} />;
+}
+
+
+// Vars register
+const regEmail = 'email';
+const regPass = 'pass';
+const regRePass = 'repass';
+
+export async function checkRegister(obj) {
+    var lEmail = sessionStorage.getItem(regEmail);
+    var lPass = sessionStorage.getItem(regPass);
+    var lRePass = sessionStorage.getItem(regRePass);
+
+    if (lEmail !== null && lPass !== null && lRePass !== null) {
+
+        obj.setState({ alreadyLogged: 'loading' });
+        sessionStorage.removeItem(regEmail);
+        sessionStorage.removeItem(regPass);
+        sessionStorage.removeItem(regRePass);
+
+        await Axios.get(baseURL + `Register?email=${lEmail}&password=${lPass}`, baseConfig)
+            .then(r => {
+                console.log(r);
+                if (r.data.result === 'login') {
+                    obj.setState({ alreadyLogged: null });
+                }
+                else {
+                    obj.setState({ alreadyLogged: 'signup' });
+                }
+            })
+            .catch(() => {
+                obj.setState({ alreadyLogged: errorAPI });
+            });
+    }
 }
 
 /** MY SANDBOX OF JS
