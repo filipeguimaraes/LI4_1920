@@ -73,7 +73,7 @@ export async function checkLogin(obj) {
 
         await Axios.get(baseURL + `Login?email=${lEmail}&password=${lPass}`, baseConfig)
             .then(r => {
-                if (r.data.result === 'user' || r.data.result === 'instructor') {
+                if (r.data.result === 'user' || r.data.result === 'instructor' || r.data.result === 'settings') {
                     localStorage.setItem(sessionKEY, r.data.ssKey);
                     localStorage.setItem(sessionID, r.data.ssValue);
                     // localStorage.setItem(sessionTIME, JSON.parse(r.data.expire).toString());
@@ -95,15 +95,16 @@ export async function checkLogin(obj) {
  * @param obj: acess this.state.alreadyLogged 
  */
 export async function checkAuthentication(obj) {
+    var lSettings = sessionStorage.getItem(settingsVar);
     var kUid = localStorage.getItem(sessionKEY);
     var vUid = localStorage.getItem(sessionID);
     // var time = localStorage.getItem(sessionTIME);
 
-    if (obj.state.alreadyLogged === 'loading' && vUid !== null && kUid !== null) {
+    if (obj.state.alreadyLogged === 'loading' && lSettings === null && vUid !== null && kUid !== null) {
 
         await Axios.get(baseURL + `Authentication?${sessionKEY}=${kUid}&${sessionID}=${vUid}`, baseConfig)
             .then(r => {
-                if (r.data.result === 'user' || r.data.result === 'instructor') {
+                if (r.data.result === 'user' || r.data.result === 'instructor' || r.data.result === 'settings') {
                     obj.setState({ alreadyLogged: r.data.result });
                     obj.setState({ name: r.data.email });
                 }
@@ -119,10 +120,10 @@ export async function checkAuthentication(obj) {
             });
     }
     else {
-        obj.setState({ alreadyLogged: null });
-        localStorage.removeItem(sessionKEY);
-        localStorage.removeItem(sessionID);
-        // localStorage.removeItem(sessionTIME);
+//        obj.setState({ alreadyLogged: null });
+//        localStorage.removeItem(sessionKEY);
+//        localStorage.removeItem(sessionID);
+//        // localStorage.removeItem(sessionTIME);
     }
 }
 
@@ -154,12 +155,103 @@ export async function checkRegister(obj) {
 
         await Axios.get(baseURL + `Register?email=${lEmail}&password=${lPass}`, baseConfig)
             .then(r => {
-                console.log(r);
                 if (r.data.result === 'login') {
                     obj.setState({ alreadyLogged: null });
                 }
                 else {
                     obj.setState({ alreadyLogged: 'signup' });
+                }
+            })
+            .catch(() => {
+                obj.setState({ alreadyLogged: errorAPI });
+            });
+    }
+}
+
+// Vars settings
+const settingsVar = 'settings';
+const emailSettings = "emailSett";
+const passwordSettings = "passSett";
+const usernameSettings = "nameSett";
+const genderSettings = "genderSett";
+const addressSettings = "addrSett";
+const contactSettings = "contactSett";
+const daySettings = "daySett";
+const monthSettings = "monthSett";
+const yearSettings = "yearSett";
+const heightSettings = "heightSett";
+const weightSettings = "weightSett";
+
+export function varsSettings(email, pass, name, gender, address, contact, day, month, year, height, weight) {
+    sessionStorage.setItem(settingsVar, 'change');
+    sessionStorage.setItem(emailSettings, email);
+    sessionStorage.setItem(passwordSettings, pass);
+    sessionStorage.setItem(usernameSettings, name);
+    sessionStorage.setItem(genderSettings, gender);
+    sessionStorage.setItem(addressSettings, address);
+    sessionStorage.setItem(contactSettings, contact);
+    sessionStorage.setItem(daySettings, day);
+    sessionStorage.setItem(monthSettings, month);
+    sessionStorage.setItem(yearSettings, year);
+    sessionStorage.setItem(heightSettings, height);
+    sessionStorage.setItem(weightSettings, weight);
+}
+
+export async function checkSettings(obj) {
+    var lSettings = sessionStorage.getItem(settingsVar);
+    var lemail = sessionStorage.getItem(emailSettings);
+    var lpass = sessionStorage.getItem(passwordSettings);
+    var lname = sessionStorage.getItem(usernameSettings);
+    var lgender = sessionStorage.getItem(genderSettings);
+    var laddress = sessionStorage.getItem(addressSettings);
+    var lcontact = sessionStorage.getItem(contactSettings);
+    var lday = sessionStorage.getItem(daySettings);
+    var lmonth = sessionStorage.getItem(monthSettings);
+    var lyear = sessionStorage.getItem(yearSettings);
+    var lheight = sessionStorage.getItem(heightSettings);
+    var lweight = sessionStorage.getItem(weightSettings);
+    
+    var kUid = localStorage.getItem(sessionKEY);
+    var vUid = localStorage.getItem(sessionID);
+
+    if (lSettings !== null) {
+
+        sessionStorage.removeItem(settingsVar);
+        sessionStorage.removeItem(emailSettings);
+        sessionStorage.removeItem(passwordSettings);
+        sessionStorage.removeItem(usernameSettings);
+        sessionStorage.removeItem(genderSettings);
+        sessionStorage.removeItem(addressSettings);
+        sessionStorage.removeItem(contactSettings);
+        sessionStorage.removeItem(daySettings);
+        sessionStorage.removeItem(monthSettings);
+        sessionStorage.removeItem(yearSettings);
+        sessionStorage.removeItem(heightSettings);
+        sessionStorage.removeItem(weightSettings);
+        
+        obj.setState({ alreadyLogged: 'loading' });
+
+        await Axios.get(baseURL 
+                + `Settings?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
+                + `${emailSettings}=${lemail}&`
+                + `${passwordSettings}=${lpass}&`
+                + `${usernameSettings}=${lname}&`
+                + `${genderSettings}=${lgender}&`
+                + `${addressSettings}=${laddress}&`
+                + `${contactSettings}=${lcontact}&`
+                + `${daySettings}=${lday}&`
+                + `${monthSettings}=${lmonth}&`
+                + `${yearSettings}=${lyear}&`
+                + `${heightSettings}=${lheight}&`
+                + `${weightSettings}=${lweight}`
+                , baseConfig)
+            .then(r => {
+                console.log(r);
+                if (r.data.result === 'user') {
+                    obj.setState({ alreadyLogged: r.data.result });
+                }
+                else {
+                    obj.setState({ alreadyLogged: 'settings' });
                 }
             })
             .catch(() => {

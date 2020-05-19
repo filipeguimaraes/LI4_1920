@@ -35,7 +35,7 @@ namespace WebApi_SP.ViewObj
             Utilizador u = new UtilizadorDAO().get(email);
             AuthenticationObj<Object> auth = new AuthenticationObj<object>();
 
-            if (u != null && password.Equals(u.Password))
+            if (u != null && password != null && password.Equals(u.Password))
             {
                 string ssKey = Guid.NewGuid().ToString();
                 string ssValue = Guid.NewGuid().ToString();
@@ -45,14 +45,14 @@ namespace WebApi_SP.ViewObj
                 auth.SsKey = ssKey;
                 auth.SsValue = ssValue;
                 auth.Email = email;
-                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(15);
+                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
                 auth.Expire = d.ToUnixTimeMilliseconds().ToString();
 
                 while (this.sessionsCache.AddOrGetExisting(auth.GetKey(), auth, d) != null)
                 {
                     auth.SsKey = Guid.NewGuid().ToString();
                     auth.SsValue = Guid.NewGuid().ToString();
-                    d = DateTimeOffset.Now.AddSeconds(15);
+                    d = DateTimeOffset.Now.AddSeconds(30);
                     auth.Expire = d.ToUnixTimeMilliseconds().ToString();
                 }
             }
@@ -70,7 +70,7 @@ namespace WebApi_SP.ViewObj
             Object l = sessionsCache.Remove(ssKey + ssValue);
             if (l != null) {
                 AuthenticationObj<Object> authObj = (AuthenticationObj<Object>) l;
-                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(15);
+                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue,l,d);
             }
@@ -97,7 +97,7 @@ namespace WebApi_SP.ViewObj
                 u.Email = email;
                 u.Nome = "Username";
                 u.Password = password;
-                u.Perfil = "user";
+                u.Perfil = "settings";
                 u.Dob = DateTime.Now;
                 u.Altura = 0;
                 u.Genero = "I";
@@ -119,5 +119,23 @@ namespace WebApi_SP.ViewObj
 
             return r;
         }
+
+        public Object ChangeSettings(string ssKey, string ssValue,
+            string emailSett, string passSett, string nameSett, string genderSett,
+            string addrSett, string contactSett, string daySett, string monthSett,
+            string yearSett, string heightSett, string weightSett)
+        {
+            Object l = sessionsCache.Get(ssKey + ssValue);
+            AuthenticationObj<Object> authObj = (AuthenticationObj<Object>)l;
+
+
+            if (authObj != null)
+            {
+                authObj.Result = "user";
+            }
+
+            return authObj;
+        }
+
     }
 }
