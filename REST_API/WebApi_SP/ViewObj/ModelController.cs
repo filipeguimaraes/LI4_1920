@@ -140,23 +140,34 @@ namespace WebApi_SP.ViewObj
                     authObj.Email = emailSett;
                 }
                 if (passSett != null) new UtilizadorDAO().update(authObj.Email, "password", passSett);
+
                 if (nameSett != null)
                 {
                     new UtilizadorDAO().update(authObj.Email, "nome", nameSett);
                     authObj.Name = nameSett;
                 }
+
                 if (!genderSett.Equals("I")) new UtilizadorDAO().update(authObj.Email, "genero", genderSett);
+
                 if (addrSett != null) new UtilizadorDAO().update(authObj.Email, "morada", addrSett);
+
                 if (contactSett != null) new UtilizadorDAO().update(authObj.Email, "telemovel", contactSett);
+
                 if (heightSett != null) new UtilizadorDAO().update(authObj.Email, "altura", heightSett);
+
                 //if (weightSett == null) new UtilizadorDAO().update(authObj.Email, "peso", weightSett);
+
                 if (daySett != null && monthSett != null && yearSett != null &&
                     !daySett.Equals("Day") && !monthSett.Equals("Month")  && !yearSett.Equals("Year")) 
                 {
                     new UtilizadorDAO().update(authObj.Email, "DOB",yearSett + "-" + monthSett + "-" + daySett);
                 }
-                if (authObj.Result.Equals("settings")) new UtilizadorDAO().update(authObj.Email, "perfil", "user");
-                authObj.Result = "user";
+
+                if (authObj.Result.Equals("settings"))
+                {
+                    new UtilizadorDAO().update(authObj.Email, "perfil", "user");
+                    authObj.Result = "user";
+                }
             }
 
             return authObj;
