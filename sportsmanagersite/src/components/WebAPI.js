@@ -106,7 +106,7 @@ export async function checkAuthentication(obj) {
                 console.log(r)
                 if (r.data.result === 'user' || r.data.result === 'instructor' || r.data.result === 'settings') {
                     obj.setState({ alreadyLogged: r.data.result });
-                    obj.setState({ name: r.data.email });
+                    obj.setState({ name: r.data.name });
                 }
                 else {
                     obj.setState({ alreadyLogged: null });
@@ -168,6 +168,7 @@ export async function checkRegister(obj) {
     }
 }
 
+
 // Vars settings
 const settingsVar = 'settings';
 const emailSettings = "emailSett";
@@ -181,6 +182,7 @@ const monthSettings = "monthSett";
 const yearSettings = "yearSett";
 const heightSettings = "heightSett";
 const weightSettings = "weightSett";
+
 
 export function varsSettings(email, pass, name, gender, address, contact, day, month, year, height, weight) {
     sessionStorage.setItem(settingsVar, 'change');

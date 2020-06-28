@@ -45,14 +45,15 @@ namespace WebApi_SP.ViewObj
                 auth.SsKey = ssKey;
                 auth.SsValue = ssValue;
                 auth.Email = email;
-                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(60);
+                auth.Name = u.Nome;
+                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
                 auth.Expire = d.ToUnixTimeMilliseconds().ToString();
 
                 while (this.sessionsCache.AddOrGetExisting(auth.GetKey(), auth, d) != null)
                 {
                     auth.SsKey = Guid.NewGuid().ToString();
                     auth.SsValue = Guid.NewGuid().ToString();
-                    d = DateTimeOffset.Now.AddSeconds(60);
+                    d = DateTimeOffset.Now.AddSeconds(30);
                     auth.Expire = d.ToUnixTimeMilliseconds().ToString();
                 }
             }
@@ -139,7 +140,11 @@ namespace WebApi_SP.ViewObj
                     authObj.Email = emailSett;
                 }
                 if (passSett != null) new UtilizadorDAO().update(authObj.Email, "password", passSett);
-                if (nameSett != null) new UtilizadorDAO().update(authObj.Email, "nome", nameSett);
+                if (nameSett != null)
+                {
+                    new UtilizadorDAO().update(authObj.Email, "nome", nameSett);
+                    authObj.Name = nameSett;
+                }
                 if (!genderSett.Equals("I")) new UtilizadorDAO().update(authObj.Email, "genero", genderSett);
                 if (addrSett != null) new UtilizadorDAO().update(authObj.Email, "morada", addrSett);
                 if (contactSett != null) new UtilizadorDAO().update(authObj.Email, "telemovel", contactSett);
