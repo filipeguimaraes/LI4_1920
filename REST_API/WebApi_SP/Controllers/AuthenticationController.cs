@@ -17,7 +17,6 @@ namespace WebApi_SP.Controllers
     {
         public ActionResult<AuthenticationObj<Object>> Authentication(string ssKey, string ssValue)
         {
-            Thread.Sleep(500);
             return Ok(new ModelController().Instance().Authentication(ssKey,ssValue));
         }
     }

@@ -40,19 +40,19 @@ namespace WebApi_SP.ViewObj
                 string ssKey = Guid.NewGuid().ToString();
                 string ssValue = Guid.NewGuid().ToString();
 
-                auth.Info = this.sessionsCache.GetCount();
+                auth.Info = new InstructorPage();
                 auth.Result = u.Perfil;
                 auth.SsKey = ssKey;
                 auth.SsValue = ssValue;
                 auth.Email = email;
-                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(60);
                 auth.Expire = d.ToUnixTimeMilliseconds().ToString();
 
                 while (this.sessionsCache.AddOrGetExisting(auth.GetKey(), auth, d) != null)
                 {
                     auth.SsKey = Guid.NewGuid().ToString();
                     auth.SsValue = Guid.NewGuid().ToString();
-                    d = DateTimeOffset.Now.AddSeconds(30);
+                    d = DateTimeOffset.Now.AddSeconds(60);
                     auth.Expire = d.ToUnixTimeMilliseconds().ToString();
                 }
             }
@@ -67,9 +67,10 @@ namespace WebApi_SP.ViewObj
 
         public Object Authentication(string ssKey, string ssValue)
         {
-            Object l = sessionsCache.Remove(ssKey + ssValue);
+            Object l = sessionsCache.Get(ssKey + ssValue);
             if (l != null) {
                 AuthenticationObj<Object> authObj = (AuthenticationObj<Object>) l;
+                authObj.Info = new InstructorPage();
                 DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue,l,d);
@@ -131,6 +132,25 @@ namespace WebApi_SP.ViewObj
 
             if (authObj != null)
             {
+                if (emailSett != null)
+                {
+
+                    new UtilizadorDAO().update(authObj.Email, "email", emailSett);
+                    authObj.Email = emailSett;
+                }
+                if (passSett != null) new UtilizadorDAO().update(authObj.Email, "password", passSett);
+                if (nameSett != null) new UtilizadorDAO().update(authObj.Email, "nome", nameSett);
+                if (!genderSett.Equals("I")) new UtilizadorDAO().update(authObj.Email, "genero", genderSett);
+                if (addrSett != null) new UtilizadorDAO().update(authObj.Email, "morada", addrSett);
+                if (contactSett != null) new UtilizadorDAO().update(authObj.Email, "telemovel", contactSett);
+                if (heightSett != null) new UtilizadorDAO().update(authObj.Email, "altura", heightSett);
+                //if (weightSett == null) new UtilizadorDAO().update(authObj.Email, "peso", weightSett);
+                if (daySett != null && monthSett != null && yearSett != null &&
+                    !daySett.Equals("Day") && !monthSett.Equals("Month")  && !yearSett.Equals("Year")) 
+                {
+                    new UtilizadorDAO().update(authObj.Email, "DOB",yearSett + "-" + monthSett + "-" + daySett);
+                }
+                if (authObj.Result.Equals("settings")) new UtilizadorDAO().update(authObj.Email, "perfil", "user");
                 authObj.Result = "user";
             }
 

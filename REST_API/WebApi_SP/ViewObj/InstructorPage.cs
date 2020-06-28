@@ -12,7 +12,7 @@ namespace ViewObj
 
         public Utilizador infoPage { get; set;}
 
-        public InstructorPage() { infoPage = new UtilizadorDAO().get("ola@adeus.com"); }
+        public InstructorPage() { infoPage = new UtilizadorDAO().get("conta"); }
 
     }
 }
