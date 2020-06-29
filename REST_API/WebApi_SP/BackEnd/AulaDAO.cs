@@ -3,6 +3,7 @@ using Classes;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using Data;
+using System.Collections.Generic;
 
 namespace ClassesDAO {
 
@@ -27,7 +28,7 @@ namespace ClassesDAO {
                
                 cmd.Prepare();
 
-                //cmd.Parameters.AddWithValue("@codAula", aula.CodAula);
+                cmd.Parameters.AddWithValue("@codAula", aula.CodAula);
                 cmd.Parameters.AddWithValue("@numBilhetes", aula.NumBilhetes);
                 cmd.Parameters.AddWithValue("@precoBilhete", aula.PrecoBilhete);
                 cmd.Parameters.AddWithValue("@dataI", aula.DataINI.ToString("yyyy-MM-dd HH:mm"));
@@ -42,7 +43,44 @@ namespace ClassesDAO {
             }
         }
 
-        public void get(int codigo)
+
+        public List<Aula> getAulasBy(string param, string input)
+        {
+            var dbCon = db.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+            Aula aula = null;
+            List<Aula> aulas = new List<Aula>();
+
+            if (dbCon.IsConnect())
+            {
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                cmd.CommandText = "SELECT * FROM AULA WHERE " + param + " = @input";
+
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@input", input);
+
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    aula = new Aula(reader.GetInt32(0), reader.GetInt32(1), reader.GetFloat(2),
+                                                reader.GetDateTime(3), reader.GetDateTime(4), reader.GetString(5),
+                                                reader.GetString(6), reader.GetInt32(7));
+                    aulas.Add(aula);
+                }
+
+                dbCon.Close();
+            }
+
+            return aulas;
+
+        }
+
+        public Aula get(int codigo)
         {
             var dbCon = db.Instance();
             dbCon.DataBaseName = "sportsmanager";
@@ -64,15 +102,16 @@ namespace ClassesDAO {
 
                 while(reader.Read())
                 {
-/*                    aula = new Aula(reader.GetInt32(0), reader.GetInt32(1), reader.GetFloat(2),
+                    aula = new Aula(reader.GetInt32(0), reader.GetInt32(1), reader.GetFloat(2),
                                                 reader.GetDateTime(3), reader.GetDateTime(4), reader.GetString(5),
-                                                reader.GetInt32(6), reader.GetString(7));
-*/                     
+                                                reader.GetString(6), reader.GetInt32(7));
+                     
                 }
 
                 dbCon.Close();
             }
-           Console.WriteLine(aula.Modalidade);
+
+            return aula;
 
         }
 

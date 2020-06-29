@@ -103,6 +103,7 @@ export async function checkAuthentication(obj) {
 
         await Axios.get(baseURL + `Authentication?${sessionKEY}=${kUid}&${sessionID}=${vUid}`, baseConfig)
             .then(r => {
+                console.log(r);
                 if (r.data.result === 'user' || r.data.result === 'instructor' || r.data.result === 'settings') {
                     obj.setState({ alreadyLogged: r.data.result });
                     obj.setState({ name: r.data.name });
@@ -291,3 +292,115 @@ export async function checkSettings(obj) {
 }
 
 
+
+// Vars instructor
+const classVar = 'classInst';
+const numTicket = 'numTicket';
+const priceTicket = 'priceTicket';
+const dateBegin = 'dateBegin';
+const dateEnd = 'dateEnd';
+const adress = 'adress';
+const instructorEmail = 'instructorEmail';
+const placeId = 'placeId';
+
+/**
+ * 
+ * @param {*} num 
+ * @param {*} price 
+ * @param {*} begin 
+ * @param {*} end 
+ * @param {*} adr 
+ * @param {*} email 
+ * @param {*} place 
+ */
+export function varsClass(num, price, begin, end, adr, email, place) {
+    sessionStorage.setItem(classVar, 'addClass');
+    sessionStorage.setItem(numTicket, num);
+    sessionStorage.setItem(priceTicket, price);
+    sessionStorage.setItem(dateBegin, begin);
+    sessionStorage.setItem(dateEnd, end);
+    sessionStorage.setItem(adress, adr);
+    sessionStorage.setItem(instructorEmail, email);
+    sessionStorage.setItem(placeId, place);
+}
+
+/**
+ * 
+ * @param {*} obj 
+ */
+export async function checkInstructor(obj) {
+    var kUid = localStorage.getItem(sessionKEY);
+    var vUid = localStorage.getItem(sessionID);
+
+    if (vUid !== null && kUid !== null) {
+        await Axios.get(baseURL + `Instructor?${sessionKEY}=${kUid}&${sessionID}=${vUid}`, baseConfig)
+        .then(r => {
+            if (r.data.result === 'instructor') {
+                obj.setState({ alreadyLogged: r.data.result });
+                obj.setState({ name: r.data.name });
+                obj.setState({ data: r.data.info });
+            }
+            else {
+                obj.setState({ alreadyLogged: null });
+                localStorage.removeItem(sessionKEY);
+                localStorage.removeItem(sessionID);
+            }
+        })
+        .catch(() => {
+            obj.setState({ alreadyLogged: errorAPI });
+        });
+    }
+
+}
+
+/**
+ * 
+ * @param {*} obj 
+ */
+export async function checkAddClass(obj) {
+    var kUid = localStorage.getItem(sessionKEY);
+    var vUid = localStorage.getItem(sessionID);
+
+    var addclass = sessionStorage.getItem(classVar);
+    var num = sessionStorage.getItem(numTicket);
+    var price = sessionStorage.getItem(priceTicket);
+    var begin = sessionStorage.getItem(dateBegin);
+    var end = sessionStorage.getItem(dateEnd);
+    var adr = sessionStorage.getItem(adress);
+    var email = sessionStorage.getItem(instructorEmail);
+    var place = sessionStorage.getItem(placeId);
+
+    if (addclass !== null && kUid !== null && vUid !== null) {
+        sessionStorage.removeItem(classVar);
+        sessionStorage.removeItem(numTicket);
+        sessionStorage.removeItem(priceTicket);
+        sessionStorage.removeItem(dateBegin);
+        sessionStorage.removeItem(dateEnd);
+        sessionStorage.removeItem(adress);
+        sessionStorage.removeItem(instructorEmail);
+        sessionStorage.removeItem(placeId);
+
+        obj.setState({ alreadyLogged: 'loading' });
+
+        await Axios.put(baseURL + `Classes?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
+                + `${numTicket}=${num}&`
+                + `${priceTicket}=${price}&`
+                + `${dateBegin}=${begin}&`
+                + `${dateEnd}=${end}&`
+                + `${adress}=${adr}&`
+                + `${instructorEmail}=${email}&`
+                + `${placeId}=${place}&`
+                , baseConfig)
+            .then(r => {
+                if (r.data.result === 'instructor') {
+                    obj.setState({ alreadyLogged: r.data.result });
+                }
+                else {
+                    obj.setState({ alreadyLogged: null });
+                }
+            })
+            .catch(() => {
+                obj.setState({ alreadyLogged: errorAPI });
+            });
+    }
+}

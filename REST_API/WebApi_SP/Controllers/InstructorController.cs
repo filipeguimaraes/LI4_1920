@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Cors;
-using ViewObj;
+using WebApi_SP.ViewObj;
 
 namespace WebApi_SP.Controllers
 {
@@ -16,11 +16,9 @@ namespace WebApi_SP.Controllers
 
         [HttpGet]
         [EnableCors("MyPolicy")]
-        public ActionResult<InstructorPage> Get(bool log)
+        public ActionResult<Object> Get(string ssKey, string ssValue)
         {
-            InstructorPage a = new InstructorPage();
-            a.log = log;
-            return Ok(a);
+            return Ok(new ModelController().Instance().getInstructorPage(ssKey,ssValue));
         }
     }
 }

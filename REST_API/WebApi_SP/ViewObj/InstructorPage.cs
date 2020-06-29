@@ -8,11 +8,7 @@ namespace ViewObj
 {
     public class InstructorPage
     {
-        public Boolean log { get; set; }
 
-        public Utilizador infoPage { get; set;}
-
-        public InstructorPage() { infoPage = new UtilizadorDAO().get("conta"); }
 
     }
 }
