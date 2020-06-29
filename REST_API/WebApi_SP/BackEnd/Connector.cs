@@ -41,7 +41,7 @@ namespace Data {
                     return false;
                 // Server=sportsmanager.mysql.database.azure.com; database={0}; UID=SMAdmin@sportsmanager; password=SportsManager2020
                 // Server=localhost; database={0}; UID=root; password=password
-                string connstring = string.Format("Server=localhost; database={0}; UID=root; password=password", databaseName);
+                string connstring = string.Format("Server=sportsmanager.mysql.database.azure.com; database={0}; UID=SMAdmin@sportsmanager; password=SportsManager2020", databaseName);
                 connection = new MySqlConnection(connstring);
                 connection.Open();
             }

@@ -11,7 +11,7 @@ namespace WebApi_SP.ViewObj
         private string ssKey;
         private string ssValue;
         private string email;
-        private string expire;
+        private string name;
         private T info;
 
         public AuthenticationObj()
@@ -20,7 +20,7 @@ namespace WebApi_SP.ViewObj
             this.ssKey = null;
             this.ssValue = null;
             this.email = null;
-            this.expire = null;
+            this.Expire = null;
         }
 
         public AuthenticationObj(T t){
@@ -28,7 +28,7 @@ namespace WebApi_SP.ViewObj
             this.ssKey = null;
             this.ssValue = null;
             this.email = null;
-            this.expire = null;
+            this.Expire = null;
             this.info = t;
         }
 
@@ -41,7 +41,8 @@ namespace WebApi_SP.ViewObj
         public string SsKey { get => ssKey; set => ssKey = value; }
         public string SsValue { get => ssValue; set => ssValue = value; }
         public string Email { get => email; set => email = value; }
-        public string Expire { get => expire; set => expire = value; }
+        public string Expire { get; set; }
         public T Info { get => info; set => info = value; }
+        public string Name { get => name; set => name = value; }
     }
 }

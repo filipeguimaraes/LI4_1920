@@ -95,18 +95,17 @@ export async function checkLogin(obj) {
  * @param obj: acess this.state.alreadyLogged 
  */
 export async function checkAuthentication(obj) {
-    var lSettings = sessionStorage.getItem(settingsVar);
     var kUid = localStorage.getItem(sessionKEY);
     var vUid = localStorage.getItem(sessionID);
     // var time = localStorage.getItem(sessionTIME);
 
-    if (obj.state.alreadyLogged === 'loading' && lSettings === null && vUid !== null && kUid !== null) {
+    if ((obj.state.alreadyLogged === 'loading' || obj.state.alreadyLogged === 'user' || obj.state.alreadyLogged === null) && vUid !== null && kUid !== null) {
 
         await Axios.get(baseURL + `Authentication?${sessionKEY}=${kUid}&${sessionID}=${vUid}`, baseConfig)
             .then(r => {
                 if (r.data.result === 'user' || r.data.result === 'instructor' || r.data.result === 'settings') {
                     obj.setState({ alreadyLogged: r.data.result });
-                    obj.setState({ name: r.data.email });
+                    obj.setState({ name: r.data.name });
                 }
                 else {
                     obj.setState({ alreadyLogged: null });
@@ -120,14 +119,20 @@ export async function checkAuthentication(obj) {
             });
     }
     else {
-//        obj.setState({ alreadyLogged: null });
-//        localStorage.removeItem(sessionKEY);
-//        localStorage.removeItem(sessionID);
+        obj.setState({ alreadyLogged: null });
+        localStorage.removeItem(sessionKEY);
+        localStorage.removeItem(sessionID);
 //        // localStorage.removeItem(sessionTIME);
     }
 }
 
+
 // Validates da Authentication
+/**
+ * 
+ * @param {*} obj 
+ * @param {*} val 
+ */
 export function validateAuth(obj, val) {
     if (obj.state.alreadyLogged === null) return <Redirect to={{ pathname: '/login' }} />;
     if (obj.state.alreadyLogged === 'loading') return loadingPage();
@@ -141,6 +146,11 @@ const regEmail = 'email';
 const regPass = 'pass';
 const regRePass = 'repass';
 
+
+/**
+ * 
+ * @param {*} obj 
+ */
 export async function checkRegister(obj) {
     var lEmail = sessionStorage.getItem(regEmail);
     var lPass = sessionStorage.getItem(regPass);
@@ -168,6 +178,7 @@ export async function checkRegister(obj) {
     }
 }
 
+
 // Vars settings
 const settingsVar = 'settings';
 const emailSettings = "emailSett";
@@ -182,6 +193,21 @@ const yearSettings = "yearSett";
 const heightSettings = "heightSett";
 const weightSettings = "weightSett";
 
+
+/**
+ * 
+ * @param {*} email 
+ * @param {*} pass 
+ * @param {*} name 
+ * @param {*} gender 
+ * @param {*} address 
+ * @param {*} contact 
+ * @param {*} day 
+ * @param {*} month 
+ * @param {*} year 
+ * @param {*} height 
+ * @param {*} weight 
+ */
 export function varsSettings(email, pass, name, gender, address, contact, day, month, year, height, weight) {
     sessionStorage.setItem(settingsVar, 'change');
     sessionStorage.setItem(emailSettings, email);
@@ -197,6 +223,11 @@ export function varsSettings(email, pass, name, gender, address, contact, day, m
     sessionStorage.setItem(weightSettings, weight);
 }
 
+
+/**
+ * 
+ * @param {*} obj 
+ */
 export async function checkSettings(obj) {
     var lSettings = sessionStorage.getItem(settingsVar);
     var lemail = sessionStorage.getItem(emailSettings);
@@ -246,7 +277,6 @@ export async function checkSettings(obj) {
                 + `${weightSettings}=${lweight}`
                 , baseConfig)
             .then(r => {
-                console.log(r);
                 if (r.data.result === 'user') {
                     obj.setState({ alreadyLogged: r.data.result });
                 }
@@ -260,18 +290,4 @@ export async function checkSettings(obj) {
     }
 }
 
-/** MY SANDBOX OF JS
- *
- *  await axios.get(baseURL+'Instructor?log=true',baseConfig)
-            .then(result => {
-                this.setState({loading: false, logged: result.data.log});
-                if(!localStorage.getItem('instructor object')){
-                    localStorage.setItem('instructor object',JSON.stringify(result.data));
-                    console.log(JSON.parse(localStorage.getItem('instructor object')));
-                }
-                if (!sessionStorage.getItem('time')){
-                    sessionStorage.setItem('time',new Date().toJSON());
-                }
-            })
-            .catch(e => { this.setState({ loading: true, logged: true }); });
- */
+

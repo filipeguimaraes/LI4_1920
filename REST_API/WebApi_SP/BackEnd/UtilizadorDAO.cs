@@ -174,7 +174,7 @@ namespace UserDAO {
                         cmd.CommandText = "UPDATE UTILIZADOR SET telemovel = @val WHERE email = @em";
                         break;
                     case "DOB":
-                        cmd.CommandText = "UPDATE UTILIZADOR SET DOB = @val WHERE email = @em";
+                        cmd.CommandText = "UPDATE UTILIZADOR set DOB = date(@val) WHERE email = @em; ";
                         break;
                     case "altura":
                         cmd.CommandText = "UPDATE UTILIZADOR SET altura = @val WHERE email = @em";
