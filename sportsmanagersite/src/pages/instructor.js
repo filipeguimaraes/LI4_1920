@@ -4,6 +4,9 @@ import '../styles/instructor.css';
 
 import userLogo from '../images/marcelo.jpg';
 
+import MaterialTable from 'material-table';
+import { AddBox, ArrowDownward } from "@material-ui/icons";
+
 import Layout from '../layouts/InstructorLayout';
 import Chart from '../components/Chart.js';
 
@@ -13,26 +16,9 @@ import { checkAuthentication, validateAuth } from '../components/WebAPI';
 export const validInstructor = 'instructor';
 
 let classesData = [
-    {
-        id: 1,
-        name: "Aerobics",
-        place: "Gym",
-        price: "2.90",
-        capacity: "20",
-        begin: "12:00",
-        end: "13:00",
-        editable: false
-    },
-    {
-        id: 2,
-        name: "Cycling",
-        place: "Gym",
-        price: "1.25",
-        capacity: "15",
-        begin: "16:00",
-        end: "17:00",
-        editable: false
-    }
+    { id: 'Aerobics', title: 'Gym', priority: 2.90, type: '20', complete: '12:00', incomplete: '13:00' },
+    { id: 'Cycling', title: 'Gym', priority: 1.25, type: '15', complete: '16:00', incomplete: '17:00' },
+    { id: 'Tennis', title: 'Tennis court', priority: 2.35, type: '6', complete: '18:00', incomplete: '20:00' }
 ];
 
 class Instructor extends Component {
@@ -58,24 +44,24 @@ class Instructor extends Component {
         })
     }
 
-    changeClass(event){
+    changeClass(event) {
         console.log(event);
     }
 
     saveEditable = (classId) => {
         const newArray = this.state.classes.map((row) => (
-            row.id === classId ?  {...row,editable:false}
-                        :
-            row 
+            row.id === classId ? { ...row, editable: false }
+                :
+                row
         ));
         this.setState({ classes: newArray });
     }
 
     makeEditable = (classId) => {
         const newArray = this.state.classes.map((row) => (
-            row.id === classId ?  {...row,editable:true}
-                        :
-            row 
+            row.id === classId ? { ...row, editable: true }
+                :
+                row
         ));
         this.setState({ classes: newArray });
     }
@@ -115,7 +101,10 @@ class Instructor extends Component {
     }
 
     render() {
-        if(this.state.alreadyLogged !== validInstructor) return validateAuth(this, validInstructor);
+        if (this.state.alreadyLogged !== validInstructor) return validateAuth(this, validInstructor);
+
+
+
 
         return (
             <Layout>
@@ -134,70 +123,65 @@ class Instructor extends Component {
                         <Cell col={8} style={{ margin: 'auto' }}>
                             <Chart chartData={this.state.chartData} />
                         </Cell>
-                        <Cell col={12}>
-                            <table className="table-instructor">
-                                <thead>
-                                    <tr>
-                                        <th>Class</th>
-                                        <th>Place</th>
-                                        <th>Price</th>
-                                        <th>Capacity</th>
-                                        <th>Begin</th>
-                                        <th>End</th>
-                                        <th>Actions <button className="add">New</button></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.state.classes.map(c => (
-                                        (
-                                            c.editable ? (
-                                                <tr key={c.id}>
-                                                    <td className="data">
-                                                        <input type="text" name="name" placeholder={c.name} />
-                                                    </td>
-                                                    <td className="data">
-                                                        <input type="text" name="place" placeholder={c.place}/>
-                                                    </td>
-                                                    <td className="data">
-                                                        <input type="text" name="price" placeholder={c.price}/>
-                                                    </td>
-                                                    <td className="data">
-                                                        <input type="text" name="capacity" placeholder={c.capacity}/>
-                                                    </td>
-                                                    <td className="data">
-                                                        <input type="text" name="begin" placeholder={c.begin}/>
-                                                    </td>
-                                                    <td className="data">
-                                                        <input type="text" name="end" placeholder={c.end}/>
-                                                    </td>
-                                                    <td>
-                                                        <input type="submit" value="Save" className="save" onClick={() => this.saveEditable(c.id)}/>
-                                                    </td>
-                                                </tr>
-                                            )
-                                                :
-                                                (
-                                                    <tr key={c.id}>
-                                                        <td className="data">{c.name}</td>
-                                                        <td className="data">{c.place}</td>
-                                                        <td className="data">{c.price}</td>
-                                                        <td className="data">{c.capacity}</td>
-                                                        <td className="data">{c.begin}</td>
-                                                        <td className="data">{c.end}</td>
-                                                        <td>
-                                                            <button onClick={() => this.makeEditable(c.id)} className="edit">Edit</button>
-                                                            <button onClick={() => this.removeClass(c.id)} className="delete">Cancel</button>
-                                                        </td>
-                                                    </tr>
-                                                )
-                                        )
-                                    ))}
-                                </tbody>
-                            </table>
-                        </Cell>
                     </Grid>
+
+
+
+                </div>
+                <div>
+                    <MaterialTable
+                        options={
+                            { showTitle: false },
+                            { actionsColumnIndex: -1 }
+                        }
+                        title=""
+                        columns={[
+                            { title: "Class", field: "id" },
+                            { title: "Place", field: "title" },
+                            { title: "Price", field: "priority", type: "currency" },
+                            { title: "Capacity", field: "type", type: "numeric" },
+                            { title: "Begin", field: "complete", type: "time" },
+                            { title: "End", field: "incomplete", type: "time" }
+                        ]}
+                        data={this.state.classes}
+                        editable={{
+                            onRowAdd: newData =>
+                                new Promise((resolve, reject) => {
+                                    setTimeout(() => {
+                                        /* setData([...data, newData]); */
+
+                                        resolve();
+                                    }, 1000);
+                                }),
+                            onRowUpdate: (newData, oldData) =>
+                                new Promise((resolve, reject) => {
+                                    setTimeout(() => {
+                                        {
+                                            const data = this.state.data;
+                                            const index = data.indexOf(oldData);
+                                            data[index] = newData;
+                                            this.setState({ data }, () => resolve());
+                                        }
+                                        resolve()
+                                    }, 1000)
+                                }),
+                            onRowDelete: (newData, oldData) =>
+                            new Promise((resolve, reject) => {
+                                setTimeout(() => {
+                                    {
+                                        const data = this.state.data;
+                                        const index = data.indexOf(oldData);
+                                        data[index] = newData;
+                                        this.setState({ data }, () => resolve());
+                                    }
+                                    resolve()
+                                }, 1000)
+                            })
+                        }}
+                    />
                 </div>
             </Layout>
+
         );
     }
 }

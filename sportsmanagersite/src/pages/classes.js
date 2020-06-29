@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import Layout from '../layouts/UserLayout';
 
+
+import MaterialTable from 'material-table';
+
 import '../styles/classes.css';
 
 import { checkAuthentication, validateAuth } from '../components/WebAPI';
 import { validUser } from './user';
 
-import TableClasses from '../components/TableClasses';
+//import TableClasses from '../components/TableClasses';
 
 
 const values1 = [
@@ -36,10 +39,55 @@ class Classes extends Component {
 
         return (
             <Layout>
-                <h2 style={{ margin: '35px 0px 0px 75px', color: '#85D8CE' }}>Next classes</h2>
-                <TableClasses data={this.state.data} toRemove={true} />
-                <h2 style={{ margin: '35px 0px 0px 75px', color: '#85D8CE' }}>Available classes</h2>
-                <TableClasses data={this.state.data} toRemove={false} />
+                <h2 style={{ margin: '35px 5px 5px 75px', color: '#85D8CE' }}>Next classes</h2>
+                <MaterialTable
+                    actions={[
+                        {
+                            icon: 'delete',
+                            tooltip: 'Cancel Class',
+                            onClick: (event, rowData) => {
+                                // Do cancel class
+                            }
+                        }
+                    ]}
+                    columns={[
+                        { title: "Class", field: "id" },
+                        { title: "Place", field: "title" },
+                        { title: "Price", field: "priority", type: "currency" },
+                        { title: "Capacity", field: "type", type: "numeric" },
+                        { title: "Begin", field: "complete", type: "time" },
+                        { title: "End", field: "incomplete", type: "time" }
+                    ]}
+                    data={this.state.data}
+                    title=""
+                />
+
+                <h2 style={{ margin: '35px 5px 5px 75px', color: '#85D8CE' }}>Available classes</h2>
+                <MaterialTable
+                    columns={[
+                        { title: "Class", field: "id" },
+                        { title: "Place", field: "title" },
+                        { title: "Price", field: "priority", type: "currency" },
+                        { title: "Capacity", field: "type", type: "numeric" },
+                        { title: "Begin", field: "complete", type: "time" },
+                        { title: "End", field: "incomplete", type: "time" }
+                    ]}
+                    data={this.state.data}
+                    title=""
+                    detailPanel={rowData => {
+                        return (
+                            <iframe
+                                width="100%"
+                                height="315"
+                                src="https://www.youtube.com/embed/C0DPdy98e4c"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen
+                            />
+                        )
+                    }}
+                />
+
             </Layout>
         );
     }
