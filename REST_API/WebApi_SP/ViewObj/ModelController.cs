@@ -23,6 +23,8 @@ namespace WebApi_SP.ViewObj
         private MemoryCache sessionsCache;
         public MemoryCache SessionsCache { get => sessionsCache; set => sessionsCache = value; }
 
+        
+
         private static ModelController _instance = null;
 
 
@@ -32,6 +34,7 @@ namespace WebApi_SP.ViewObj
                 _instance = new ModelController();
             return _instance;
         }
+
 
         public AuthenticationObj<Object> Login(string email, string password)
         {
@@ -273,7 +276,7 @@ namespace WebApi_SP.ViewObj
             return authObj;
         }
 
-        public Object buyClass(string ssKey, string ssValue, int classId)
+        public Object buyClasse(string ssKey, string ssValue, int classId)
         {
             Object l = sessionsCache.Get(ssKey + ssValue);
             AuthenticationObj<Object> authObj = (AuthenticationObj<Object>)l;
@@ -329,6 +332,20 @@ namespace WebApi_SP.ViewObj
             else return null;
 
             return authObj;
+        }
+
+
+        public Object getPlacesPage(string ssKey, string ssValue)
+        {
+            throw new NotImplementedException();
+        }
+        public Object RentSpace(string ssKey, string ssValue)
+        {
+            throw new NotImplementedException();
+        }
+        public Object refundRentSpace(string ssKey, string ssValue)
+        {
+            throw new NotImplementedException();
         }
 
     }

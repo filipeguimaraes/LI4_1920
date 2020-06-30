@@ -16,7 +16,7 @@ namespace WebApi_SP.Controllers
 
         [HttpGet]
         [EnableCors("MyPolicy")]
-        public ActionResult<Object> UserBuyClass(string ssKey, string ssValue)
+        public ActionResult<Object> GetClasses(string ssKey, string ssValue)
         {
             return Ok(new ModelController().Instance().getClassesPage(ssKey, ssValue));
         }
@@ -25,7 +25,7 @@ namespace WebApi_SP.Controllers
         [EnableCors("MyPolicy")]
         public ActionResult<Object> UserBuyClass(string ssKey, string ssValue, int classId)
         {
-            return Ok(new ModelController().Instance().buyClass(ssKey, ssValue, classId));
+            return Ok(new ModelController().Instance().buyClasse(ssKey, ssValue, classId));
         }
 
         [HttpDelete]
