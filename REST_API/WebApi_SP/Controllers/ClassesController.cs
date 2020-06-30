@@ -28,5 +28,14 @@ namespace WebApi_SP.Controllers
         {
             return Ok(new ModelController().Instance().instructorDeleteClass(ssKey, ssValue, classId));
         }
+
+        [HttpPost]
+        [EnableCors("MyPolicy")]
+        public ActionResult<Object> Post(string ssKey, string ssValue, int classId, int numTicket, string priceTicket,
+            string dateBegin, string dateEnd, string modality, int placeId)
+        {
+            return Ok(new ModelController().Instance().instructorUpdateClass(ssKey, ssValue, classId, numTicket, 
+                priceTicket, dateBegin, dateEnd, modality, placeId));
+        }
     }
 }

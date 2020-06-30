@@ -10,7 +10,7 @@ import { AddBox, ArrowDownward } from "@material-ui/icons";
 import Layout from '../layouts/InstructorLayout';
 import Chart from '../components/Chart.js';
 
-import { checkAuthentication, validateAuth, checkInstructor, varsClass, checkAddClass, checkDeleteClass } from '../components/WebAPI';
+import { checkAuthentication, validateAuth, checkInstructor, varsClass, checkAddClass, checkDeleteClass, checkUpdateClass } from '../components/WebAPI';
 
 
 export const validInstructor = 'instructor';
@@ -36,7 +36,6 @@ class Instructor extends Component {
 
     async componentWillMount() {
         this.getChartData();
-        //await checkAddClass(this);
         await checkAuthentication(this);
         await checkInstructor(this);
     }
@@ -159,7 +158,8 @@ class Instructor extends Component {
                                             new Date(newData.dataFIM).toISOString(),
                                             newData.modalidade,
                                             this.state.email,
-                                            newData.codEspaco
+                                            newData.codEspaco,
+                                            'addClass'
                                         );
 
                                         checkAddClass(this);
@@ -171,9 +171,18 @@ class Instructor extends Component {
                                 new Promise((resolve, reject) => {
                                     setTimeout(() => {
                                         {
-                                            console.log(newData);
-                                            console.log(this.state.classes);
-                                            // update
+                                            varsClass(
+                                                parseInt(newData.numBilhetes),
+                                                newData.precoBilhete,
+                                                new Date(newData.dataINI).toISOString(),
+                                                new Date(newData.dataFIM).toISOString(),
+                                                newData.modalidade,
+                                                this.state.email,
+                                                parseInt(newData.codEspaco),
+                                                'updateClass'
+                                            );
+                                            
+                                            checkUpdateClass(this,newData.codAula);
                                         }
                                         resolve()
                                     }, 1000)

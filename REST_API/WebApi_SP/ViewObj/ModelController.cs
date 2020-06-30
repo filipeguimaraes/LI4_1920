@@ -227,7 +227,7 @@ namespace WebApi_SP.ViewObj
         }
 
 
-        internal object instructorDeleteClass(string ssKey, string ssValue, int classId)
+        public object instructorDeleteClass(string ssKey, string ssValue, int classId)
         {
             Object l = sessionsCache.Get(ssKey + ssValue);
             AuthenticationObj<Object> authObj = (AuthenticationObj<Object>)l;
@@ -240,6 +240,31 @@ namespace WebApi_SP.ViewObj
 
 
                 new AulaDAO().remove(classId);
+
+                authObj.Info = new AulaDAO().getAulasBy("email", authObj.Email);
+            }
+            else return null;
+
+            return authObj;
+        }
+
+        public Object instructorUpdateClass(string ssKey, string ssValue, int classId, int numTicket, string priceTicket, string dateBegin, string dateEnd, string modality, int placeId)
+        {
+            Object l = sessionsCache.Get(ssKey + ssValue);
+            AuthenticationObj<Object> authObj = (AuthenticationObj<Object>)l;
+
+            if (authObj != null && authObj.Result.Equals("instructor"))
+            {
+                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
+                sessionsCache.Set(ssKey + ssValue, l, d);
+
+                new AulaDAO().update(classId, "num_bilhetes", numTicket.ToString());
+                new AulaDAO().update(classId, "preco_bilhete", priceTicket);
+                new AulaDAO().update(classId, "data_ini", DateTime.Parse(dateBegin).ToString("yyyy-MM-dd HH:mm:ss"));
+                new AulaDAO().update(classId, "data_fim", DateTime.Parse(dateEnd).ToString("yyyy-MM-dd HH:mm:ss"));
+                new AulaDAO().update(classId, "modalidade", modality);
+                new AulaDAO().update(classId, "espaco", placeId.ToString());
 
                 authObj.Info = new AulaDAO().getAulasBy("email", authObj.Email);
             }

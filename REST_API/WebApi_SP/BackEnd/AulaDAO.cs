@@ -135,7 +135,7 @@ namespace ClassesDAO {
                         cmd.CommandText = "UPDATE AULA SET num_bilhetes = @val WHERE cod_aula = @em";
                         break;
                     case "preco_bilhete":
-                        cmd.CommandText = "UPDATE AULA SET preco_bilhete = @val WHERE cod_aula = @em";
+                        cmd.CommandText = "UPDATE AULA SET preco_bilhete = CAST(@val AS DECIMAL(10,6)) WHERE cod_aula = @em";
                         break;
                     case "data_ini":
                         cmd.CommandText = "UPDATE AULA SET data_ini = @val WHERE cod_aula = @em";
@@ -147,7 +147,7 @@ namespace ClassesDAO {
                         cmd.CommandText = "UPDATE AULA SET modalidade = @val WHERE cod_aula = @em";
                         break;
                     case "espaco":
-                        cmd.CommandText = "UPDATE AULA SET espaco = @val WHERE cod_aula = @em";
+                        cmd.CommandText = "UPDATE AULA SET ESPACOS_cod_espaco = @val WHERE cod_aula = @em";
                         break;
                     case "email":
                         cmd.CommandText = "UPDATE AULA SET email = @val WHERE cod_aula = @em";
