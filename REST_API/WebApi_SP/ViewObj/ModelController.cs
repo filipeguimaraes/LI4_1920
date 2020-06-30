@@ -339,11 +339,13 @@ namespace WebApi_SP.ViewObj
         {
             throw new NotImplementedException();
         }
-        public Object RentSpace(string ssKey, string ssValue)
+
+        public Object RentSpace(string ssKey, string ssValue, int placeId, string dateBegin, string dateEnd)
         {
             throw new NotImplementedException();
         }
-        public Object refundRentSpace(string ssKey, string ssValue)
+
+        public Object refundRentSpace(string ssKey, string ssValue, int placeId)
         {
             throw new NotImplementedException();
         }

@@ -22,16 +22,16 @@ namespace WebApi_SP.Controllers
 
         [HttpPut]
         [EnableCors("MyPolicy")]
-        public ActionResult<Object> RentSpace(string ssKey, string ssValue)
+        public ActionResult<Object> RentSpace(string ssKey, string ssValue, int placeId, string dateBegin, string dateEnd)
         {
-            return Ok(new ModelController().Instance().RentSpace(ssKey, ssValue));
+            return Ok(new ModelController().Instance().RentSpace(ssKey, ssValue, placeId, dateBegin, dateEnd));
         }
 
         [HttpDelete]
         [EnableCors("MyPolicy")]
-        public ActionResult<Object> refundRentSpace(string ssKey, string ssValue)
+        public ActionResult<Object> refundRentSpace(string ssKey, string ssValue, int placeId)
         {
-            return Ok(new ModelController().Instance().refundRentSpace(ssKey, ssValue));
+            return Ok(new ModelController().Instance().refundRentSpace(ssKey, ssValue, placeId));
         }
     }
 }
