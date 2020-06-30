@@ -3,6 +3,7 @@ using Classes;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using Data;
+using System.Collections.Generic;
 
 namespace ClassesDAO {
 
@@ -23,15 +24,16 @@ namespace ClassesDAO {
             {
                 var cmd = new MySqlCommand();
                 cmd.Connection = dbCon.Connection;
-                cmd.CommandText = "Insert INTO AULA(num_bilhetes, preco_bilhete, data_ini, data_fim, modalidade, email, espaco) VALUES(@numBilhetes, @precoBilhete, @dataI, @dataF, @mod, @em, @codEs)";
-               
+                //cmd.CommandText = "Insert INTO AULA(num_bilhetes, preco_bilhete, data_ini, data_fim, modalidade, email, espaco) VALUES(@numBilhetes, @precoBilhete, @dataI, @dataF, @mod, @em, @codEs)";
+                cmd.CommandText = "Insert INTO AULA(cod_aula,num_bilhetes, preco_bilhete, data_ini, data_fim, modalidade, email, ESPACOS_cod_espaco) VALUES((select count(*) + 1 from aula a),@numBilhetes, @precoBilhete, @dataI, @dataF, @mod, @em, @codEs)";
+
                 cmd.Prepare();
 
                 //cmd.Parameters.AddWithValue("@codAula", aula.CodAula);
                 cmd.Parameters.AddWithValue("@numBilhetes", aula.NumBilhetes);
                 cmd.Parameters.AddWithValue("@precoBilhete", aula.PrecoBilhete);
-                cmd.Parameters.AddWithValue("@dataI", aula.DataINI.ToString("yyyy-MM-dd HH:mm"));
-                cmd.Parameters.AddWithValue("@dataF", aula.DataFIM.ToString("yyyy-MM-dd HH:mm"));
+                cmd.Parameters.AddWithValue("@dataI", aula.DataINI);
+                cmd.Parameters.AddWithValue("@dataF", aula.DataFIM);
                 cmd.Parameters.AddWithValue("@mod", aula.Modalidade);
                 cmd.Parameters.AddWithValue("@codEs", aula.CodEspaco);
                 cmd.Parameters.AddWithValue("@em", aula.Email);
@@ -42,7 +44,44 @@ namespace ClassesDAO {
             }
         }
 
-        public void get(int codigo)
+
+        public List<Aula> getAulasBy(string param, string input)
+        {
+            var dbCon = db.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+            Aula aula = null;
+            List<Aula> aulas = new List<Aula>();
+
+            if (dbCon.IsConnect())
+            {
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                cmd.CommandText = "SELECT * FROM AULA WHERE " + param + " = @input";
+
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@input", input);
+
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    aula = new Aula(reader.GetInt32(0), reader.GetInt32(1), reader.GetFloat(2),
+                                                reader.GetDateTime(3), reader.GetDateTime(4), reader.GetString(5),
+                                                reader.GetString(6), reader.GetInt32(7));
+                    aulas.Add(aula);
+                }
+
+                dbCon.Close();
+            }
+
+            return aulas;
+
+        }
+
+        public Aula get(int codigo)
         {
             var dbCon = db.Instance();
             dbCon.DataBaseName = "sportsmanager";
@@ -64,15 +103,16 @@ namespace ClassesDAO {
 
                 while(reader.Read())
                 {
-/*                    aula = new Aula(reader.GetInt32(0), reader.GetInt32(1), reader.GetFloat(2),
+                    aula = new Aula(reader.GetInt32(0), reader.GetInt32(1), reader.GetFloat(2),
                                                 reader.GetDateTime(3), reader.GetDateTime(4), reader.GetString(5),
-                                                reader.GetInt32(6), reader.GetString(7));
-*/                     
+                                                reader.GetString(6), reader.GetInt32(7));
+                     
                 }
 
                 dbCon.Close();
             }
-           Console.WriteLine(aula.Modalidade);
+
+            return aula;
 
         }
 
@@ -95,7 +135,7 @@ namespace ClassesDAO {
                         cmd.CommandText = "UPDATE AULA SET num_bilhetes = @val WHERE cod_aula = @em";
                         break;
                     case "preco_bilhete":
-                        cmd.CommandText = "UPDATE AULA SET preco_bilhete = @val WHERE cod_aula = @em";
+                        cmd.CommandText = "UPDATE AULA SET preco_bilhete = CAST(@val AS DECIMAL(10,6)) WHERE cod_aula = @em";
                         break;
                     case "data_ini":
                         cmd.CommandText = "UPDATE AULA SET data_ini = @val WHERE cod_aula = @em";
@@ -107,7 +147,7 @@ namespace ClassesDAO {
                         cmd.CommandText = "UPDATE AULA SET modalidade = @val WHERE cod_aula = @em";
                         break;
                     case "espaco":
-                        cmd.CommandText = "UPDATE AULA SET espaco = @val WHERE cod_aula = @em";
+                        cmd.CommandText = "UPDATE AULA SET ESPACOS_cod_espaco = @val WHERE cod_aula = @em";
                         break;
                     case "email":
                         cmd.CommandText = "UPDATE AULA SET email = @val WHERE cod_aula = @em";

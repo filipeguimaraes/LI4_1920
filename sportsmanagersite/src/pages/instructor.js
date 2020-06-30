@@ -10,7 +10,7 @@ import { AddBox, ArrowDownward } from "@material-ui/icons";
 import Layout from '../layouts/InstructorLayout';
 import Chart from '../components/Chart.js';
 
-import { checkAuthentication, validateAuth } from '../components/WebAPI';
+import { checkAuthentication, validateAuth, checkInstructor, varsClass, checkAddClass, checkDeleteClass, checkUpdateClass } from '../components/WebAPI';
 
 
 export const validInstructor = 'instructor';
@@ -28,14 +28,16 @@ class Instructor extends Component {
         this.state = {
             chartData: {},
             classes: [],
+            name: 'N/A',
+            email: 'N/A',
             alreadyLogged: 'loading'
         }
     }
 
     async componentWillMount() {
         this.getChartData();
-        this.getClassesData();
         await checkAuthentication(this);
+        await checkInstructor(this);
     }
 
     getClassesData() {
@@ -117,7 +119,7 @@ class Instructor extends Component {
                                     alt="Imagem"
                                     className="profile-instructor-img"
                                 />
-                                <h3 style={{ color: '#85D8CE', textAlign: "center" }}>Welcome,  John!</h3>
+                                <h3 style={{ color: '#85D8CE', textAlign: "center" }}>Welcome,  {this.state.name}!</h3>
                             </div>
                         </Cell>
                         <Cell col={8} style={{ margin: 'auto' }}>
@@ -136,19 +138,31 @@ class Instructor extends Component {
                         }
                         title=""
                         columns={[
-                            { title: "Class", field: "id" },
-                            { title: "Place", field: "title" },
-                            { title: "Price", field: "priority", type: "currency" },
-                            { title: "Capacity", field: "type", type: "numeric" },
-                            { title: "Begin", field: "complete", type: "time" },
-                            { title: "End", field: "incomplete", type: "time" }
+                            { title: "Class", field: "modalidade" },
+                            { title: "Place", field: "codEspaco", type: "numeric" },
+                            { title: "Price", field: "precoBilhete", type: "currency" },
+                            { title: "Capacity", field: "numBilhetes", type: "numeric" },
+                            { title: "Begin", field: "dataINI", type: "datetime" },
+                            { title: "End", field: "dataFIM", type: "datetime" }
                         ]}
                         data={this.state.classes}
                         editable={{
                             onRowAdd: newData =>
                                 new Promise((resolve, reject) => {
                                     setTimeout(() => {
-                                        /* setData([...data, newData]); */
+                                        
+                                        varsClass(
+                                            newData.numBilhetes,
+                                            newData.precoBilhete,
+                                            new Date(newData.dataINI).toISOString(),
+                                            new Date(newData.dataFIM).toISOString(),
+                                            newData.modalidade,
+                                            this.state.email,
+                                            newData.codEspaco,
+                                            'addClass'
+                                        );
+
+                                        checkAddClass(this);
 
                                         resolve();
                                     }, 1000);
@@ -157,10 +171,18 @@ class Instructor extends Component {
                                 new Promise((resolve, reject) => {
                                     setTimeout(() => {
                                         {
-                                            const data = this.state.data;
-                                            const index = data.indexOf(oldData);
-                                            data[index] = newData;
-                                            this.setState({ data }, () => resolve());
+                                            varsClass(
+                                                parseInt(newData.numBilhetes),
+                                                newData.precoBilhete,
+                                                new Date(newData.dataINI).toISOString(),
+                                                new Date(newData.dataFIM).toISOString(),
+                                                newData.modalidade,
+                                                this.state.email,
+                                                parseInt(newData.codEspaco),
+                                                'updateClass'
+                                            );
+                                            
+                                            checkUpdateClass(this,newData.codAula);
                                         }
                                         resolve()
                                     }, 1000)
@@ -169,10 +191,8 @@ class Instructor extends Component {
                             new Promise((resolve, reject) => {
                                 setTimeout(() => {
                                     {
-                                        const data = this.state.data;
-                                        const index = data.indexOf(oldData);
-                                        data[index] = newData;
-                                        this.setState({ data }, () => resolve());
+                                        checkDeleteClass(this,newData.codAula);
+                                        console.log(newData);
                                     }
                                     resolve()
                                 }, 1000)

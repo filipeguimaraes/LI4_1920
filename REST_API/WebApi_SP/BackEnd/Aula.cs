@@ -28,6 +28,18 @@ namespace Classes {
             this.Email = email;
         }
 
+        public Aula(int v1, int v2, float v3, DateTime dateTime1, DateTime dateTime2, string v4, string v5, int v6)
+        {
+            this.codAula = v1;
+            this.NumBilhetes = v2;
+            this.PrecoBilhete = v3;
+            this.DataINI = dateTime1;
+            this.DataFIM = dateTime2;
+            this.Modalidade = v4;
+            this.CodEspaco = v6;
+            this.Email = v5;
+        }
+
         public int CodAula { get => codAula; set => codAula = value; }
         public int NumBilhetes { get => numBilhetes; set => numBilhetes = value; }
         public float PrecoBilhete { get => precoBilhete; set => precoBilhete = value; }

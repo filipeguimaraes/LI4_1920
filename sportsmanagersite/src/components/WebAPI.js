@@ -122,7 +122,7 @@ export async function checkAuthentication(obj) {
         obj.setState({ alreadyLogged: null });
         localStorage.removeItem(sessionKEY);
         localStorage.removeItem(sessionID);
-//        // localStorage.removeItem(sessionTIME);
+        //        // localStorage.removeItem(sessionTIME);
     }
 }
 
@@ -241,7 +241,7 @@ export async function checkSettings(obj) {
     var lyear = sessionStorage.getItem(yearSettings);
     var lheight = sessionStorage.getItem(heightSettings);
     var lweight = sessionStorage.getItem(weightSettings);
-    
+
     var kUid = localStorage.getItem(sessionKEY);
     var vUid = localStorage.getItem(sessionID);
 
@@ -259,23 +259,23 @@ export async function checkSettings(obj) {
         sessionStorage.removeItem(yearSettings);
         sessionStorage.removeItem(heightSettings);
         sessionStorage.removeItem(weightSettings);
-        
+
         obj.setState({ alreadyLogged: 'loading' });
 
-        await Axios.get(baseURL 
-                + `Settings?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
-                + `${emailSettings}=${lemail}&`
-                + `${passwordSettings}=${lpass}&`
-                + `${usernameSettings}=${lname}&`
-                + `${genderSettings}=${lgender}&`
-                + `${addressSettings}=${laddress}&`
-                + `${contactSettings}=${lcontact}&`
-                + `${daySettings}=${lday}&`
-                + `${monthSettings}=${lmonth}&`
-                + `${yearSettings}=${lyear}&`
-                + `${heightSettings}=${lheight}&`
-                + `${weightSettings}=${lweight}`
-                , baseConfig)
+        await Axios.get(baseURL
+            + `Settings?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
+            + `${emailSettings}=${lemail}&`
+            + `${passwordSettings}=${lpass}&`
+            + `${usernameSettings}=${lname}&`
+            + `${genderSettings}=${lgender}&`
+            + `${addressSettings}=${laddress}&`
+            + `${contactSettings}=${lcontact}&`
+            + `${daySettings}=${lday}&`
+            + `${monthSettings}=${lmonth}&`
+            + `${yearSettings}=${lyear}&`
+            + `${heightSettings}=${lheight}&`
+            + `${weightSettings}=${lweight}`
+            , baseConfig)
             .then(r => {
                 if (r.data.result === 'user') {
                     obj.setState({ alreadyLogged: r.data.result });
@@ -291,3 +291,187 @@ export async function checkSettings(obj) {
 }
 
 
+
+// Vars instructor
+const classVar = 'classInst';
+const numTicket = 'numTicket';
+const priceTicket = 'priceTicket';
+const dateBegin = 'dateBegin';
+const dateEnd = 'dateEnd';
+const modality = 'modality';
+const instructorEmail = 'instructorEmail';
+const placeId = 'placeId';
+const classId = 'classId';
+
+/**
+ * 
+ * @param {*} num 
+ * @param {*} price 
+ * @param {*} begin 
+ * @param {*} end 
+ * @param {*} mod 
+ * @param {*} email 
+ * @param {*} place 
+ */
+export function varsClass(num, price, begin, end, mod, email, place, flag) {
+    sessionStorage.setItem(classVar, flag);
+    sessionStorage.setItem(numTicket, num);
+    sessionStorage.setItem(priceTicket, price);
+    sessionStorage.setItem(dateBegin, begin);
+    sessionStorage.setItem(dateEnd, end);
+    sessionStorage.setItem(modality, mod);
+    sessionStorage.setItem(instructorEmail, email);
+    sessionStorage.setItem(placeId, place);
+}
+
+/**
+ * 
+ * @param {*} obj 
+ */
+export async function checkInstructor(obj) {
+    var kUid = localStorage.getItem(sessionKEY);
+    var vUid = localStorage.getItem(sessionID);
+
+    if (vUid !== null && kUid !== null) {
+        await Axios.get(baseURL + `Instructor?${sessionKEY}=${kUid}&${sessionID}=${vUid}`, baseConfig)
+            .then(r => {
+                if (r.data.result === 'instructor') {
+                    obj.setState({ alreadyLogged: r.data.result });
+                    obj.setState({ name: r.data.name });
+                    obj.setState({ email: r.data.email });
+                    obj.setState({ classes: r.data.info });
+                }
+                else {
+                    obj.setState({ alreadyLogged: null });
+                    localStorage.removeItem(sessionKEY);
+                    localStorage.removeItem(sessionID);
+                }
+            })
+            .catch(() => {
+                obj.setState({ alreadyLogged: errorAPI });
+            });
+    }
+
+}
+
+/**
+ * 
+ * @param {*} obj 
+ */
+export async function checkAddClass(obj) {
+    var kUid = localStorage.getItem(sessionKEY);
+    var vUid = localStorage.getItem(sessionID);
+
+    var addclass = sessionStorage.getItem(classVar);
+    var num = sessionStorage.getItem(numTicket);
+    var price = sessionStorage.getItem(priceTicket);
+    var begin = sessionStorage.getItem(dateBegin);
+    var end = sessionStorage.getItem(dateEnd);
+    var mod = sessionStorage.getItem(modality);
+    var email = sessionStorage.getItem(instructorEmail);
+    var place = sessionStorage.getItem(placeId);
+
+    if (addclass !== null && kUid !== null && vUid !== null) {
+        sessionStorage.removeItem(classVar);
+        sessionStorage.removeItem(numTicket);
+        sessionStorage.removeItem(priceTicket);
+        sessionStorage.removeItem(dateBegin);
+        sessionStorage.removeItem(dateEnd);
+        sessionStorage.removeItem(modality);
+        sessionStorage.removeItem(instructorEmail);
+        sessionStorage.removeItem(placeId);
+
+        await Axios.put(baseURL + `Classes?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
+            + `${numTicket}=${num}&`
+            + `${priceTicket}=${price}&`
+            + `${dateBegin}=${begin}&`
+            + `${dateEnd}=${end}&`
+            + `${modality}=${mod}&`
+            + `${instructorEmail}=${email}&`
+            + `${placeId}=${place}`
+            , baseConfig)
+            .then(r => {
+                console.log(r);
+                if (r.data.result === 'instructor') {
+                    obj.setState({ alreadyLogged: r.data.result });
+                    obj.setState({ classes: r.data.info });
+                }
+                else {
+                    obj.setState({ alreadyLogged: null });
+                }
+            })
+            .catch(e => {
+                console.log(e);
+                obj.setState({ alreadyLogged: errorAPI });
+            });
+
+    }
+}
+
+export async function checkDeleteClass(obj, classId) {
+    var kUid = localStorage.getItem(sessionKEY);
+    var vUid = localStorage.getItem(sessionID);
+
+    await Axios.delete(baseURL + `Classes?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
+        + `classId=${classId}`
+        , baseConfig)
+        .then(r => {
+            if (r.data.result === 'instructor') {
+                obj.setState({ alreadyLogged: r.data.result });
+                obj.setState({ classes: r.data.info });
+            }
+            else {
+                obj.setState({ alreadyLogged: null });
+            }
+        })
+        .catch(() => {
+            obj.setState({ alreadyLogged: errorAPI });
+        });
+}
+
+export async function checkUpdateClass(obj, c) {
+    var kUid = localStorage.getItem(sessionKEY);
+    var vUid = localStorage.getItem(sessionID);
+
+    var addclass = sessionStorage.getItem(classVar);
+    var num = sessionStorage.getItem(numTicket);
+    var price = sessionStorage.getItem(priceTicket);
+    var begin = sessionStorage.getItem(dateBegin);
+    var end = sessionStorage.getItem(dateEnd);
+    var mod = sessionStorage.getItem(modality);
+    var place = sessionStorage.getItem(placeId);
+
+    if (addclass !== null && kUid !== null && vUid !== null) {
+        sessionStorage.removeItem(classVar);
+        sessionStorage.removeItem(numTicket);
+        sessionStorage.removeItem(priceTicket);
+        sessionStorage.removeItem(dateBegin);
+        sessionStorage.removeItem(dateEnd);
+        sessionStorage.removeItem(modality);
+        sessionStorage.removeItem(instructorEmail);
+        sessionStorage.removeItem(placeId);
+
+        await Axios.post(baseURL + `Classes?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
+            + `${classId}=${c}&`
+            + `${numTicket}=${num}&`
+            + `${priceTicket}=${price}&`
+            + `${dateBegin}=${begin}&`
+            + `${dateEnd}=${end}&`
+            + `${modality}=${mod}&`
+            + `${placeId}=${place}`
+            , baseConfig)
+            .then(r => {
+                if (r.data.result === 'instructor') {
+                    obj.setState({ alreadyLogged: r.data.result });
+                    obj.setState({ classes: r.data.info });
+                }
+                else {
+                    obj.setState({ alreadyLogged: null });
+                }
+            })
+            .catch(() => {
+                obj.setState({ alreadyLogged: errorAPI });
+            });
+
+    }
+}
