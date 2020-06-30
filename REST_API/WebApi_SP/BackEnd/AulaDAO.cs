@@ -45,7 +45,7 @@ namespace ClassesDAO {
         }
 
 
-        public List<Aula> getAulasWhere(string param, string input)
+        public List<Aula> getAulasWhere(string param, string eq, string input)
         {
             var dbCon = db.Instance();
             dbCon.DataBaseName = "sportsmanager";
@@ -56,7 +56,7 @@ namespace ClassesDAO {
             {
                 var cmd = new MySqlCommand();
                 cmd.Connection = dbCon.Connection;
-                cmd.CommandText = "SELECT * FROM AULA WHERE " + param + " = @input";
+                cmd.CommandText = "SELECT * FROM AULA WHERE " + param + " "+eq+" @input";
 
                 cmd.Prepare();
 
@@ -81,6 +81,81 @@ namespace ClassesDAO {
 
         }
 
+
+        public List<Aula> getAulasByUtilizador(string email)
+        {
+            var dbCon = db.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+            Aula aula = null;
+            List<Aula> aulas = new List<Aula>();
+
+            if (dbCon.IsConnect())
+            {
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                cmd.CommandText = "SELECT DISTINCT a.* FROM AULA a, FREQUENTA f WHERE a.cod_aula = f.cod_aula AND f.email = @email AND a.data_ini > @date";
+
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    aula = new Aula(reader.GetInt32(0), reader.GetInt32(1), reader.GetFloat(2),
+                                                reader.GetDateTime(3), reader.GetDateTime(4), reader.GetString(5),
+                                                reader.GetString(6), reader.GetInt32(7));
+                    aulas.Add(aula);
+                }
+
+                dbCon.Close();
+            }
+
+            return aulas;
+
+        }
+
+
+        public List<Aula> getAulasByUtilizadorNotBought(string email)
+        {
+            var dbCon = db.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+            Aula aula = null;
+            List<Aula> aulas = new List<Aula>();
+
+            if (dbCon.IsConnect())
+            {
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                cmd.CommandText = "SELECT a.* FROM AULA a WHERE a.cod_aula not in (SELECT DISTINCT a.cod_aula FROM AULA a, FREQUENTA f WHERE a.cod_aula = f.cod_aula AND f.email = 'conta' AND a.data_ini > now()) AND a.data_ini > now()";
+
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    aula = new Aula(reader.GetInt32(0), reader.GetInt32(1), reader.GetFloat(2),
+                                                reader.GetDateTime(3), reader.GetDateTime(4), reader.GetString(5),
+                                                reader.GetString(6), reader.GetInt32(7));
+                    aulas.Add(aula);
+                }
+
+                dbCon.Close();
+            }
+
+            return aulas;
+
+        }
 
         public Aula get(int codigo)
         {
@@ -298,6 +373,29 @@ namespace ClassesDAO {
             return disponivel;
         }
 
+        public void deleteTicket(string email, int classId)
+        {
+            var dbCon = db.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+
+            if (dbCon.IsConnect())
+            {
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+
+                cmd.CommandText = "DELETE FROM FREQUENTA WHERE cod_aula = @classId AND email = @email";
+
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@classId", classId);
+                cmd.Parameters.AddWithValue("@email", email);
+
+                cmd.ExecuteNonQuery();
+
+                dbCon.Close();
+            }
+        }
+
         public void addUserToAula(int codAula, string email)
         {
             var dbCon = db.Instance();
@@ -310,7 +408,7 @@ namespace ClassesDAO {
                 
                 cmd.CommandText = "INSERT INTO FREQUENTA VALUES(@em, @a)";
 
-                cmd.Connection.Open(); 
+                //cmd.Connection.Open(); 
 
                 cmd.Prepare();
 
