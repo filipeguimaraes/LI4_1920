@@ -73,12 +73,14 @@ namespace WebApi_SP.ViewObj
         public Object Authentication(string ssKey, string ssValue)
         {
             Object l = sessionsCache.Get(ssKey + ssValue);
+            
             if (l != null) {
                 AuthenticationObj<Object> authObj = (AuthenticationObj<Object>) l;
                 DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue,l,d);
             }
+
             return l;
         }
 
@@ -186,6 +188,11 @@ namespace WebApi_SP.ViewObj
 
             if (authObj != null && authObj.Result.Equals("instructor"))
             {
+                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
+                sessionsCache.Set(ssKey + ssValue, l, d);
+
+
                 authObj.Info = new AulaDAO().getAulasBy("email",authObj.Email);
             }
             else return null;
@@ -202,10 +209,39 @@ namespace WebApi_SP.ViewObj
 
             if (authObj != null && authObj.Result.Equals("instructor"))
             {
+                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
+                sessionsCache.Set(ssKey + ssValue, l, d);
+
+
                 Aula aula = new Aula(numTicket,priceTicket,DateTime.Parse(dateBegin),DateTime.Parse(dateEnd),
                     adress,instructorEmail,placeId);
 
                 new AulaDAO().put(aula);
+
+                authObj.Info = new AulaDAO().getAulasBy("email", authObj.Email);
+            }
+            else return null;
+
+            return authObj;
+        }
+
+
+        internal object instructorDeleteClass(string ssKey, string ssValue, int classId)
+        {
+            Object l = sessionsCache.Get(ssKey + ssValue);
+            AuthenticationObj<Object> authObj = (AuthenticationObj<Object>)l;
+
+            if (authObj != null && authObj.Result.Equals("instructor"))
+            {
+                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
+                sessionsCache.Set(ssKey + ssValue, l, d);
+
+
+                new AulaDAO().remove(classId);
+
+                authObj.Info = new AulaDAO().getAulasBy("email", authObj.Email);
             }
             else return null;
 

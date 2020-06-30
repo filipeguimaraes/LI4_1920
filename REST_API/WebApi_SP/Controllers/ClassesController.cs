@@ -13,14 +13,20 @@ namespace WebApi_SP.Controllers
     [ApiController]
     public class ClassesController : ControllerBase
     {
-
         [HttpPut]
         [EnableCors("MyPolicy")]
-        public ActionResult<Object> Get(string ssKey, string ssValue, int numTicket, float priceTicket, 
-            string dateBegin, string dateEnd, string adress, string instructorEmail, int placeId)
+        public ActionResult<Object> Put(string ssKey, string ssValue, int numTicket, float priceTicket, 
+            string dateBegin, string dateEnd, string modality, string instructorEmail, int placeId)
         {
             return Ok(new ModelController().Instance().instructorAddClass(ssKey, ssValue, numTicket, priceTicket, 
-                dateBegin, dateEnd, adress, instructorEmail, placeId));
+                dateBegin, dateEnd, modality, instructorEmail, placeId));
+        }
+
+        [HttpDelete]
+        [EnableCors("MyPolicy")]
+        public ActionResult<Object> Delete(string ssKey, string ssValue, int classId)
+        {
+            return Ok(new ModelController().Instance().instructorDeleteClass(ssKey, ssValue, classId));
         }
     }
 }

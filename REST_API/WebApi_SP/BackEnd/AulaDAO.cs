@@ -24,15 +24,16 @@ namespace ClassesDAO {
             {
                 var cmd = new MySqlCommand();
                 cmd.Connection = dbCon.Connection;
-                cmd.CommandText = "Insert INTO AULA(num_bilhetes, preco_bilhete, data_ini, data_fim, modalidade, email, espaco) VALUES(@numBilhetes, @precoBilhete, @dataI, @dataF, @mod, @em, @codEs)";
-               
+                //cmd.CommandText = "Insert INTO AULA(num_bilhetes, preco_bilhete, data_ini, data_fim, modalidade, email, espaco) VALUES(@numBilhetes, @precoBilhete, @dataI, @dataF, @mod, @em, @codEs)";
+                cmd.CommandText = "Insert INTO AULA(cod_aula,num_bilhetes, preco_bilhete, data_ini, data_fim, modalidade, email, ESPACOS_cod_espaco) VALUES((select count(*) + 1 from aula a),@numBilhetes, @precoBilhete, @dataI, @dataF, @mod, @em, @codEs)";
+
                 cmd.Prepare();
 
-                cmd.Parameters.AddWithValue("@codAula", aula.CodAula);
+                //cmd.Parameters.AddWithValue("@codAula", aula.CodAula);
                 cmd.Parameters.AddWithValue("@numBilhetes", aula.NumBilhetes);
                 cmd.Parameters.AddWithValue("@precoBilhete", aula.PrecoBilhete);
-                cmd.Parameters.AddWithValue("@dataI", aula.DataINI.ToString("yyyy-MM-dd HH:mm"));
-                cmd.Parameters.AddWithValue("@dataF", aula.DataFIM.ToString("yyyy-MM-dd HH:mm"));
+                cmd.Parameters.AddWithValue("@dataI", aula.DataINI);
+                cmd.Parameters.AddWithValue("@dataF", aula.DataFIM);
                 cmd.Parameters.AddWithValue("@mod", aula.Modalidade);
                 cmd.Parameters.AddWithValue("@codEs", aula.CodEspaco);
                 cmd.Parameters.AddWithValue("@em", aula.Email);
