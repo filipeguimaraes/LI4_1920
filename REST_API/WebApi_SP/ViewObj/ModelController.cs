@@ -43,7 +43,7 @@ namespace WebApi_SP.ViewObj
                 string ssKey = Guid.NewGuid().ToString();
                 string ssValue = Guid.NewGuid().ToString();
 
-                auth.Info = new InstructorPage();
+                auth.Info = null;
                 auth.Result = u.Perfil;
                 auth.SsKey = ssKey;
                 auth.SsValue = ssValue;
@@ -193,7 +193,7 @@ namespace WebApi_SP.ViewObj
                 sessionsCache.Set(ssKey + ssValue, l, d);
 
 
-                authObj.Info = new AulaDAO().getAulasWhere("email",authObj.Email);
+                authObj.Info = new AulaDAO().getAulasWhere("email", "=", authObj.Email);
             }
             else return null;
 
@@ -219,7 +219,7 @@ namespace WebApi_SP.ViewObj
 
                 new AulaDAO().put(aula);
 
-                authObj.Info = new AulaDAO().getAulasWhere("email", authObj.Email);
+                authObj.Info = new AulaDAO().getAulasWhere("email", "=", authObj.Email);
             }
             else return null;
 
@@ -241,7 +241,7 @@ namespace WebApi_SP.ViewObj
 
                 new AulaDAO().remove(classId);
 
-                authObj.Info = new AulaDAO().getAulasWhere("email", authObj.Email);
+                authObj.Info = new AulaDAO().getAulasWhere("email", "=", authObj.Email);
             }
             else return null;
 
@@ -266,7 +266,65 @@ namespace WebApi_SP.ViewObj
                 new AulaDAO().update(classId, "modalidade", modality);
                 new AulaDAO().update(classId, "espaco", placeId.ToString());
 
-                authObj.Info = new AulaDAO().getAulasWhere("email", authObj.Email);
+                authObj.Info = new AulaDAO().getAulasWhere("email", "=", authObj.Email);
+            }
+            else return null;
+
+            return authObj;
+        }
+
+        public Object buyClass(string ssKey, string ssValue, int classId)
+        {
+            Object l = sessionsCache.Get(ssKey + ssValue);
+            AuthenticationObj<Object> authObj = (AuthenticationObj<Object>)l;
+
+            if (authObj != null && authObj.Result.Equals("user"))
+            {
+                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
+                sessionsCache.Set(ssKey + ssValue, l, d);
+
+                new AulaDAO().addUserToAula(classId, authObj.Email);
+
+                authObj.Info = new ClassesPage(authObj.Email);
+            }
+            else return null;
+
+            return authObj;
+        }
+
+        public Object getClassesPage(string ssKey, string ssValue)
+        {
+            Object l = sessionsCache.Get(ssKey + ssValue);
+            AuthenticationObj<Object> authObj = (AuthenticationObj<Object>)l;
+
+            if (authObj != null && authObj.Result.Equals("user"))
+            {
+                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
+                sessionsCache.Set(ssKey + ssValue, l, d);
+
+                authObj.Info = new ClassesPage(authObj.Email);
+            }
+            else return null;
+
+            return authObj;
+        }
+
+        public Object refundTicketClasse(string ssKey, string ssValue, int classId)
+        {
+            Object l = sessionsCache.Get(ssKey + ssValue);
+            AuthenticationObj<Object> authObj = (AuthenticationObj<Object>)l;
+
+            if (authObj != null && authObj.Result.Equals("user"))
+            {
+                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
+                sessionsCache.Set(ssKey + ssValue, l, d);
+
+                new AulaDAO().deleteTicket(authObj.Email,classId);
+
+                authObj.Info = new ClassesPage(authObj.Email);
             }
             else return null;
 

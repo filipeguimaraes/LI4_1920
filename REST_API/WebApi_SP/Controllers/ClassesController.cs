@@ -13,6 +13,26 @@ namespace WebApi_SP.Controllers
     [ApiController]
     public class ClassesController : ControllerBase
     {
-        
+
+        [HttpGet]
+        [EnableCors("MyPolicy")]
+        public ActionResult<Object> UserBuyClass(string ssKey, string ssValue)
+        {
+            return Ok(new ModelController().Instance().getClassesPage(ssKey, ssValue));
+        }
+
+        [HttpPut]
+        [EnableCors("MyPolicy")]
+        public ActionResult<Object> UserBuyClass(string ssKey, string ssValue, int classId)
+        {
+            return Ok(new ModelController().Instance().buyClass(ssKey, ssValue, classId));
+        }
+
+        [HttpDelete]
+        [EnableCors("MyPolicy")]
+        public ActionResult<Object> refundTicketClass(string ssKey, string ssValue, int classId)
+        {
+            return Ok(new ModelController().Instance().refundTicketClasse(ssKey, ssValue, classId));
+        }
     }
 }

@@ -490,6 +490,29 @@ export async function checkUpdateClass(obj, c) {
 
 // Vars Classes User
 
+export async function checkClassesPage(obj) {
+    var kUid = localStorage.getItem(sessionKEY);
+    var vUid = localStorage.getItem(sessionID);
+
+    await Axios.get(baseURL + `Classes?${sessionKEY}=${kUid}&${sessionID}=${vUid}`, baseConfig)
+        .then(r => {
+            if (r.data.result === 'user') {
+                obj.setState({ alreadyLogged: r.data.result });
+                obj.setState({ 
+                    data: {
+                        nextClasses: r.data.info.nextClasses,
+                        availableClasses: r.data.info.availableClasses
+                     }});
+            }
+            else {
+                obj.setState({ alreadyLogged: null });
+            }
+        })
+        .catch(() => {
+            obj.setState({ alreadyLogged: errorAPI });
+        });
+}
+
 export async function checkBuyTicket(obj, classId) {
     var kUid = localStorage.getItem(sessionKEY);
     var vUid = localStorage.getItem(sessionID);
@@ -498,9 +521,38 @@ export async function checkBuyTicket(obj, classId) {
         + `classId=${classId}`
         , baseConfig)
         .then(r => {
-            if (r.data.result === 'instructor') {
+            if (r.data.result === 'user') {
                 obj.setState({ alreadyLogged: r.data.result });
-                obj.setState({ classes: r.data.info });
+                obj.setState({ 
+                    data: {
+                        nextClasses: r.data.info.nextClasses,
+                        availableClasses: r.data.info.availableClasses
+                     }});
+            }
+            else {
+                obj.setState({ alreadyLogged: null });
+            }
+        })
+        .catch(() => {
+            obj.setState({ alreadyLogged: errorAPI });
+        });
+}
+
+export async function checkRefundTicket(obj, classId) {
+    var kUid = localStorage.getItem(sessionKEY);
+    var vUid = localStorage.getItem(sessionID);
+
+    await Axios.delete(baseURL + `Classes?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
+        + `classId=${classId}`
+        , baseConfig)
+        .then(r => {
+            if (r.data.result === 'user') {
+                obj.setState({ alreadyLogged: r.data.result });
+                obj.setState({ 
+                    data: {
+                        nextClasses: r.data.info.nextClasses,
+                        availableClasses: r.data.info.availableClasses
+                     }});
             }
             else {
                 obj.setState({ alreadyLogged: null });
