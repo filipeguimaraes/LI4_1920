@@ -15,18 +15,18 @@ import { validUser } from './user';
 
 
 const values1 = [
-    { id: 'Aerobics', title: 'Gym', priority: 2.90, type: '20', complete: '12:00', incomplete: '13:00' },
-    { id: 'Cycling', title: 'Gym', priority: 1.25, type: '15', complete: '16:00', incomplete: '17:00' },
-    { id: 'Tennis', title: 'Tennis court', priority: 2.35, type: '6', complete: '18:00', incomplete: '20:00' }
+    { modalidade: 'Aerobics', codEspaco: 'Gym', precoBilhete: 2.90, numBilhetes: '20', dataINI: '12:00', dataFIM: '13:00' },
+    { modalidade: 'Cycling', codEspaco: 'Gym', precoBilhete: 1.25, numBilhetes: '15', dataINI: '16:00', dataFIM: '17:00' },
+    { modalidade: 'Tennis', codEspaco: 'Tennis court', precoBilhete: 2.35, numBilhetes: '6', dataINI: '18:00', dataFIM: '20:00' }
 ];
 
 const showcolumns = [
-    { title: "Class", field: "id" },
-    { title: "Place", field: "title" },
-    { title: "Price", field: "priority", type: "currency" },
-    { title: "Capacity", field: "type", type: "numeric" },
-    { title: "Begin", field: "complete", type: "time" },
-    { title: "End", field: "incomplete", type: "time" }
+    { title: "Class", field: "modalidade" },
+    { title: "Place", field: "codEspaco"},//, type: "numeric" },
+    { title: "Price", field: "precoBilhete", type: "currency" },
+    { title: "Capacity", field: "numBilhetes", type: "numeric" },
+    { title: "Begin", field: "dataINI", type: "datetime" },
+    { title: "End", field: "dataFIM", type: "datetime" }
 ];
 
 
@@ -61,7 +61,7 @@ class Classes extends Component {
                             }
                         }
                     ]}
-                    columns={this.showcolumns}
+                    columns={showcolumns}
                     data={this.state.data}
                     title=""
                 />
@@ -77,7 +77,7 @@ class Classes extends Component {
                             }
                         }
                     ]}
-                    columns={this.showcolumns}
+                    columns={showcolumns}
                     data={this.state.data}
                     title=""
                 />

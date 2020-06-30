@@ -381,7 +381,7 @@ export async function checkAddClass(obj) {
         sessionStorage.removeItem(instructorEmail);
         sessionStorage.removeItem(placeId);
 
-        await Axios.put(baseURL + `Classes?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
+        await Axios.put(baseURL + `Instructor?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
             + `${numTicket}=${num}&`
             + `${priceTicket}=${price}&`
             + `${dateBegin}=${begin}&`
@@ -408,11 +408,16 @@ export async function checkAddClass(obj) {
     }
 }
 
+/**
+ * 
+ * @param {*} obj 
+ * @param {*} classId 
+ */
 export async function checkDeleteClass(obj, classId) {
     var kUid = localStorage.getItem(sessionKEY);
     var vUid = localStorage.getItem(sessionID);
 
-    await Axios.delete(baseURL + `Classes?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
+    await Axios.delete(baseURL + `Instructor?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
         + `classId=${classId}`
         , baseConfig)
         .then(r => {
@@ -429,6 +434,12 @@ export async function checkDeleteClass(obj, classId) {
         });
 }
 
+
+/**
+ * 
+ * @param {*} obj 
+ * @param {*} c 
+ */
 export async function checkUpdateClass(obj, c) {
     var kUid = localStorage.getItem(sessionKEY);
     var vUid = localStorage.getItem(sessionID);
@@ -451,7 +462,7 @@ export async function checkUpdateClass(obj, c) {
         sessionStorage.removeItem(instructorEmail);
         sessionStorage.removeItem(placeId);
 
-        await Axios.post(baseURL + `Classes?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
+        await Axios.post(baseURL + `Instructor?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
             + `${classId}=${c}&`
             + `${numTicket}=${num}&`
             + `${priceTicket}=${price}&`
@@ -474,4 +485,28 @@ export async function checkUpdateClass(obj, c) {
             });
 
     }
+}
+
+
+// Vars Classes User
+
+export async function checkBuyTicket(obj, classId) {
+    var kUid = localStorage.getItem(sessionKEY);
+    var vUid = localStorage.getItem(sessionID);
+
+    await Axios.put(baseURL + `Classes?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
+        + `classId=${classId}`
+        , baseConfig)
+        .then(r => {
+            if (r.data.result === 'instructor') {
+                obj.setState({ alreadyLogged: r.data.result });
+                obj.setState({ classes: r.data.info });
+            }
+            else {
+                obj.setState({ alreadyLogged: null });
+            }
+        })
+        .catch(() => {
+            obj.setState({ alreadyLogged: errorAPI });
+        });
 }

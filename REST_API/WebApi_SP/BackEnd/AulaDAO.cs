@@ -45,7 +45,7 @@ namespace ClassesDAO {
         }
 
 
-        public List<Aula> getAulasBy(string param, string input)
+        public List<Aula> getAulasWhere(string param, string input)
         {
             var dbCon = db.Instance();
             dbCon.DataBaseName = "sportsmanager";
@@ -80,6 +80,7 @@ namespace ClassesDAO {
             return aulas;
 
         }
+
 
         public Aula get(int codigo)
         {

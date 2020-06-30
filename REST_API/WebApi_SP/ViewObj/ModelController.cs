@@ -193,7 +193,7 @@ namespace WebApi_SP.ViewObj
                 sessionsCache.Set(ssKey + ssValue, l, d);
 
 
-                authObj.Info = new AulaDAO().getAulasBy("email",authObj.Email);
+                authObj.Info = new AulaDAO().getAulasWhere("email",authObj.Email);
             }
             else return null;
 
@@ -219,7 +219,7 @@ namespace WebApi_SP.ViewObj
 
                 new AulaDAO().put(aula);
 
-                authObj.Info = new AulaDAO().getAulasBy("email", authObj.Email);
+                authObj.Info = new AulaDAO().getAulasWhere("email", authObj.Email);
             }
             else return null;
 
@@ -241,7 +241,7 @@ namespace WebApi_SP.ViewObj
 
                 new AulaDAO().remove(classId);
 
-                authObj.Info = new AulaDAO().getAulasBy("email", authObj.Email);
+                authObj.Info = new AulaDAO().getAulasWhere("email", authObj.Email);
             }
             else return null;
 
@@ -266,7 +266,7 @@ namespace WebApi_SP.ViewObj
                 new AulaDAO().update(classId, "modalidade", modality);
                 new AulaDAO().update(classId, "espaco", placeId.ToString());
 
-                authObj.Info = new AulaDAO().getAulasBy("email", authObj.Email);
+                authObj.Info = new AulaDAO().getAulasWhere("email", authObj.Email);
             }
             else return null;
 
