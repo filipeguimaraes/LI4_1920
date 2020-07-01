@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import Layout from '../layouts/UserLayout';
+import Grid from '@material-ui/core/Grid';
 
 //table
 import MaterialTable from 'material-table';
 import CancelIcon from '@material-ui/icons/Cancel';
+import tableStyle from '../styles/table.css'
 
 //map
-import MapSection from '../components/map/Map'
+import MapSection from '../components/map/Map';
+
+//Data & time picker
+import DatetimeRangePicker from 'react-datetime-range-picker';
+
+import { Container } from '@material-ui/core';
+
+import Button from '@material-ui/core/Button';
 
 //style
 import '../styles/classes.css';
@@ -15,15 +24,10 @@ import '../styles/classes.css';
 import { checkAuthentication, validateAuth } from '../components/WebAPI';
 import { validUser } from './user';
 
-const location = {
-    address: '1600 Amphitheatre Parkway, Mountain View, california.',
-    lat: 37.42216,
-    lng: -122.08427,
-} // our location object from earlier
 
 const values1 = [
-    { id: 'Gym', title: 'Braga', priority: 170, type: 20, complete: '20', incomplete: 'Sunny', begin: '16:00', end: '18:00', lat: 41.5518, lng: -8.4229 },
-    { id: 'Tennis court', title: 'Guimarães', priority: 100, type: 15, complete: '10', incomplete: 'Rainy', begin: '14:00', end: '16:00', lat: 41.5518, lng: -8.4229 },
+    { id: 'Gym', title: 'Braga', priority: 170, type: 20, complete: '20', incomplete: 'Sunny', begin: '2018-12-13T00:03', end: '2018-12-16T23:29', lat: 41.5518, lng: -8.4229 },
+    { id: 'Tennis court', title: 'Guimarães', priority: 100, type: 15, complete: '10', incomplete: 'Rainy', begin: '14:00', end: '16:00', lat: 41.4418, lng: -8.29563 },
     { id: 'Basketball court', title: 'Viana do Castelo', priority: 120, type: 12, complete: '15', incomplete: 'Cloudy', begin: '10:00', end: '12:00', lat: 41.5518, lng: -8.4229 }
 ];
 
@@ -61,7 +65,7 @@ class Places extends Component {
                     actions={[
                         {
                             icon: CancelIcon,
-                            tooltip: 'Enroll Class',
+                            tooltip: 'Cancel',
                             onClick: (event, rowData) => {
                                 // Do cancel class
                             }
@@ -73,21 +77,67 @@ class Places extends Component {
                 />
                 <h2 style={{ margin: '35px 5px 5px 75px', color: '#85D8CE' }}>Available places</h2>
                 <MaterialTable
+                    style={tableStyle}
                     columns={showcolumns}
                     data={this.state.data}
                     title=""
                     detailPanel={rowData => {
+                        var b = new Date(rowData.begin);
+                        var e = new Date(rowData.end);
                         return (
-                            <div>
-                                <MapSection
-                                    location={{
-                                        address: rowData.id,
-                                        lat: rowData.lat,
-                                        lng: rowData.lng,
-                                    }}
-                                    zoomLevel={17}
-                                />
-                            </div>
+                            <Grid
+                                container
+                                direction="row"
+                                justify="center"
+                                alignItems="center"
+                            >
+                                <Grid item xs={8}>
+                                    <MapSection
+                                        location={{
+                                            address: rowData.id,
+                                            lat: rowData.lat,
+                                            lng: rowData.lng,
+                                        }}
+                                        zoomLevel={17}
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Container maxWidth="85%">
+                                        <DatetimeRangePicker
+                                            startDate={Date.now()}
+                                            endDate={Date.now()}
+                                            isValidStartDate={
+                                                (currentDate, selectedDate) => {
+                                                    if (currentDate < Date.now())
+                                                        return false;
+                                                    else return true;
+                                                }
+                                            }
+                                            onStartDateChange={
+                                                (date) => {
+                                                    b=date;
+                                                }
+                                            }
+                                            onEndDateChange={
+                                                (date) => {
+                                                    e=date;
+                                                }
+                                            }
+                                        />
+                                        <Button
+                                            style={{ padding: '10' }}
+                                            variant="outlined"
+                                            onClick={
+                                                () => {
+                                                    alert('ini:' + JSON.stringify(b) + ' end:' + JSON.stringify(e));
+                                                }
+                                            }
+                                        >
+                                            Rent Space
+                                        </Button>
+                                    </Container>
+                                </Grid>
+                            </Grid>
                         )
                     }}
                 />
