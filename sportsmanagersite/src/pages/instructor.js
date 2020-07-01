@@ -1,11 +1,30 @@
-import React, { Component } from 'react';
+import React, { Component, forwardRef } from 'react';
 import { Grid, Cell } from 'react-mdl';
 import '../styles/instructor.css';
 
 import userLogo from '../images/marcelo.jpg';
 
+import { Container } from '@material-ui/core';
+
 import MaterialTable from 'material-table';
-import { AddBox, ArrowDownward } from "@material-ui/icons";
+import AddBox from "@material-ui/icons/AddBox";
+import ArrowDownward from "@material-ui/icons/ArrowDownward";
+import { withStyles } from '@material-ui/core/styles';
+import tableStyle from '../styles/table.css'
+import Check from '@material-ui/icons/Check';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import Clear from '@material-ui/icons/Clear';
+import DeleteOutline from '@material-ui/icons/DeleteOutline';
+import Edit from '@material-ui/icons/Edit';
+import FilterList from '@material-ui/icons/FilterList';
+import FirstPage from '@material-ui/icons/FirstPage';
+import LastPage from '@material-ui/icons/LastPage';
+import Remove from '@material-ui/icons/Remove';
+import SaveAlt from '@material-ui/icons/SaveAlt';
+import Search from '@material-ui/icons/Search';
+import ViewColumn from '@material-ui/icons/ViewColumn';
+
 
 import Layout from '../layouts/InstructorLayout';
 import Chart from '../components/Chart.js';
@@ -14,6 +33,26 @@ import { checkAuthentication, validateAuth, checkInstructor, varsClass, checkAdd
 
 
 export const validInstructor = 'instructor';
+
+const tableIcons = {
+    Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+    Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+    Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+    Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
+    DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+    Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
+    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+    Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
+    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+    PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
+    ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+    Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+    SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
+    ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
+    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
+};
 
 let classesData = [
     { id: 'Aerobics', title: 'Gym', priority: 2.90, type: '20', complete: '12:00', incomplete: '13:00' },
@@ -126,12 +165,10 @@ class Instructor extends Component {
                             <Chart chartData={this.state.chartData} />
                         </Cell>
                     </Grid>
-
-
-
                 </div>
-                <div>
+                <Container maxWidth="85%">
                     <MaterialTable
+                        icons={tableIcons}
                         options={
                             { showTitle: false },
                             { actionsColumnIndex: -1 }
@@ -150,7 +187,7 @@ class Instructor extends Component {
                             onRowAdd: newData =>
                                 new Promise((resolve, reject) => {
                                     setTimeout(() => {
-                                        
+
                                         varsClass(
                                             newData.numBilhetes,
                                             newData.precoBilhete,
@@ -181,25 +218,25 @@ class Instructor extends Component {
                                                 parseInt(newData.codEspaco),
                                                 'updateClass'
                                             );
-                                            
-                                            checkUpdateClass(this,newData.codAula);
+
+                                            checkUpdateClass(this, newData.codAula);
                                         }
                                         resolve()
                                     }, 1000)
                                 }),
                             onRowDelete: (newData, oldData) =>
-                            new Promise((resolve, reject) => {
-                                setTimeout(() => {
-                                    {
-                                        checkDeleteClass(this,newData.codAula);
-                                        console.log(newData);
-                                    }
-                                    resolve()
-                                }, 1000)
-                            })
+                                new Promise((resolve, reject) => {
+                                    setTimeout(() => {
+                                        {
+                                            checkDeleteClass(this, newData.codAula);
+                                            console.log(newData);
+                                        }
+                                        resolve()
+                                    }, 1000)
+                                })
                         }}
                     />
-                </div>
+                </Container>
             </Layout>
 
         );

@@ -1,7 +1,6 @@
 import React from 'react'
 import '../../styles/map.css'
 import marker from '../../images/marker.png';
-import Grid from '@material-ui/core/Grid';
 
 const LocationPin = ({ text }) => (
   <div className="pin">
