@@ -189,6 +189,39 @@ namespace SpacesDAO {
             return existe;
         }
 
+        public List<Espaco> getAll() {
+            var dbCon = db.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+
+            List<Espaco> espacos = new ArrayList<Espaco>();
+
+            if(dbCon.IsConnect()) 
+            {
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                
+                cmd.CommandText = "SELECT * FROM ESPACO";
+
+                cmd.Connection.Open(); 
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while(reader.Read())
+                {
+                    Espaco e = new Espaco(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2), reader.GetString(3), reader.GetFloat(4), reader.GetInt32(5), reader.GetDateTime(6), reader.GetDateTime(7));
+                    espacos.add(e);
+                }
+
+                dbCon.Close();
+            }
+
+            return aulas;
+        }
+
     }
 
 }

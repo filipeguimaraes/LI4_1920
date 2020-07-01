@@ -55,6 +55,7 @@ namespace SportsManagerAdmin
             }
 
             preencherComboEspacos();
+            preencherComboEspacos1();
         }
     
         public void preencherComboEspacos()
@@ -99,6 +100,48 @@ namespace SportsManagerAdmin
             }
         }
 
+        public void preencherComboEspacos1()
+        {
+            List<int> espaçosExistentes = new List<int>();
+
+            var dbCon = c.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+
+            if (dbCon.IsConnect())
+            {
+                int result = 0;
+
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                cmd.CommandText = "SELECT cod_espaco FROM ESPACOS";
+
+                //este Open bugava ao tentar abrir apos o IsConnect (como estava antes)
+                //o que dava um erro de tentar abrir um canal que j� est� aberto.
+                //n�o vi mais metodos pq so estava mesmo o testar cenas elementares...
+                //mas se este d� os outros tamb�m v�o dar...depois temos � de ver o model
+                //cmd.Connection.Open();
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    result = reader.GetInt32(0);
+                    espaçosExistentes.Add(result);
+                }
+
+                dbCon.Close();
+
+                foreach (int i in espaçosExistentes)
+                {
+                    comboBox1.Items.Add(i);
+                }
+            }
+        }
+
         private void ConsultButton_Click(object sender, EventArgs e)
         {
             int i = (int)comboBoxEspaços.SelectedItem;
@@ -136,6 +179,46 @@ namespace SportsManagerAdmin
                 dbCon.Close();
 
                 nrVezes.Text = result.ToString();
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int i = (int)comboBox1.SelectedItem;
+
+            int espacos = Int32.Parse(espacosRegistados.Text);
+
+            var dbCon = c.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+
+            if (dbCon.IsConnect())
+            {
+                int result = 0;
+
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                cmd.CommandText = "SELECT count(cod_aula) FROM AULA";
+
+                //este Open bugava ao tentar abrir apos o IsConnect (como estava antes)
+                //o que dava um erro de tentar abrir um canal que j� est� aberto.
+                //n�o vi mais metodos pq so estava mesmo o testar cenas elementares...
+                //mas se este d� os outros tamb�m v�o dar...depois temos � de ver o model
+                //cmd.Connection.Open();
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    result = reader.GetInt32(0);
+                }
+
+                dbCon.Close();
+
+                textBox1.Text = ((float) (result / espacos)).ToString();
             }
         }
     }
