@@ -5,6 +5,7 @@ using MySql.Data.MySqlClient;
 using Data;
 using System.Text;
 using System.Security.Cryptography;
+using ClassesDAO;
 
 namespace UserDAO {
 
@@ -112,12 +113,50 @@ namespace UserDAO {
                      
                 }
 
-                
+                List<Aula> aulasU = getAulasUser(email);
+
+                utilizador.setAulas(aulasU);
 
                 dbCon.Close();
             }
             Console.WriteLine(utilizador.Nome);
             return utilizador;
+        }
+
+        public List<Aula> getAulasUser(string email) {
+            List<Aula> a = new ArrayList<Aula>();
+            AulaDAO ad = new AulaDAO();
+
+            var dbCon = db.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+
+            if(dbCon.IsConnect()) 
+            {
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                
+                cmd.CommandText = "SELECT cod_aula FROM FREQUENTA WHERE email = @em";
+
+                cmd.Connection.Open();
+
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@em", email);
+                
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while(reader.read()) {
+                    Aula tmp = ad.get(reader.GetInt32(0));
+                    a.add(tmp);
+                }
+
+                dbCon.Close();
+            }
+
+        return a;
+        
         }
 
         public void updatePassword(string email)
