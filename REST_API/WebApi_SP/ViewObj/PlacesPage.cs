@@ -7,7 +7,7 @@ using SpacesDAO;
 
 namespace WebApi_SP.ViewObj
 {
-    public class PlassesPage
+    public class PlacesPage
     {
         private List<Espaco> availableClasses;
         private List<Espaco> nextClasses;
@@ -15,7 +15,7 @@ namespace WebApi_SP.ViewObj
         public List<Espaco> AvailableClasses { get => availableClasses; set => availableClasses = value; }
         public List<Espaco> NextClasses { get => nextClasses; set => nextClasses = value; }
 
-        public PlassesPage(string email)
+        public PlacesPage(string email)
         {
             //AvailableClasses = new SpacesDAO().getAulasByUtilizadorNotBought(email);
             //NextClasses = new SpacesDAO().getAulasByUtilizador(email);

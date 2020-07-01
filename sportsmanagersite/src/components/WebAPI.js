@@ -517,17 +517,19 @@ export async function checkBuyTicket(obj, classId) {
     var kUid = localStorage.getItem(sessionKEY);
     var vUid = localStorage.getItem(sessionID);
 
+    obj.setState({ alreadyLogged: 'loading' });
+
     await Axios.put(baseURL + `Classes?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
         + `classId=${classId}`
         , baseConfig)
         .then(r => {
             if (r.data.result === 'user') {
-                obj.setState({ alreadyLogged: r.data.result });
                 obj.setState({ 
                     data: {
                         nextClasses: r.data.info.nextClasses,
                         availableClasses: r.data.info.availableClasses
                      }});
+                obj.setState({ alreadyLogged: r.data.result });
             }
             else {
                 obj.setState({ alreadyLogged: null });
@@ -542,17 +544,19 @@ export async function checkRefundTicket(obj, classId) {
     var kUid = localStorage.getItem(sessionKEY);
     var vUid = localStorage.getItem(sessionID);
 
+    obj.setState({ alreadyLogged: 'loading' });
+
     await Axios.delete(baseURL + `Classes?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
         + `classId=${classId}`
         , baseConfig)
         .then(r => {
             if (r.data.result === 'user') {
-                obj.setState({ alreadyLogged: r.data.result });
                 obj.setState({ 
                     data: {
                         nextClasses: r.data.info.nextClasses,
                         availableClasses: r.data.info.availableClasses
                      }});
+                obj.setState({ alreadyLogged: r.data.result });
             }
             else {
                 obj.setState({ alreadyLogged: null });
