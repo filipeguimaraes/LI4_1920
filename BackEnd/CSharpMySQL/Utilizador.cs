@@ -14,7 +14,7 @@ namespace User {
         private string password;
         private DateTime dob;
         private string perfil;
-
+        private List<Aula> aulas;
         public Utilizador()
         {
         }
@@ -31,6 +31,7 @@ namespace User {
             this.Password = password;
             Dob = dob;
             this.Perfil = perfil;
+            this.aulas = new ArrayList<Aula>();
         }
 
         public string Email { get => email; set => email = value; }
@@ -43,6 +44,20 @@ namespace User {
         public string Password { get => password; set => password = value; }
         public DateTime Dob { get => dob; set => dob = value; }
         public string Perfil { get => perfil; set => perfil = value; }
+
+        public List<Aula> getAulas()
+        {
+            return this.aulas;
+        }
+
+        public void setAulas(List<Aula> aulas)
+        {
+            this.aulas = aulas;
+        }
+
+        public void addAula(Aula a) {
+            this.aulas.add(a);
+        }
 
         public override bool Equals(object obj)
         {

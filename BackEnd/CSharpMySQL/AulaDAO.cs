@@ -42,7 +42,7 @@ namespace ClassesDAO {
             }
         }
 
-        public void get(int codigo)
+        public Aula get(int codigo)
         {
             var dbCon = db.Instance();
             dbCon.DataBaseName = "sportsmanager";
@@ -72,7 +72,7 @@ namespace ClassesDAO {
 
                 dbCon.Close();
             }
-           Console.WriteLine(aula.Modalidade);
+           return aula;
 
         }
 
@@ -280,6 +280,39 @@ namespace ClassesDAO {
 
                 dbCon.Close();
             }
+        }
+
+        public List<Aula> getAll() {
+             var dbCon = db.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+
+            List<Aula> aulas = new ArrayList<Aula>();
+
+            if(dbCon.IsConnect()) 
+            {
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                
+                cmd.CommandText = "SELECT * FROM AULA";
+
+                cmd.Connection.Open(); 
+
+                cmd.Prepare();
+                
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while(reader.Read())
+                {
+                    Aula a = new Aula(reader.GetInt32(0), reader.GetInt32(1), reader.GetFloat(2), reader.GetDateTime(3), reader.GetDateTime(4), reader.GetString(5), reader.GetInt32(6), reader.GetString(7));
+                    aulas.add(a);
+                }
+
+                dbCon.Close();
+            }
+
+            return aulas;
         }
 
     }
