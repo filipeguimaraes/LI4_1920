@@ -1,21 +1,30 @@
 import React, { Component } from 'react';
 import Layout from '../layouts/UserLayout';
 
+//table
 import MaterialTable from 'material-table';
 import CancelIcon from '@material-ui/icons/Cancel';
-import ControlPointIcon from '@material-ui/icons/ControlPoint';
 
+//map
+import MapSection from '../components/map/Map'
+
+//style
 import '../styles/classes.css';
 
+//webAPI
 import { checkAuthentication, validateAuth } from '../components/WebAPI';
 import { validUser } from './user';
 
-
+const location = {
+    address: '1600 Amphitheatre Parkway, Mountain View, california.',
+    lat: 37.42216,
+    lng: -122.08427,
+} // our location object from earlier
 
 const values1 = [
-    { id: 'Gym', title: 'Braga', priority: 170, type: 20, complete: '20', incomplete: 'Sunny', begin: '16:00', end: '18:00' },
-    { id: 'Tennis court', title: 'Guimarães', priority: 100, type: 15, complete: '10', incomplete: 'Rainy', begin: '14:00', end: '16:00' },
-    { id: 'Basketball court', title: 'Viana do Castelo', priority: 120, type: 12, complete: '15', incomplete: 'Cloudy', begin: '10:00', end: '12:00' }
+    { id: 'Gym', title: 'Braga', priority: 170, type: 20, complete: '20', incomplete: 'Sunny', begin: '16:00', end: '18:00', lat: 41.5518, lng: -8.4229 },
+    { id: 'Tennis court', title: 'Guimarães', priority: 100, type: 15, complete: '10', incomplete: 'Rainy', begin: '14:00', end: '16:00', lat: 41.5518, lng: -8.4229 },
+    { id: 'Basketball court', title: 'Viana do Castelo', priority: 120, type: 12, complete: '15', incomplete: 'Cloudy', begin: '10:00', end: '12:00', lat: 41.5518, lng: -8.4229 }
 ];
 
 const showcolumns = [
@@ -23,8 +32,8 @@ const showcolumns = [
     { title: "Place", field: "title" },
     { title: "Price", field: "priority", type: "currency" },
     { title: "Capacity", field: "type", type: "numeric" },
-    { title: "Begin", field: "complete", type: "time" },
-    { title: "End", field: "incomplete", type: "time" }
+    { title: "Begin", field: "begin", type: "time" },
+    { title: "End", field: "end", type: "time" }
 ];
 
 class Places extends Component {
@@ -58,27 +67,29 @@ class Places extends Component {
                             }
                         }
                     ]}
-                    columns={this.showcolumns}
+                    columns={showcolumns}
                     data={this.state.data}
                     title=""
                 />
                 <h2 style={{ margin: '35px 5px 5px 75px', color: '#85D8CE' }}>Available places</h2>
                 <MaterialTable
-                    columns={this.showcolumns}
+                    columns={showcolumns}
                     data={this.state.data}
                     title=""
                     detailPanel={rowData => {
                         return (
-                          <iframe
-                            width="100%"
-                            height="315"
-                            src="https://www.youtube.com/embed/C0DPdy98e4c"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen
-                          />
+                            <div>
+                                <MapSection
+                                    location={{
+                                        address: rowData.id,
+                                        lat: rowData.lat,
+                                        lng: rowData.lng,
+                                    }}
+                                    zoomLevel={17}
+                                />
+                            </div>
                         )
-                      }}
+                    }}
                 />
             </Layout>
         );
