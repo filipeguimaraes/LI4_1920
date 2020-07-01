@@ -3,6 +3,7 @@ using Spaces;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using Data;
+using System.Collections.Generic;
 
 namespace SpacesDAO {
 
@@ -43,6 +44,80 @@ namespace SpacesDAO {
             }
         }
 
+        internal List<Espaco> getEspacosByUtilizador(string email)
+        {
+            var dbCon = db.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+            Espaco espaco = null;
+            List<Espaco> espacos = new List<Espaco>();
+
+            if (dbCon.IsConnect())
+            {
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                cmd.CommandText = "SELECT DISTINCT e.* FROM ESPACO e, ALUGA a WHERE e.cod_espaco = a.cod_espaco AND a.email = @email AND a.data_ini > @date";
+
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    espaco = new Espaco(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2),
+                                                reader.GetString(3), reader.GetFloat(4), reader.GetInt32(5),
+                                                reader.GetDateTime(6), reader.GetDateTime(7),
+                                                reader.GetFloat(8), reader.GetFloat(9));
+                    espacos.Add(espaco);
+                }
+
+                dbCon.Close();
+            }
+
+            return espacos;
+        }
+
+        internal List<Espaco> getEspacosToRent(string email)
+        {
+            var dbCon = db.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+            Espaco espaco = null;
+            List<Espaco> espacos = new List<Espaco>();
+
+            if (dbCon.IsConnect())
+            {
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                cmd.CommandText = "SELECT DISTINCT e.* FROM ESPACO e";
+
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    espaco = new Espaco(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2),
+                                                reader.GetString(3), reader.GetFloat(4), reader.GetInt32(5),
+                                                reader.GetDateTime(6), reader.GetDateTime(7),
+                                                reader.GetFloat(8), reader.GetFloat(9));
+                    espacos.Add(espaco);
+                }
+
+                dbCon.Close();
+            }
+
+            return espacos;
+        }
+
         public void get(int codigo)
         {
             var dbCon = db.Instance();
@@ -65,9 +140,10 @@ namespace SpacesDAO {
 
                 while(reader.Read())
                 {
-                    espaco = new Espaco(reader.GetString(1), reader.GetInt32(2),
+                    espaco = new Espaco(reader.GetInt32(2), reader.GetString(1), reader.GetInt32(2),
                                                 reader.GetString(3), reader.GetFloat(4), reader.GetInt32(5),
-                                                reader.GetDateTime(6), reader.GetDateTime(7));
+                                                reader.GetDateTime(6), reader.GetDateTime(7),
+                                                reader.GetFloat(8), reader.GetFloat(9));
                     espaco.CodEspaco = reader.GetInt32(0);
                      
                 }

@@ -29,9 +29,9 @@ namespace WebApi_SP.Controllers
 
         [HttpDelete]
         [EnableCors("MyPolicy")]
-        public ActionResult<Object> refundRentSpace(string ssKey, string ssValue, int placeId)
+        public ActionResult<Object> refundRentSpace(string ssKey, string ssValue, int placeId, string dateBegin, string dateEnd)
         {
-            return Ok(new ModelController().Instance().refundRentSpace(ssKey, ssValue, placeId));
+            return Ok(new ModelController().Instance().refundRentSpace(ssKey, ssValue, placeId, dateBegin, dateEnd));
         }
     }
 }

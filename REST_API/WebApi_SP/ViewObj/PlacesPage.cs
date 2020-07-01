@@ -9,16 +9,16 @@ namespace WebApi_SP.ViewObj
 {
     public class PlacesPage
     {
-        private List<Espaco> availableClasses;
-        private List<Espaco> nextClasses;
+        private List<Espaco> toRent;
+        private List<Espaco> rented;
 
-        public List<Espaco> AvailableClasses { get => availableClasses; set => availableClasses = value; }
-        public List<Espaco> NextClasses { get => nextClasses; set => nextClasses = value; }
+        public List<Espaco> ToRent { get => toRent; set => toRent = value; }
+        public List<Espaco> Rented { get => rented; set => rented = value; }
 
         public PlacesPage(string email)
         {
-            //AvailableClasses = new SpacesDAO().getAulasByUtilizadorNotBought(email);
-            //NextClasses = new SpacesDAO().getAulasByUtilizador(email);
+            ToRent = new EspacoDAO().getEspacosToRent(email);
+            Rented = new EspacoDAO().getEspacosByUtilizador(email);
         }
 
     }

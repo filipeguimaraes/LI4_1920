@@ -12,12 +12,14 @@ namespace Spaces {
         private int area;
         private DateTime disponivelIni;
         private DateTime disponivelFim;
+        private float lat;
+        private float lng;
 
         public Espaco()
         {
         }
 
-        public Espaco(string tipo, int lotacao, string local, float precoHora, int area, DateTime disponivelIni, DateTime disponivelFim)
+        public Espaco(string tipo, int lotacao, string local, float precoHora, int area, DateTime disponivelIni, DateTime disponivelFim, float lat, float lng)
         {
             
             this.Tipo = tipo;
@@ -27,6 +29,22 @@ namespace Spaces {
             this.Area = area;
             this.DisponivelIni = disponivelIni;
             this.DisponivelFim = disponivelFim;
+            this.Lat = lat;
+            this.Lng = lng;
+        }
+
+        public Espaco(int cod, string tipo, int lotacao, string local, float precoHora, int area, DateTime disponivelIni, DateTime disponivelFim, float lat, float lng)
+        {
+            this.CodEspaco = cod;
+            this.Tipo = tipo;
+            this.Lotacao = lotacao;
+            this.Local = local;
+            this.PrecoHora = precoHora;
+            this.Area = area;
+            this.DisponivelIni = disponivelIni;
+            this.DisponivelFim = disponivelFim;
+            this.Lat = lat;
+            this.Lng = lng;
         }
 
         public int CodEspaco { get => codEspaco; set => codEspaco = value; }
@@ -37,6 +55,8 @@ namespace Spaces {
         public int Area { get => area; set => area = value; }
         public DateTime DisponivelIni { get => disponivelIni; set => disponivelIni = value; }
         public DateTime DisponivelFim { get => disponivelFim; set => disponivelFim = value; }
+        public float Lat { get => lat; set => lat = value; }
+        public float Lng { get => lng; set => lng = value; }
 
         public override bool Equals(object obj)
         {

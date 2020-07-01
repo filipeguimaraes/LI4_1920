@@ -9,6 +9,8 @@ using User;
 using UserDAO;
 using Classes;
 using ClassesDAO;
+using Spaces;
+using SpacesDAO;
 
 namespace WebApi_SP.ViewObj
 {
@@ -337,17 +339,64 @@ namespace WebApi_SP.ViewObj
 
         public Object getPlacesPage(string ssKey, string ssValue)
         {
-            throw new NotImplementedException();
+            Object l = sessionsCache.Get(ssKey + ssValue);
+            AuthenticationObj<Object> authObj = (AuthenticationObj<Object>)l;
+
+            if (authObj != null && authObj.Result.Equals("user"))
+            {
+                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
+                sessionsCache.Set(ssKey + ssValue, l, d);
+
+                authObj.Info = new PlacesPage(authObj.Email);
+            }
+            else return null;
+
+            return authObj;
         }
 
         public Object RentSpace(string ssKey, string ssValue, int placeId, string dateBegin, string dateEnd)
         {
-            throw new NotImplementedException();
+            Object l = sessionsCache.Get(ssKey + ssValue);
+            AuthenticationObj<Object> authObj = (AuthenticationObj<Object>)l;
+
+            if (authObj != null && authObj.Result.Equals("user"))
+            {
+                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
+                sessionsCache.Set(ssKey + ssValue, l, d);
+
+                //new EspacoDAO().UserRentSpace(placeId, authObj.Email, 
+                //    DateTime.Parse(dateBegin).ToString("yyyy-MM-dd HH:mm:ss"),
+                //    DateTime.Parse(dateEnd).ToString("yyyy-MM-dd HH:mm:ss"));
+
+                authObj.Info = new PlacesPage(authObj.Email);
+            }
+            else return null;
+
+            return authObj;
         }
 
-        public Object refundRentSpace(string ssKey, string ssValue, int placeId)
+        public Object refundRentSpace(string ssKey, string ssValue, int placeId, string dateBegin, string dateEnd)
         {
-            throw new NotImplementedException();
+            Object l = sessionsCache.Get(ssKey + ssValue);
+            AuthenticationObj<Object> authObj = (AuthenticationObj<Object>)l;
+
+            if (authObj != null && authObj.Result.Equals("user"))
+            {
+                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
+                sessionsCache.Set(ssKey + ssValue, l, d);
+
+                //new EspacoDAO().deleteRentSpace(authObj.Email, placeId, 
+                //    DateTime.Parse(dateBegin).ToString("yyyy-MM-dd HH:mm:ss"),
+                //    DateTime.Parse(dateEnd).ToString("yyyy-MM-dd HH:mm:ss"));
+
+                authObj.Info = new ClassesPage(authObj.Email);
+            }
+            else return null;
+
+            return authObj;
         }
 
     }

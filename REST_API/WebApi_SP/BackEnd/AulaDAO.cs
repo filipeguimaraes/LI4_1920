@@ -116,7 +116,6 @@ namespace ClassesDAO {
             }
 
             return aulas;
-
         }
 
 
