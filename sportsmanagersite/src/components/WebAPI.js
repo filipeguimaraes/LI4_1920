@@ -381,6 +381,8 @@ export async function checkAddClass(obj) {
         sessionStorage.removeItem(instructorEmail);
         sessionStorage.removeItem(placeId);
 
+        obj.setState({ alreadyLogged: 'loading' });
+
         await Axios.put(baseURL + `Instructor?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
             + `${numTicket}=${num}&`
             + `${priceTicket}=${price}&`
@@ -416,6 +418,8 @@ export async function checkAddClass(obj) {
 export async function checkDeleteClass(obj, classId) {
     var kUid = localStorage.getItem(sessionKEY);
     var vUid = localStorage.getItem(sessionID);
+
+    obj.setState({ alreadyLogged: 'loading' });
 
     await Axios.delete(baseURL + `Instructor?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
         + `classId=${classId}`
@@ -461,6 +465,8 @@ export async function checkUpdateClass(obj, c) {
         sessionStorage.removeItem(modality);
         sessionStorage.removeItem(instructorEmail);
         sessionStorage.removeItem(placeId);
+
+        obj.setState({ alreadyLogged: 'loading' });
 
         await Axios.post(baseURL + `Instructor?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
             + `${classId}=${c}&`
