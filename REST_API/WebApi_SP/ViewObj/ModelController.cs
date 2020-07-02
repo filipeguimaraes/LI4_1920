@@ -54,14 +54,14 @@ namespace WebApi_SP.ViewObj
                 auth.SsValue = ssValue;
                 auth.Email = email;
                 auth.Name = u.Nome;
-                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                DateTimeOffset d = DateTimeOffset.Now.AddMinutes(5);
                 auth.Expire = d.ToUnixTimeMilliseconds().ToString();
 
                 while (this.sessionsCache.AddOrGetExisting(auth.GetKey(), auth, d) != null)
                 {
                     auth.SsKey = Guid.NewGuid().ToString();
                     auth.SsValue = Guid.NewGuid().ToString();
-                    d = DateTimeOffset.Now.AddSeconds(30);
+                    d = DateTimeOffset.Now.AddMinutes(5);
                     auth.Expire = d.ToUnixTimeMilliseconds().ToString();
                 }
             }
@@ -81,7 +81,7 @@ namespace WebApi_SP.ViewObj
             
             if (l != null) {
                 AuthenticationObj<Object> authObj = (AuthenticationObj<Object>) l;
-                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                DateTimeOffset d = DateTimeOffset.Now.AddMinutes(5);
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue,l,d);
             }
@@ -193,7 +193,7 @@ namespace WebApi_SP.ViewObj
 
             if (authObj != null && authObj.Result.Equals("instructor"))
             {
-                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                DateTimeOffset d = DateTimeOffset.Now.AddMinutes(5);
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue, l, d);
 
@@ -214,7 +214,7 @@ namespace WebApi_SP.ViewObj
 
             if (authObj != null && authObj.Result.Equals("instructor"))
             {
-                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                DateTimeOffset d = DateTimeOffset.Now.AddMinutes(5);
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue, l, d);
 
@@ -239,7 +239,7 @@ namespace WebApi_SP.ViewObj
 
             if (authObj != null && authObj.Result.Equals("instructor"))
             {
-                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                DateTimeOffset d = DateTimeOffset.Now.AddMinutes(5);
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue, l, d);
 
@@ -260,7 +260,7 @@ namespace WebApi_SP.ViewObj
 
             if (authObj != null && authObj.Result.Equals("instructor"))
             {
-                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                DateTimeOffset d = DateTimeOffset.Now.AddMinutes(5);
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue, l, d);
 
@@ -285,7 +285,7 @@ namespace WebApi_SP.ViewObj
 
             if (authObj != null && authObj.Result.Equals("user"))
             {
-                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                DateTimeOffset d = DateTimeOffset.Now.AddMinutes(5);
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue, l, d);
 
@@ -305,7 +305,7 @@ namespace WebApi_SP.ViewObj
 
             if (authObj != null && authObj.Result.Equals("user"))
             {
-                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                DateTimeOffset d = DateTimeOffset.Now.AddMinutes(5);
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue, l, d);
 
@@ -323,7 +323,7 @@ namespace WebApi_SP.ViewObj
 
             if (authObj != null && authObj.Result.Equals("user"))
             {
-                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                DateTimeOffset d = DateTimeOffset.Now.AddMinutes(5);
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue, l, d);
 
@@ -344,7 +344,7 @@ namespace WebApi_SP.ViewObj
 
             if (authObj != null && authObj.Result.Equals("user"))
             {
-                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                DateTimeOffset d = DateTimeOffset.Now.AddMinutes(5);
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue, l, d);
 
@@ -362,7 +362,7 @@ namespace WebApi_SP.ViewObj
 
             if (authObj != null && authObj.Result.Equals("user"))
             {
-                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                DateTimeOffset d = DateTimeOffset.Now.AddMinutes(5);
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue, l, d);
 
@@ -383,7 +383,7 @@ namespace WebApi_SP.ViewObj
 
             if (authObj != null && authObj.Result.Equals("user"))
             {
-                DateTimeOffset d = DateTimeOffset.Now.AddSeconds(30);
+                DateTimeOffset d = DateTimeOffset.Now.AddMinutes(5);
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue, l, d);
 
