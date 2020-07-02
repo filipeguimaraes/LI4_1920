@@ -348,7 +348,7 @@ namespace WebApi_SP.ViewObj
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue, l, d);
 
-                authObj.Info = new PlacesPage(authObj.Email);
+                authObj.Info = new PlacesPage(authObj.Email,null);
             }
             else return null;
 
@@ -366,11 +366,22 @@ namespace WebApi_SP.ViewObj
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue, l, d);
 
-                new EspacoDAO().rent(authObj.Email, placeId, 
-                    DateTime.Parse(dateBegin), DateTime.Parse(dateEnd));
+                string f = null;
 
-                authObj.Info = new PlacesPage(authObj.Email);
-            }
+                try
+                {
+                    if (new EspacoDAO().available(placeId, dateBegin, dateEnd) == 0)
+                        new EspacoDAO().rent(authObj.Email, placeId,
+                            DateTime.Parse(dateBegin), DateTime.Parse(dateEnd));
+                    else f = "Already rented in those dates.";
+                }
+                catch (Exception e) 
+                { 
+
+                }
+
+                authObj.Info = new PlacesPage(authObj.Email,f);
+                }
             else return null;
 
             return authObj;
@@ -390,7 +401,7 @@ namespace WebApi_SP.ViewObj
                 new EspacoDAO().deleteReserva(authObj.Email, placeId, 
                     DateTime.Parse(dateBegin), DateTime.Parse(dateEnd));
 
-                authObj.Info = new PlacesPage(authObj.Email);
+                authObj.Info = new PlacesPage(authObj.Email,null);
             }
             else return null;
 

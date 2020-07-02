@@ -628,6 +628,7 @@ export async function checkRentPlace(obj, cod, beg, end) {
                     }
                 });
                 obj.setState({ alreadyLogged: r.data.result });
+                if (r.data.info.flag !== null) alert(r.data.info.flag);
             }
             else {
                 obj.setState({ alreadyLogged: null });

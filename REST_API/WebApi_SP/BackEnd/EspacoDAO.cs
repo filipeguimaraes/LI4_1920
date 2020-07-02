@@ -230,6 +230,40 @@ namespace SpacesDAO {
             }
         }
 
+        public int available(int codigo, string begin, string end)
+        {
+            var dbCon = db.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+
+            int res = 0;
+
+            if (dbCon.IsConnect())
+            {
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+
+                cmd.CommandText = "SELECT count(*)+(SELECT count(*) FROM AULA a WHERE @val = a.ESPACOS_cod_espaco AND data_ini > now() AND ((@dateBegin >= data_ini OR data_ini <= @dateEnd) AND (@dateBegin <= data_fim OR data_fim >= @dateEnd))) as count FROM ALUGA a WHERE @val = a.cod_espaco AND data_ini > now() AND ((@dateBegin >= data_ini OR data_ini <= @dateEnd) AND (@dateBegin <= data_fim OR data_fim >= @dateEnd))";
+
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@val", codigo);
+                cmd.Parameters.AddWithValue("@dateEnd", end);
+                cmd.Parameters.AddWithValue("@dateBegin", begin);
+
+                cmd.ExecuteNonQuery();
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    res = reader.GetInt32(0);
+                }
+
+                dbCon.Close();
+            }
+
+            return res;
+        }
+
         public Boolean containsKey(int codigo)
         {
             Boolean existe = false;

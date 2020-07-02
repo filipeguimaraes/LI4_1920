@@ -47,7 +47,8 @@ class Places extends Component {
         this.state = {
             data: {
                 rented: [],
-                toRent: []
+                toRent: [],
+                flag: null
             },
             alreadyLogged: 'loading'
         }
@@ -89,8 +90,8 @@ class Places extends Component {
                     data={this.state.data.toRent}
                     title=""
                     detailPanel={rowData => {
-                        var b = new Date(rowData.begin);
-                        var e = new Date(rowData.end);
+                        var b = Date.now();
+                        var e = Date.now();
                         return (
                             <Grid
                                 container
@@ -135,8 +136,8 @@ class Places extends Component {
                                             style={{ padding: '10' }}
                                             variant="outlined"
                                             onClick={
-                                                () => {
-                                                    checkRentPlace(this,
+                                                async () => {
+                                                    await checkRentPlace(this,
                                                         rowData.codEspaco,
                                                         b.toISOString(),
                                                         e.toISOString()
