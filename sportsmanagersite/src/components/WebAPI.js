@@ -497,12 +497,13 @@ export async function checkClassesPage(obj) {
     await Axios.get(baseURL + `Classes?${sessionKEY}=${kUid}&${sessionID}=${vUid}`, baseConfig)
         .then(r => {
             if (r.data.result === 'user') {
-                obj.setState({ alreadyLogged: r.data.result });
-                obj.setState({ 
+                obj.setState({
                     data: {
                         nextClasses: r.data.info.nextClasses,
                         availableClasses: r.data.info.availableClasses
-                     }});
+                    }
+                });
+                obj.setState({ alreadyLogged: r.data.result });
             }
             else {
                 obj.setState({ alreadyLogged: null });
@@ -524,11 +525,12 @@ export async function checkBuyTicket(obj, classId) {
         , baseConfig)
         .then(r => {
             if (r.data.result === 'user') {
-                obj.setState({ 
+                obj.setState({
                     data: {
                         nextClasses: r.data.info.nextClasses,
                         availableClasses: r.data.info.availableClasses
-                     }});
+                    }
+                });
                 obj.setState({ alreadyLogged: r.data.result });
             }
             else {
@@ -551,11 +553,105 @@ export async function checkRefundTicket(obj, classId) {
         , baseConfig)
         .then(r => {
             if (r.data.result === 'user') {
-                obj.setState({ 
+                obj.setState({
                     data: {
                         nextClasses: r.data.info.nextClasses,
                         availableClasses: r.data.info.availableClasses
-                     }});
+                    }
+                });
+                obj.setState({ alreadyLogged: r.data.result });
+            }
+            else {
+                obj.setState({ alreadyLogged: null });
+            }
+        })
+        .catch(() => {
+            obj.setState({ alreadyLogged: errorAPI });
+        });
+}
+
+
+
+
+// Vars Places User
+
+export async function checkPlacesPage(obj) {
+    var kUid = localStorage.getItem(sessionKEY);
+    var vUid = localStorage.getItem(sessionID);
+
+    await Axios.get(baseURL + `Places?${sessionKEY}=${kUid}&${sessionID}=${vUid}`, baseConfig)
+        .then(r => {
+            console.log(r);
+            if (r.data.result === 'user') {
+                obj.setState({
+                    data: {
+                        rented: r.data.info.rented,
+                        toRent: r.data.info.toRent
+                    }
+                });
+                obj.setState({ alreadyLogged: r.data.result });
+            }
+            else {
+                obj.setState({ alreadyLogged: null });
+            }
+        })
+        .catch(() => {
+            obj.setState({ alreadyLogged: errorAPI });
+        });
+}
+
+
+export async function checkRentPlace(obj, cod, beg, end) {
+    var kUid = localStorage.getItem(sessionKEY);
+    var vUid = localStorage.getItem(sessionID);
+
+    obj.setState({ alreadyLogged: 'loading' });
+
+    await Axios.put(baseURL + `Places?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
+        + `placeId=${cod}&`
+        + `dateBegin=${beg}&`
+        + `dateEnd=${end}`
+        , baseConfig)
+        .then(r => {
+            console.log(r);
+            if (r.data.result === 'user') {
+                obj.setState({
+                    data: {
+                        rented: r.data.info.rented,
+                        toRent: r.data.info.toRent
+                    }
+                });
+                obj.setState({ alreadyLogged: r.data.result });
+            }
+            else {
+                obj.setState({ alreadyLogged: null });
+            }
+        })
+        .catch(() => {
+            obj.setState({ alreadyLogged: errorAPI });
+        });
+}
+
+
+export async function checkRefundRent(obj, cod, beg, end) {
+    var kUid = localStorage.getItem(sessionKEY);
+    var vUid = localStorage.getItem(sessionID);
+
+    obj.setState({ alreadyLogged: 'loading' });
+
+    await Axios.delete(baseURL + `Places?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
+        + `placeId=${cod}&`
+        + `dateBegin=${beg}&`
+        + `dateEnd=${end}`
+        , baseConfig)
+        .then(r => {
+            if (r.data.result === 'user') {
+                obj.setState({
+                    data: {
+                        rented: r.data.info.rented,
+                        toRent: r.data.info.toRent
+                    }
+                });
                 obj.setState({ alreadyLogged: r.data.result });
             }
             else {

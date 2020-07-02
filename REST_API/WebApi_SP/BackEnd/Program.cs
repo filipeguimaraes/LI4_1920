@@ -74,7 +74,7 @@ namespace CSharpMySQL
 
         public void newSpace(string tipo, int lotacao, string local, float preco, int area, DateTime ini, DateTime fim)
         {
-            Espaco e = new Espaco(tipo, lotacao, local, preco, area, ini, fim);
+            Espaco e = new Espaco(tipo, lotacao, local, preco, area, ini, fim,0,0);
 
             lock(this)
             {
@@ -133,7 +133,7 @@ namespace CSharpMySQL
 
         public void cancelarReserva(int reserva)
         {
-            eDAO.deleteReserva(reserva);
+            //eDAO.deleteReserva(reserva);
         }
 
         public void deleteUser()

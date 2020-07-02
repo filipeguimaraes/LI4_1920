@@ -55,7 +55,7 @@ namespace SpacesDAO {
             {
                 var cmd = new MySqlCommand();
                 cmd.Connection = dbCon.Connection;
-                cmd.CommandText = "SELECT DISTINCT e.* FROM ESPACO e, ALUGA a WHERE e.cod_espaco = a.cod_espaco AND a.email = @email AND a.data_ini > @date";
+                cmd.CommandText = "SELECT * FROM ESPACOS e, ALUGA a WHERE e.cod_espaco = a.cod_espaco AND a.email = @email AND a.data_ini > @date";
 
                 cmd.Prepare();
 
@@ -70,7 +70,7 @@ namespace SpacesDAO {
                 {
                     espaco = new Espaco(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2),
                                                 reader.GetString(3), reader.GetFloat(4), reader.GetInt32(5),
-                                                reader.GetDateTime(6), reader.GetDateTime(7),
+                                                reader.GetDateTime(11), reader.GetDateTime(12),
                                                 reader.GetFloat(8), reader.GetFloat(9));
                     espacos.Add(espaco);
                 }
@@ -92,7 +92,7 @@ namespace SpacesDAO {
             {
                 var cmd = new MySqlCommand();
                 cmd.Connection = dbCon.Connection;
-                cmd.CommandText = "SELECT DISTINCT e.* FROM ESPACO e";
+                cmd.CommandText = "SELECT DISTINCT e.* FROM ESPACOS e";
 
                 cmd.Prepare();
 
@@ -324,8 +324,6 @@ namespace SpacesDAO {
 
                 cmd.ExecuteNonQuery();
 
-                var reader = cmd.ExecuteReader();
-
                 dbCon.Close();
             }
         }
@@ -422,7 +420,7 @@ namespace SpacesDAO {
             }
         }
 
-        public void deleteReserva(int reserva)
+        public void deleteReserva(string email, int codEspaco, DateTime inicio, DateTime fim)
         {
             var dbCon = db.Instance();
             dbCon.DataBaseName = "sportsmanager";
@@ -432,11 +430,14 @@ namespace SpacesDAO {
                 var cmd = new MySqlCommand();
                 cmd.Connection = dbCon.Connection;
 
-                cmd.CommandText = "DELETE FROM ALUGA WHERE cod_reserva = @c";
+                cmd.CommandText = "DELETE FROM ALUGA WHERE cod_espaco = @c AND data_ini = @datai AND data_fim = @datae AND email = @e";
 
                 cmd.Prepare();
 
-                cmd.Parameters.AddWithValue("@c", reserva);
+                cmd.Parameters.AddWithValue("@c", codEspaco);
+                cmd.Parameters.AddWithValue("@datai", inicio);
+                cmd.Parameters.AddWithValue("@datae", fim);
+                cmd.Parameters.AddWithValue("@e", email);
 
                 cmd.ExecuteNonQuery();
 

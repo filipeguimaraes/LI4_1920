@@ -21,7 +21,7 @@ import Button from '@material-ui/core/Button';
 import '../styles/classes.css';
 
 //webAPI
-import { checkAuthentication, validateAuth } from '../components/WebAPI';
+import { checkAuthentication, validateAuth, checkPlacesPage, checkRentPlace, checkRefundRent } from '../components/WebAPI';
 import { validUser } from './user';
 
 
@@ -32,12 +32,12 @@ const values1 = [
 ];
 
 const showcolumns = [
-    { title: "Class", field: "id" },
-    { title: "Place", field: "title" },
-    { title: "Price", field: "priority", type: "currency" },
-    { title: "Capacity", field: "type", type: "numeric" },
-    { title: "Begin", field: "begin", type: "time" },
-    { title: "End", field: "end", type: "time" }
+    { title: "Place", field: "local" },
+    { title: "Type", field: "tipo" },
+    { title: "Price", field: "precoHora", type: "currency" },
+    { title: "Capacity", field: "lotacao", type: "numeric" },
+    { title: "Begin", field: "disponivelIni", type: "datetime" },
+    { title: "End", field: "disponivelFim", type: "datetime" }
 ];
 
 class Places extends Component {
@@ -45,13 +45,16 @@ class Places extends Component {
         super(props);
 
         this.state = {
-            data: [],
+            data: {
+                rented: [],
+                toRent: []
+            },
             alreadyLogged: 'loading'
         }
     }
 
     async componentWillMount() {
-        this.setState({ data: values1 });
+        await checkPlacesPage(this);
         await checkAuthentication(this);
     }
 
@@ -67,19 +70,23 @@ class Places extends Component {
                             icon: CancelIcon,
                             tooltip: 'Cancel',
                             onClick: (event, rowData) => {
-                                // Do cancel class
+                                checkRefundRent(this,
+                                    rowData.codEspaco,
+                                    rowData.disponivelIni,
+                                    rowData.disponivelFim
+                                );
                             }
                         }
                     ]}
                     columns={showcolumns}
-                    data={this.state.data}
+                    data={this.state.data.rented}
                     title=""
                 />
                 <h2 style={{ margin: '35px 5px 5px 75px', color: '#85D8CE' }}>Available places</h2>
                 <MaterialTable
                     style={tableStyle}
                     columns={showcolumns}
-                    data={this.state.data}
+                    data={this.state.data.toRent}
                     title=""
                     detailPanel={rowData => {
                         var b = new Date(rowData.begin);
@@ -115,12 +122,12 @@ class Places extends Component {
                                             }
                                             onStartDateChange={
                                                 (date) => {
-                                                    b=date;
+                                                    b = date;
                                                 }
                                             }
                                             onEndDateChange={
                                                 (date) => {
-                                                    e=date;
+                                                    e = date;
                                                 }
                                             }
                                         />
@@ -129,7 +136,11 @@ class Places extends Component {
                                             variant="outlined"
                                             onClick={
                                                 () => {
-                                                    alert('ini:' + JSON.stringify(b) + ' end:' + JSON.stringify(e));
+                                                    checkRentPlace(this,
+                                                        rowData.codEspaco,
+                                                        b.toISOString(),
+                                                        e.toISOString()
+                                                    );
                                                 }
                                             }
                                         >
