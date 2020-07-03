@@ -112,7 +112,7 @@ namespace UserDAO {
                     utilizador = new Utilizador(reader.GetString(0), reader.GetString(2), reader.GetString(3),
                                                 reader.GetString(8), reader.GetString(4), reader.GetString(1),
                                                 reader.GetInt32(6), reader.GetString(7), reader.GetDateTime(5),
-                                                reader.GetString(9));
+                                                reader.GetString(9), reader.GetFloat(10));
                      
                 }
 
@@ -146,7 +146,7 @@ namespace UserDAO {
                 dbCon.Close();
             }
         }
-        public void update(string email, string atributo, string valor)
+        public void update(string email, string atributo, object valor)
         {
             var dbCon = db.Instance();
             dbCon.DataBaseName = "sportsmanager";
@@ -187,6 +187,9 @@ namespace UserDAO {
                         break;
                     case "perfil":
                         cmd.CommandText = "UPDATE UTILIZADOR SET perfil = @val WHERE email = @em";
+                        break;
+                    case "creditos":
+                        cmd.CommandText = "UPDATE UTILIZADOR SET creditos = @val WHERE email = @em";
                         break;
                     default:
                         break;

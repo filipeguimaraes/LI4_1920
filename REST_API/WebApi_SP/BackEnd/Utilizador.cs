@@ -14,12 +14,13 @@ namespace User {
         private string password;
         private DateTime dob;
         private string perfil;
+        private float creditos;
 
         public Utilizador()
         {
         }
 
-        public Utilizador(string email, string nome, string genero, string morada, string telemovel, string nif, int altura, string password, DateTime dob, string perfil)
+        public Utilizador(string email, string nome, string genero, string morada, string telemovel, string nif, int altura, string password, DateTime dob, string perfil, float crd)
         {
             this.Email = email;
             this.Nome = nome;
@@ -29,8 +30,9 @@ namespace User {
             this.Nif = nif;
             this.Altura = altura;
             this.Password = password;
-            Dob = dob;
+            this.Dob = dob;
             this.Perfil = perfil;
+            this.Creditos = crd;
         }
 
         public string Email { get => email; set => email = value; }
@@ -43,6 +45,7 @@ namespace User {
         public string Password { get => password; set => password = value; }
         public DateTime Dob { get => dob; set => dob = value; }
         public string Perfil { get => perfil; set => perfil = value; }
+        public float Creditos { get => creditos; set => creditos = value; }
 
         public override bool Equals(object obj)
         {

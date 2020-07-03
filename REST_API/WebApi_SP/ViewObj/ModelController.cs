@@ -84,6 +84,8 @@ namespace WebApi_SP.ViewObj
                 DateTimeOffset d = DateTimeOffset.Now.AddMinutes(5);
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue,l,d);
+
+                authObj.Info = new UtilizadorDAO().get(authObj.Email);
             }
 
             return l;
@@ -289,7 +291,14 @@ namespace WebApi_SP.ViewObj
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue, l, d);
 
-                new AulaDAO().addUserToAula(classId, authObj.Email);
+                Aula aula = new AulaDAO().get(classId);
+                Utilizador utilizador = new UtilizadorDAO().get(authObj.Email);
+
+                if (utilizador.Creditos >= aula.PrecoBilhete && aula.NumBilhetes > new AulaDAO().getNumBilhetesVendidos(aula.CodAula))
+                {
+                    new AulaDAO().addUserToAula(classId, authObj.Email);
+                    new UtilizadorDAO().update(authObj.Email, "creditos", utilizador.Creditos-aula.PrecoBilhete);
+                }
 
                 authObj.Info = new ClassesPage(authObj.Email);
             }
@@ -327,7 +336,12 @@ namespace WebApi_SP.ViewObj
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue, l, d);
 
+                Aula aula = new AulaDAO().get(classId);
+                Utilizador utilizador = new UtilizadorDAO().get(authObj.Email);
+
                 new AulaDAO().deleteTicket(authObj.Email,classId);
+
+                new UtilizadorDAO().update(authObj.Email, "creditos", utilizador.Creditos + aula.PrecoBilhete);
 
                 authObj.Info = new ClassesPage(authObj.Email);
             }
@@ -367,12 +381,21 @@ namespace WebApi_SP.ViewObj
                 sessionsCache.Set(ssKey + ssValue, l, d);
 
                 string f = null;
+                DateTime begin = DateTime.Parse(dateBegin);
+                DateTime end = DateTime.Parse(dateEnd);
+                Utilizador utilizador = new UtilizadorDAO().get(authObj.Email);
+                Espaco espaco = new EspacoDAO().get(placeId);
 
                 try
                 {
-                    if (new EspacoDAO().available(placeId, dateBegin, dateEnd) == 0)
-                        new EspacoDAO().rent(authObj.Email, placeId,
-                            DateTime.Parse(dateBegin), DateTime.Parse(dateEnd));
+                    double hours_rent = end.Subtract(begin).TotalHours;
+
+                    if (new EspacoDAO().available(placeId, dateBegin, dateEnd) == 0 && utilizador.Creditos >= hours_rent * espaco.PrecoHora)
+                    {
+                        new EspacoDAO().rent(authObj.Email, placeId, begin, end);
+
+                        new UtilizadorDAO().update(authObj.Email, "creditos", utilizador.Creditos - (hours_rent * espaco.PrecoHora));
+                    }
                     else f = "Already rented in those dates.";
                 }
                 catch (Exception e) 
@@ -387,6 +410,7 @@ namespace WebApi_SP.ViewObj
             return authObj;
         }
 
+
         public Object refundRentSpace(string ssKey, string ssValue, int placeId, string dateBegin, string dateEnd)
         {
             Object l = sessionsCache.Get(ssKey + ssValue);
@@ -398,8 +422,16 @@ namespace WebApi_SP.ViewObj
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
                 sessionsCache.Set(ssKey + ssValue, l, d);
 
-                new EspacoDAO().deleteReserva(authObj.Email, placeId, 
-                    DateTime.Parse(dateBegin), DateTime.Parse(dateEnd));
+                DateTime begin = DateTime.Parse(dateBegin);
+                DateTime end = DateTime.Parse(dateEnd);
+                double hours_rent = end.Subtract(begin).TotalHours;
+
+                new EspacoDAO().deleteReserva(authObj.Email, placeId, begin, end);
+
+                Utilizador utilizador = new UtilizadorDAO().get(authObj.Email);
+                Espaco espaco = new EspacoDAO().get(placeId);
+
+                new UtilizadorDAO().update(authObj.Email, "creditos", utilizador.Creditos + (hours_rent * espaco.PrecoHora));
 
                 authObj.Info = new PlacesPage(authObj.Email,null);
             }

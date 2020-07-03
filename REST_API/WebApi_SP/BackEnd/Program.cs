@@ -37,9 +37,9 @@ namespace CSharpMySQL
 
         }
 
-        public void signup(string email, string nome, string genero, string morada, string telemovel, string nif, int altura, string password, DateTime dob, string perfil)
+        public void signup(string email, string nome, string genero, string morada, string telemovel, string nif, int altura, string password, DateTime dob, string perfil, float crd)
         {
-            Utilizador u = new Utilizador(email, nome, genero, morada, telemovel, nif, altura, password, dob, perfil);
+            Utilizador u = new Utilizador(email, nome, genero, morada, telemovel, nif, altura, password, dob, perfil, crd);
 
             if(uDAO.containsKey(email))
             {

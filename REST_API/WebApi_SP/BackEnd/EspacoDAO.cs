@@ -179,7 +179,7 @@ namespace SpacesDAO {
             return ocupacoes;
         }
 
-        public void get(int codigo)
+        public Espaco get(int codigo)
         {
             var dbCon = db.Instance();
             dbCon.DataBaseName = "sportsmanager";
@@ -213,7 +213,8 @@ namespace SpacesDAO {
 
                 dbCon.Close();
             }
-           Console.WriteLine(espaco.Tipo);
+
+            return espaco;
 
         }
 

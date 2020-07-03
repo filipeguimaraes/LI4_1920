@@ -81,6 +81,37 @@ namespace ClassesDAO {
 
         }
 
+        public int getNumBilhetesVendidos(object codAula)
+        {
+            var dbCon = db.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+            int r = 0;
+
+            if (dbCon.IsConnect())
+            {
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                cmd.CommandText = "SELECT count(*) FROM AULA a, FREQUENTA f WHERE a.cod_aula = @cod AND a.cod_aula = f.cod_aula";
+
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@cod", codAula);
+
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    r = reader.GetInt32(0);
+                }
+
+                dbCon.Close();
+            }
+
+            return r;
+
+        }
 
         public List<Aula> getAulasByUtilizador(string email)
         {
