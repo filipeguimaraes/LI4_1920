@@ -16,7 +16,7 @@ import {
 
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import StarIcon from '@material-ui/icons/Star';
+import ScheduleIcon from '@material-ui/icons/Schedule';
 
 // Or import the input component
 import DayPickerInput from 'react-day-picker/DayPickerInput';
@@ -206,15 +206,21 @@ class Places extends Component {
                                                             alignItems="center"
                                                         >
                                                             <Grid item xs={12}>
-                                                                <List component="nav" aria-label="Time ocupation">
-                                                                    <ListItem button>
+                                                                <List component="nav" aria-label="Busy Hours">
+                                                                    <ListItemText primary="Busy Hours" />
+
+                                                                    <ListItem>
                                                                         <ListItemIcon>
-                                                                            <StarIcon />
+                                                                            <ScheduleIcon color="error" />
                                                                         </ListItemIcon>
                                                                         <ListItemText primary="Chelsea Otakan" />
                                                                     </ListItem>
-                                                                    <ListItem button>
-                                                                        <ListItemText inset primary="Eric Hoffman" />
+
+                                                                    <ListItem>
+                                                                        <ListItemIcon>
+                                                                            <ScheduleIcon color="error" />
+                                                                        </ListItemIcon>
+                                                                        <ListItemText primary="Eric Hoffman" />
                                                                     </ListItem>
                                                                 </List>
                                                             </Grid>
@@ -227,28 +233,28 @@ class Places extends Component {
                                                                     }}
                                                                 >
                                                                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                                        <TimePicker value={this.state.selectedTimeBegin} onChange={this.handleTimeBeginChange} helperText={''}/>
-                                                                        <TimePicker value={this.handleTimeEndChange} onChange={this.handleTimeEndChange} helperText={''}/>
+                                                                        <TimePicker value={this.state.selectedTimeBegin} onChange={this.handleTimeBeginChange} helperText={''} />
+                                                                        <TimePicker value={this.handleTimeEndChange} onChange={this.handleTimeEndChange} helperText={''} />
                                                                     </MuiPickersUtilsProvider>
                                                                 </div>
                                                             </Grid>
-                                                                <Grid item xs={12}>
-                                                                    <Button onClick={() => { alert('clicado') }}>Confirm</Button>
-                                                                </Grid>
+                                                            <Grid item xs={12}>
+                                                                <Button onClick={() => { alert('clicado') }}>Confirm</Button>
                                                             </Grid>
+                                                        </Grid>
                                                     </Popup>
                                                 </Grid>
-                                                </Grid>
+                                            </Grid>
                                         </Popup>
                                     </Container>
                                 </Grid>
-                                </Grid>
+                            </Grid>
                         )
                     }}
                 />
             </Layout>
-                        );
-                    }
-                    }
+        );
+    }
+}
 
-                    export default Places;
+export default Places;
