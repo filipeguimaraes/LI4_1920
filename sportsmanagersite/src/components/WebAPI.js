@@ -393,7 +393,6 @@ export async function checkAddClass(obj) {
             + `${placeId}=${place}`
             , baseConfig)
             .then(r => {
-                console.log(r);
                 if (r.data.result === 'instructor') {
                     obj.setState({ alreadyLogged: r.data.result });
                     obj.setState({ classes: r.data.info });
@@ -403,7 +402,6 @@ export async function checkAddClass(obj) {
                 }
             })
             .catch(e => {
-                console.log(e);
                 obj.setState({ alreadyLogged: errorAPI });
             });
 
@@ -587,7 +585,6 @@ export async function checkPlacesPage(obj) {
 
     await Axios.get(baseURL + `Places?${sessionKEY}=${kUid}&${sessionID}=${vUid}`, baseConfig)
         .then(r => {
-            console.log(r);
             if (r.data.result === 'user') {
                 obj.setState({
                     data: {
@@ -619,7 +616,6 @@ export async function checkRentPlace(obj, cod, beg, end) {
         + `dateEnd=${end}`
         , baseConfig)
         .then(r => {
-            console.log(r);
             if (r.data.result === 'user') {
                 obj.setState({
                     data: {
