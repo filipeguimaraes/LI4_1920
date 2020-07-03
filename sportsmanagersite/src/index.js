@@ -14,7 +14,6 @@ import User from './pages/user';
 import Statistics from './pages/statistics';
 import Classes from './pages/classes';
 import Places from './pages/places';
-import SelectPlace from './pages/selectPlace';
 import Settings from './pages/settings';
 //Instructor
 import Instructor from './pages/instructor';
@@ -34,7 +33,6 @@ const SportsManager = () => (
             <Route path="/statistics" component={Statistics} />
             <Route path="/classes" component={Classes} />
             <Route path="/places" component={Places} />
-            <Route path="/slectPlace" component={SelectPlace} />
             <Route path="/settings" component={Settings} />
             <Route path="/instructor" component={Instructor} />
             <Route path="/loading" component={Loading} />

@@ -1,11 +1,34 @@
-import React, { Component } from 'react';
+import React, { Fragment, Component } from 'react';
 import Layout from '../layouts/UserLayout';
 import Grid from '@material-ui/core/Grid';
+import Popup from "reactjs-popup";
+import DayPicker from 'react-day-picker';
+import { makeStyles } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import DateFnsUtils from '@date-io/date-fns'; // choose your lib
+import {
+    DatePicker,
+    TimePicker,
+    DateTimePicker,
+    MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
+
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import StarIcon from '@material-ui/icons/Star';
+
+// Or import the input component
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+
+import 'react-day-picker/lib/style.css';
 
 //table
 import MaterialTable from 'material-table';
 import CancelIcon from '@material-ui/icons/Cancel';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import tableStyle from '../styles/table.css'
+import TableContainer from '@material-ui/core/TableContainer';
 
 //map
 import MapSection from '../components/map/Map';
@@ -43,20 +66,46 @@ const showcolumns = [
 class Places extends Component {
     constructor(props) {
         super(props);
-
+        this.handleDayClick = this.handleDayClick.bind(this);
+        this.handleTimeBeginChange = this.handleTimeBeginChange.bind(this);
+        this.handleTimeEndChange = this.handleTimeEndChange.bind(this);
         this.state = {
             data: {
                 rented: [],
                 toRent: [],
                 flag: null
             },
-            alreadyLogged: 'loading'
+            alreadyLogged: 'loading',
+            selectedDay: Date.now(),
+            selectedTimeBegin: Date.now(),
+            selectedTimeEnd: Date.now()
         }
     }
 
     async componentWillMount() {
         await checkPlacesPage(this);
         await checkAuthentication(this);
+    }
+
+    handleDayClick(day) {
+        this.setState({
+            selectedDay: day
+        });
+        console.log(day)
+    }
+
+    handleTimeBeginChange(time) {
+        this.setState({
+            selectedTimeBegin: time
+        });
+        console.log(time)
+    }
+
+    handleTimeEndChange(time) {
+        this.setState({
+            selectedTimeEnd: time
+        });
+        console.log(time)
     }
 
     render() {
@@ -99,7 +148,7 @@ class Places extends Component {
                                 justify="center"
                                 alignItems="center"
                             >
-                                <Grid item xs={8}>
+                                <Grid item xs={10}>
                                     <MapSection
                                         location={{
                                             address: rowData.id,
@@ -109,53 +158,97 @@ class Places extends Component {
                                         zoomLevel={17}
                                     />
                                 </Grid>
-                                <Grid item xs={4}>
-                                    <Container maxWidth="85%">
-                                        <DatetimeRangePicker
-                                            startDate={Date.now()}
-                                            endDate={Date.now()}
-                                            isValidStartDate={
-                                                (currentDate, selectedDate) => {
-                                                    if (currentDate < Date.now())
-                                                        return false;
-                                                    else return true;
-                                                }
-                                            }
-                                            onStartDateChange={
-                                                (date) => {
-                                                    b = date;
-                                                }
-                                            }
-                                            onEndDateChange={
-                                                (date) => {
-                                                    e = date;
-                                                }
-                                            }
-                                        />
-                                        <Button
+                                <Grid item xs={2}>
+                                    <Container maxWidth="sm">
+                                        <Popup
+                                            modal
                                             style={{ padding: '10' }}
-                                            variant="outlined"
-                                            onClick={
-                                                async () => {
-                                                    await checkRentPlace(this,
-                                                        rowData.codEspaco,
-                                                        b.toISOString(),
-                                                        e.toISOString()
-                                                    );
-                                                }
+                                            trigger={
+                                                <Button
+                                                    style={{ padding: '10' }}
+                                                    variant="outlined"
+                                                    onClick={
+                                                        async () => {
+                                                            await checkRentPlace(this,
+                                                                rowData.codEspaco,
+                                                                b.toISOString(),
+                                                                e.toISOString()
+                                                            );
+                                                        }
+                                                    }>Rent Space </Button>
                                             }
-                                        >
-                                            Rent Space
-                                        </Button>
+                                            position="center">
+                                            <Grid
+                                                container
+                                                direction="row"
+                                                justify="center"
+                                                alignItems="center"
+                                            >
+                                                <DayPicker
+                                                    showOutsideDays
+                                                    todayButton="Today"
+                                                    selectedDays={this.state.selectedDay}
+                                                    onDayClick={this.handleDayClick}
+                                                />
+                                                <Grid item xs={12}>
+                                                    <Popup
+                                                        modal
+                                                        trigger={
+                                                            <Button variant="outlined">
+                                                                Chose Time Interval
+                                                        </Button>
+                                                        }
+                                                        position="center">
+                                                        <Grid
+                                                            container
+                                                            direction="row"
+                                                            justify="center"
+                                                            alignItems="center"
+                                                        >
+                                                            <Grid item xs={12}>
+                                                                <List component="nav" aria-label="Time ocupation">
+                                                                    <ListItem button>
+                                                                        <ListItemIcon>
+                                                                            <StarIcon />
+                                                                        </ListItemIcon>
+                                                                        <ListItemText primary="Chelsea Otakan" />
+                                                                    </ListItem>
+                                                                    <ListItem button>
+                                                                        <ListItemText inset primary="Eric Hoffman" />
+                                                                    </ListItem>
+                                                                </List>
+                                                            </Grid>
+                                                            <Grid item xs={12} >
+                                                                <div
+                                                                    style={{
+                                                                        display: "flex",
+                                                                        justifyContent: "center",
+                                                                        alignItems: "center"
+                                                                    }}
+                                                                >
+                                                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                                        <TimePicker value={this.state.selectedTimeBegin} onChange={this.handleTimeBeginChange} helperText={''}/>
+                                                                        <TimePicker value={this.handleTimeEndChange} onChange={this.handleTimeEndChange} helperText={''}/>
+                                                                    </MuiPickersUtilsProvider>
+                                                                </div>
+                                                            </Grid>
+                                                                <Grid item xs={12}>
+                                                                    <Button onClick={() => { alert('clicado') }}>Confirm</Button>
+                                                                </Grid>
+                                                            </Grid>
+                                                    </Popup>
+                                                </Grid>
+                                                </Grid>
+                                        </Popup>
                                     </Container>
                                 </Grid>
-                            </Grid>
+                                </Grid>
                         )
                     }}
                 />
             </Layout>
-        );
-    }
-}
+                        );
+                    }
+                    }
 
-export default Places;
+                    export default Places;
