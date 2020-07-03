@@ -4,6 +4,7 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 using Data;
 using System.Collections.Generic;
+using WebApi_SP.ViewObj;
 
 namespace SpacesDAO {
 
@@ -116,6 +117,66 @@ namespace SpacesDAO {
             }
 
             return espacos;
+        }
+
+        internal List<OccupiedObj> getOccupations(int cod, DateTime date)
+        {
+            var dbCon = db.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+            OccupiedObj ocupacao = null;
+            List<OccupiedObj> ocupacoes = new List<OccupiedObj>();
+
+            if (dbCon.IsConnect())
+            {
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                cmd.CommandText = "SELECT a.cod_espaco, a.data_ini, a.data_fim FROM ALUGA a WHERE @val = a.cod_espaco AND ((@dateBegin >= data_ini OR data_ini <= @dateEnd) AND (@dateBegin <= data_fim OR data_fim >= @dateEnd))";
+
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@val", cod);
+                cmd.Parameters.AddWithValue("@dateBegin", date.ToString("yyyy-MM-dd 00:00:00"));
+                cmd.Parameters.AddWithValue("@dateEnd", date.ToString("yyyy-MM-dd 23:59:59"));
+
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    ocupacao = new OccupiedObj(reader.GetInt32(0), reader.GetDateTime(1), reader.GetDateTime(2));
+                    ocupacoes.Add(ocupacao);
+                }
+
+                dbCon.Close();
+            }
+
+            if (dbCon.IsConnect())
+            {
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                cmd.CommandText = "SELECT a.ESPACOS_cod_espaco, a.data_ini, a.data_fim FROM AULA a WHERE @val = a.ESPACOS_cod_espaco AND ((@dateBegin >= data_ini OR data_ini <= @dateEnd) AND (@dateBegin <= data_fim OR data_fim >= @dateEnd))";
+
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@val", cod);
+                cmd.Parameters.AddWithValue("@dateBegin", date.ToString("yyyy-MM-dd 00:00:00"));
+                cmd.Parameters.AddWithValue("@dateEnd", date.ToString("yyyy-MM-dd 23:59:59"));
+
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    ocupacao = new OccupiedObj(reader.GetInt32(0), reader.GetDateTime(1), reader.GetDateTime(2));
+                    ocupacoes.Add(ocupacao);
+                }
+
+                dbCon.Close();
+            }
+
+            return ocupacoes;
         }
 
         public void get(int codigo)
