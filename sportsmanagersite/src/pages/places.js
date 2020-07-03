@@ -54,6 +54,13 @@ const values1 = [
     { id: 'Basketball court', title: 'Viana do Castelo', priority: 120, type: 12, complete: '15', incomplete: 'Cloudy', begin: '10:00', end: '12:00', lat: 41.5518, lng: -8.4229 }
 ];
 
+const entredatas = [
+    { id: 'Gym', begin: '14:00', end: '16:00' },
+    { id: 'Gym', begin: '17:00', end: '18:00' },
+    { id: 'Gym', begin: '19:30', end: '21:00' },
+
+];
+
 const showcolumns = [
     { title: "Place", field: "local" },
     { title: "Type", field: "tipo" },
@@ -151,7 +158,7 @@ class Places extends Component {
                                 <Grid item xs={10}>
                                     <MapSection
                                         location={{
-                                            address: rowData.id,
+                                            address: rowData.tipo,
                                             lat: rowData.lat,
                                             lng: rowData.lng,
                                         }}
@@ -208,20 +215,16 @@ class Places extends Component {
                                                             <Grid item xs={12}>
                                                                 <List component="nav" aria-label="Busy Hours">
                                                                     <ListItemText primary="Busy Hours" />
-
-                                                                    <ListItem>
-                                                                        <ListItemIcon>
-                                                                            <ScheduleIcon color="error" />
-                                                                        </ListItemIcon>
-                                                                        <ListItemText primary="Chelsea Otakan" />
-                                                                    </ListItem>
-
-                                                                    <ListItem>
-                                                                        <ListItemIcon>
-                                                                            <ScheduleIcon color="error" />
-                                                                        </ListItemIcon>
-                                                                        <ListItemText primary="Eric Hoffman" />
-                                                                    </ListItem>
+                                                                    {entredatas.map(
+                                                                        (obj) => (
+                                                                            <ListItem>
+                                                                                <ListItemIcon>
+                                                                                    <ScheduleIcon color="error" />
+                                                                                </ListItemIcon>
+                                                                                <ListItemText primary={obj.begin+" - "+obj.end} />
+                                                                            </ListItem>
+                                                                        )
+                                                                    )}
                                                                 </List>
                                                             </Grid>
                                                             <Grid item xs={12} >
