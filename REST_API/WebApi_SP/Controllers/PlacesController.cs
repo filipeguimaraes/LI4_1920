@@ -20,6 +20,13 @@ namespace WebApi_SP.Controllers
             return Ok(new ModelController().Instance().getPlacesPage(ssKey, ssValue));
         }
 
+        [HttpPost]
+        [EnableCors("MyPolicy")]
+        public ActionResult<Object> GetOccupiedDates(string ssKey, string ssValue, int placeId, string date)
+        {
+            return Ok(new ModelController().Instance().ListOfOccupiedDates(ssKey, ssValue, placeId, date));
+        }
+
         [HttpPut]
         [EnableCors("MyPolicy")]
         public ActionResult<Object> RentSpace(string ssKey, string ssValue, int placeId, string dateBegin, string dateEnd)

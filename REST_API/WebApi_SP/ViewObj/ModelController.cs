@@ -78,12 +78,13 @@ namespace WebApi_SP.ViewObj
         public Object Authentication(string ssKey, string ssValue)
         {
             Object l = sessionsCache.Get(ssKey + ssValue);
-            
-            if (l != null) {
-                AuthenticationObj<Object> authObj = (AuthenticationObj<Object>) l;
+
+            if (l != null)
+            {
+                AuthenticationObj<Object> authObj = (AuthenticationObj<Object>)l;
                 DateTimeOffset d = DateTimeOffset.Now.AddMinutes(5);
                 authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
-                sessionsCache.Set(ssKey + ssValue,l,d);
+                sessionsCache.Set(ssKey + ssValue, l, d);
 
                 authObj.Info = new UtilizadorDAO().get(authObj.Email);
             }
@@ -434,6 +435,32 @@ namespace WebApi_SP.ViewObj
                 new UtilizadorDAO().update(authObj.Email, "creditos", utilizador.Creditos + (hours_rent * espaco.PrecoHora));
 
                 authObj.Info = new PlacesPage(authObj.Email,null);
+            }
+            else return null;
+
+            return authObj;
+        }
+
+        public Object ListOfOccupiedDates(string ssKey, string ssValue, int placeId, string date)
+        {
+            Object l = sessionsCache.Get(ssKey + ssValue);
+            AuthenticationObj<Object> authObj = (AuthenticationObj<Object>)l;
+
+            if (authObj != null && authObj.Result.Equals("user"))
+            {
+                DateTimeOffset d = DateTimeOffset.Now.AddMinutes(5);
+                authObj.Expire = d.ToUnixTimeMilliseconds().ToString();
+                sessionsCache.Set(ssKey + ssValue, l, d);
+
+                DateTime day = DateTime.Parse(date);
+
+                List<OccupiedObj> occup = new EspacoDAO().getOccupations(placeId,day);
+
+                PlacesPage pp = new PlacesPage(authObj.Email, null);
+                pp.Occupied = occup;
+
+                authObj.Info = pp;
+
             }
             else return null;
 

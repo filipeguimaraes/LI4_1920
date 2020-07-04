@@ -10,12 +10,13 @@ import errorPage from '../pages/error';
 
 // EXPORTABLE CONSTANTS
 
-export const baseURL = 'https://localhost:44384/'
+export const baseURL = 'https://sportsmanagerwebapi.azurewebsites.net/'
 
 export const proxyURL = 'https://cors-anywhere.herokuapp.com/'
 
 export const baseConfig = {
     headers: {
+        'Access-Control-Allow-Credentials' : true,
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
         'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
@@ -656,6 +657,36 @@ export async function checkRefundRent(obj, cod, beg, end) {
                     }
                 });
                 obj.setState({ alreadyLogged: r.data.result });
+            }
+            else {
+                obj.setState({ alreadyLogged: null });
+            }
+        })
+        .catch(() => {
+            obj.setState({ alreadyLogged: errorAPI });
+        });
+}
+
+export async function checkAvailabilityPlace(obj, cod, date) {
+    var kUid = localStorage.getItem(sessionKEY);
+    var vUid = localStorage.getItem(sessionID);
+
+    obj.setState({ alreadyLogged: 'loading' });
+
+    await Axios.post(baseURL + `Places?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
+        + `placeId=${cod}&`
+        + `dateBegin=${date}`
+        , baseConfig)
+        .then(r => {
+            if (r.data.result === 'user') {
+                obj.setState({
+                    data: {
+                        rented: r.data.info.rented,
+                        occupied: r.data.info.occupied
+                    }
+                });
+                obj.setState({ alreadyLogged: r.data.result });
+                if (r.data.info.flag !== null) alert(r.data.info.flag);
             }
             else {
                 obj.setState({ alreadyLogged: null });

@@ -31,7 +31,10 @@ namespace WebApi_SP
                 options.AddPolicy("MyPolicy",
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:3000")
+                        builder.WithOrigins("http://85.240.156.204")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                        builder.WithOrigins("http://94.61.228.206")
                                             .AllowAnyHeader()
                                             .AllowAnyMethod();
                     });
@@ -55,7 +58,11 @@ namespace WebApi_SP
 
             app.UseRouting();
 
-            app.UseCors(builder => builder.WithOrigins("http://localhost:3000"));
+            app.UseCors(builder => {
+                builder.WithOrigins("http://85.240.156.204");
+                builder.WithOrigins("http://94.61.228.206");
+            }
+            );
 
             app.UseAuthorization();
 
