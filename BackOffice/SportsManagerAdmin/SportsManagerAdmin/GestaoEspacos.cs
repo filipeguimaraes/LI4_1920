@@ -30,7 +30,7 @@ namespace SportsManagerAdmin
 
                 var cmd = new MySqlCommand();
                 cmd.Connection = dbCon.Connection;
-                cmd.CommandText = "SELECT count(cod_espaco) FROM ESPACOS";
+                cmd.CommandText = "SELECT COUNT(cod_espaco) FROM ESPACOS";
 
                 //este Open bugava ao tentar abrir apos o IsConnect (como estava antes)
                 //o que dava um erro de tentar abrir um canal que j� est� aberto.
@@ -54,6 +54,8 @@ namespace SportsManagerAdmin
                 espacosRegistados.Text = result.ToString();
             }
 
+            aulasEspaco();
+            lucroMedioEspaco();
             preencherComboEspacos();
             preencherComboEspacos1();
             preencherComboEspacos2();
@@ -138,6 +140,50 @@ namespace SportsManagerAdmin
             }
 
             return (float) f * preco_bilhete;
+        }
+
+        public void lucroMedioEspaco()
+        {
+            var dbCon = c.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+
+            List<int> aulas = new List<int>();
+
+            float total = 0.0f;
+
+            if (dbCon.IsConnect())
+            {
+                int result = 0;
+
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                cmd.CommandText = "SELECT cod_aula FROM AULA";
+
+                //este Open bugava ao tentar abrir apos o IsConnect (como estava antes)
+                //o que dava um erro de tentar abrir um canal que j� est� aberto.
+                //n�o vi mais metodos pq so estava mesmo o testar cenas elementares...
+                //mas se este d� os outros tamb�m v�o dar...depois temos � de ver o model
+                //cmd.Connection.Open();
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                   aulas.Add(reader.GetInt32(0));
+                }
+
+                dbCon.Close();
+            }
+
+            foreach(int i in aulas) {
+                total += lucroAula(i);
+            }
+
+            textBox2.Text = (total / int.Parse(espacosRegistados.Text)).ToString();
         }
 
         public void preencherComboEspacos()
@@ -306,9 +352,8 @@ namespace SportsManagerAdmin
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        public void aulasEspaco()
         {
-            int i = (int)comboBox1.SelectedItem;
 
             int espacos = Int32.Parse(espacosRegistados.Text);
 
@@ -342,7 +387,49 @@ namespace SportsManagerAdmin
 
                 dbCon.Close();
 
-                textBox1.Text = ((float) (result / espacos)).ToString();
+                textBox3.Text = (((float)result / (float)espacos)).ToString();
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int i = (int)comboBox1.SelectedItem;
+
+            int espacos = Int32.Parse(espacosRegistados.Text);
+
+            var dbCon = c.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+
+            if (dbCon.IsConnect())
+            {
+                int result = 0;
+
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                cmd.CommandText = "SELECT count(cod_aula) FROM AULA WHERE ESPACOS_cod_espaco = @em";
+
+                //este Open bugava ao tentar abrir apos o IsConnect (como estava antes)
+                //o que dava um erro de tentar abrir um canal que j� est� aberto.
+                //n�o vi mais metodos pq so estava mesmo o testar cenas elementares...
+                //mas se este d� os outros tamb�m v�o dar...depois temos � de ver o model
+                //cmd.Connection.Open();
+
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@em", i);
+
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    result = reader.GetInt32(0);
+                }
+
+                dbCon.Close();
+
+                textBox1.Text = result.ToString();
             }
         }
     }
