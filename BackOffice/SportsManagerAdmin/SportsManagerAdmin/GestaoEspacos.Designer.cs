@@ -31,14 +31,19 @@
             this.label1 = new System.Windows.Forms.Label();
             this.espacosRegistados = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.ButtonClasses = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.ConsultButton = new System.Windows.Forms.Button();
             this.nrVezes = new System.Windows.Forms.TextBox();
             this.comboBoxEspaços = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.ButtonClasses = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.lucroEspaco = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,6 +66,11 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lucroEspaco);
+            this.groupBox1.Controls.Add(this.comboBox2);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.textBox2);
+            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.ButtonClasses);
             this.groupBox1.Controls.Add(this.comboBox1);
@@ -73,14 +83,50 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(26, 33);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(367, 333);
+            this.groupBox1.Size = new System.Drawing.Size(762, 405);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Estatísticas de Espaços";
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(255, 198);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(65, 20);
+            this.textBox1.TabIndex = 9;
+            // 
+            // ButtonClasses
+            // 
+            this.ButtonClasses.Location = new System.Drawing.Point(19, 240);
+            this.ButtonClasses.Name = "ButtonClasses";
+            this.ButtonClasses.Size = new System.Drawing.Size(63, 23);
+            this.ButtonClasses.TabIndex = 8;
+            this.ButtonClasses.Text = "Consultar";
+            this.ButtonClasses.UseVisualStyleBackColor = true;
+            this.ButtonClasses.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(19, 197);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(191, 21);
+            this.comboBox1.TabIndex = 7;
+            this.comboBox1.Text = "Selecione um Espaço";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(16, 169);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(186, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Consultar nº de Aulas/Espaço (média)";
+            // 
             // ConsultButton
             // 
-            this.ConsultButton.Location = new System.Drawing.Point(27, 136);
+            this.ConsultButton.Location = new System.Drawing.Point(19, 136);
             this.ConsultButton.Name = "ConsultButton";
             this.ConsultButton.Size = new System.Drawing.Size(64, 19);
             this.ConsultButton.TabIndex = 5;
@@ -90,16 +136,16 @@
             // 
             // nrVezes
             // 
-            this.nrVezes.Location = new System.Drawing.Point(255, 100);
+            this.nrVezes.Location = new System.Drawing.Point(255, 99);
             this.nrVezes.Name = "nrVezes";
             this.nrVezes.ReadOnly = true;
-            this.nrVezes.Size = new System.Drawing.Size(66, 20);
+            this.nrVezes.Size = new System.Drawing.Size(65, 20);
             this.nrVezes.TabIndex = 4;
             // 
             // comboBoxEspaços
             // 
             this.comboBoxEspaços.FormattingEnabled = true;
-            this.comboBoxEspaços.Location = new System.Drawing.Point(23, 98);
+            this.comboBoxEspaços.Location = new System.Drawing.Point(19, 99);
             this.comboBoxEspaços.Name = "comboBoxEspaços";
             this.comboBoxEspaços.Size = new System.Drawing.Size(192, 21);
             this.comboBoxEspaços.TabIndex = 3;
@@ -108,47 +154,55 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 64);
+            this.label2.Location = new System.Drawing.Point(16, 64);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(199, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Consultar nº de alugueres de um Espaço";
             // 
-            // label3
+            // label4
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 196);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(186, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Consultar nº de Aulas/Espaço (média)";
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(16, 289);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(149, 13);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Consultar lucro médio/Espaço";
             // 
-            // comboBox1
+            // textBox2
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(23, 233);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(191, 21);
-            this.comboBox1.TabIndex = 7;
-            this.comboBox1.Text = "Selecione um Espaço";
+            this.textBox2.Location = new System.Drawing.Point(255, 289);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(65, 20);
+            this.textBox2.TabIndex = 11;
             // 
-            // ButtonClasses
+            // label5
             // 
-            this.ButtonClasses.Location = new System.Drawing.Point(27, 272);
-            this.ButtonClasses.Name = "ButtonClasses";
-            this.ButtonClasses.Size = new System.Drawing.Size(63, 23);
-            this.ButtonClasses.TabIndex = 8;
-            this.ButtonClasses.Text = "Consultar";
-            this.ButtonClasses.UseVisualStyleBackColor = true;
-            this.ButtonClasses.Click += new System.EventHandler(this.button1_Click);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(16, 322);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(148, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Consultar lucro de um Espaço";
             // 
-            // textBox1
+            // comboBox2
             // 
-            this.textBox1.Location = new System.Drawing.Point(255, 233);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(65, 20);
-            this.textBox1.TabIndex = 9;
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(19, 347);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(191, 21);
+            this.comboBox2.TabIndex = 13;
+            this.comboBox2.Text = "Selecione um Espaço";
+            // 
+            // lucroEspaco
+            // 
+            this.lucroEspaco.Location = new System.Drawing.Point(19, 380);
+            this.lucroEspaco.Name = "lucroEspaco";
+            this.lucroEspaco.Size = new System.Drawing.Size(64, 24);
+            this.lucroEspaco.TabIndex = 14;
+            this.lucroEspaco.Text = "Consultar";
+            this.lucroEspaco.UseVisualStyleBackColor = true;
             // 
             // GestaoEspacos
             // 
@@ -177,5 +231,10 @@
         private System.Windows.Forms.Button ButtonClasses;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button lucroEspaco;
     }
 }
