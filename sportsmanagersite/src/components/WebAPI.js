@@ -17,7 +17,7 @@ export const proxyURL = 'https://cors-anywhere.herokuapp.com/'
 
 export const baseConfig = {
     headers: {
-        'Access-Control-Allow-Credentials' : true,
+        'Access-Control-Allow-Credentials': true,
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
         'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
@@ -679,7 +679,12 @@ export async function checkAvailabilityPlace(obj, cod, date) {
         .then(r => {
             console.log(r);
             if (r.data.result === 'user') {
-                
+                obj.setState({
+                    data: {
+                        occupied: r.data.info.occupied
+                    }
+                });
+
                 if (r.data.info.flag !== null) alert(r.data.info.flag);
             }
             else {

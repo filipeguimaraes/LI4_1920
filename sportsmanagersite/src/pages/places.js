@@ -80,12 +80,14 @@ class Places extends Component {
             data: {
                 rented: [],
                 toRent: [],
+                occupied: [],
                 flag: null
             },
             alreadyLogged: 'loading',
             selectedDay: Date.now(),
             selectedTimeBegin: Date.now(),
-            selectedTimeEnd: Date.now()
+            selectedTimeEnd: Date.now(),
+            selectedRow: null
         }
     }
 
@@ -98,6 +100,7 @@ class Places extends Component {
         this.setState({
             selectedDay: day
         });
+        checkAvailabilityPlace(this,this.state.selectedRow,new Date(this.state.selectedDay).toISOString());
         console.log(day)
     }
 
@@ -146,6 +149,7 @@ class Places extends Component {
                     data={this.state.data.toRent}
                     title=""
                     detailPanel={rowData => {
+                        this.setState({selectedRow: rowData.codEspaco});
                         var b = Date.now();
                         var e = Date.now();
                         return (
@@ -213,19 +217,13 @@ class Places extends Component {
                                                             alignItems="center"
                                                         >
                                                             <Grid item xs={12}>
-                                                                <List component="nav" aria-label="Busy Hours">
-                                                                    <ListItemText primary="Busy Hours" />
-                                                                    {entredatas.map(
-                                                                        (obj) => (
-                                                                            <ListItem>
-                                                                                <ListItemIcon>
-                                                                                    <ScheduleIcon color="error" />
-                                                                                </ListItemIcon>
-                                                                                <ListItemText primary={obj.begin+" - "+obj.end} />
-                                                                            </ListItem>
-                                                                        )
-                                                                    )}
-                                                                </List>
+                                                                <MaterialTable
+                                                                    columns={[
+                                                                        { title: "Begin", field: "begin", type: "time" },
+                                                                        { title: "End", field: "end", type: "time" }]}
+                                                                    data={this.state.data.occupied}
+                                                                    title="Busy Hours"
+                                                                />
                                                             </Grid>
                                                             <Grid item xs={12} >
                                                                 <div
