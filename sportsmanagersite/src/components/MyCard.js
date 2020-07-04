@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 
 const MyCard = ({ money }) => (
-  <div style={{ padding: '30px' }}>
+  
     <Card style={{ padding: '30px' }}>
 
       <Typography variant="h3" component="h3" >
@@ -16,7 +16,7 @@ const MyCard = ({ money }) => (
 
       <h2 style={{textAlign: "right"}}>{money} $</h2>
     </Card>
-  </div>
+  
 )
 
 export default MyCard

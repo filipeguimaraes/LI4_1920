@@ -100,7 +100,7 @@ class User extends Component {
                         alignItems="center"
                     >
                         <Grid item xs={8}>
-                            <div style={{display:"table-cell", verticalAlign:"middle", textAlign:"center"}}>
+                            <div style={{ display: "table-cell", verticalAlign: "middle", textAlign: "center" }}>
                                 <img
                                     src={userLogo}
                                     alt="sports"
@@ -112,8 +112,10 @@ class User extends Component {
                                 </h1>
                             </div>
                         </Grid>
-                        <Grid item xs={4}>
-                            <MyCard money={10.5} />
+                        <Grid item xs>
+                            <div style={{ padding: '30px' }}>
+                                <MyCard money={10.5} />
+                            </div>
                         </Grid>
                         <Grid item xs={12}>
                             <div id="icon-wrapper">
