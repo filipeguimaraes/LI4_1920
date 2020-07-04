@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/user.css';
-import { Grid, Cell } from 'react-mdl';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 import userLogo from '../images/marcelo.jpg';
 
@@ -13,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBasketballBall, faBiking } from '@fortawesome/free-solid-svg-icons'
 
 import Layout from '../layouts/UserLayout';
+import MyCard from '../components/MyCard';
 
 import { checkAuthentication, validateAuth } from '../components/WebAPI';
 
@@ -91,20 +93,32 @@ class User extends Component {
         return (
             <Layout>
                 <div style={{ width: '100%', margin: 'auto' }}>
-                    <Grid className="user-grid">
-                        <Cell col={12}>
-                            <img
-                                src={userLogo}
-                                alt="sports"
-                                id="profile-img"
-                            />
-                            <div>
-        <h1 style={{ color: '#85D8CE', textAlign: "center" }}>Welcome, {this.state.name}!</h1>
+                    <Grid
+                        container
+                        direction="row"
+                        justify="center"
+                        alignItems="center"
+                    >
+                        <Grid item xs={8}>
+                            <div style={{display:"table-cell", verticalAlign:"middle", textAlign:"center"}}>
+                                <img
+                                    src={userLogo}
+                                    alt="sports"
+                                    id="profile-img"
+                                />
+
+                                <h1 style={{ color: '#85D8CE', textAlign: "center", padding: '15px' }}>
+                                    Welcome, {this.state.name}!
+                                </h1>
                             </div>
-                        </Cell>
-                        <Cell col={12}>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <MyCard money={10.5} />
+                        </Grid>
+                        <Grid item xs={12}>
                             <div id="icon-wrapper">
                                 {menus.map(menu => (
+
                                     <a href={menu.link}>
                                         <div class={`icons${menu.number}`}>
                                             <div class="icon-slide-container">
@@ -112,10 +126,12 @@ class User extends Component {
                                             </div>
                                         </div>
                                     </a>
+
                                 ))}
+
                             </div>
-                        </Cell>
-                        <Cell style={{ margin: '80px' }} col={12}>
+                        </Grid>
+                        <Grid item style={{ margin: '80px' }} xs={12}>
                             <div class="sugestions-container">
                                 <h1 style={{ color: '#85D8CE', textAlign: "left" }}>Based on your last purchases</h1>
                                 {this.state.notifications.map(notification => (
@@ -132,7 +148,7 @@ class User extends Component {
                                     </div>
                                 ))}
                             </div>
-                        </Cell>
+                        </Grid>
                     </Grid>
                 </div>
             </Layout>
