@@ -37,6 +37,12 @@ namespace WebApi_SP
                         builder.WithOrigins("http://94.61.228.206")
                                             .AllowAnyHeader()
                                             .AllowAnyMethod();
+                        builder.WithOrigins("http://localhost:3000")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                        builder.WithOrigins("http://188.250.152.4")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
                     });
             });
 
@@ -61,6 +67,8 @@ namespace WebApi_SP
             app.UseCors(builder => {
                 builder.WithOrigins("http://85.240.156.204");
                 builder.WithOrigins("http://94.61.228.206");
+                builder.WithOrigins("http://localhost:3000");
+                builder.WithOrigins("http://188.250.152.4");
             }
             );
 

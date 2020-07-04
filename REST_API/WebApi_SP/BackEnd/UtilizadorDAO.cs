@@ -57,7 +57,7 @@ namespace UserDAO {
             {
                 var cmd = new MySqlCommand();
                 cmd.Connection = dbCon.Connection;
-                cmd.CommandText = "Insert INTO UTILIZADOR VALUES(@email, @nif, @nome, @genero, @telemovel, @dob, @altura, @password, @morada, @perfil)";
+                cmd.CommandText = "Insert INTO UTILIZADOR VALUES(@email, @nif, @nome, @genero, @telemovel, @dob, @altura, @password, @morada, @perfil, @creditos)";
                
                 //cmd.Connection.Open();
 
@@ -74,7 +74,9 @@ namespace UserDAO {
                 cmd.Parameters.AddWithValue("@password", utilizador.Password);
                 cmd.Parameters.AddWithValue("@morada", utilizador.Morada);
                 cmd.Parameters.AddWithValue("@perfil", utilizador.Perfil);
-                
+                cmd.Parameters.AddWithValue("@creditos", utilizador.Creditos);
+
+
                 cmd.ExecuteNonQuery();
 
                 dbCon.Close();

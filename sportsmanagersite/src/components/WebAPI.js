@@ -11,6 +11,7 @@ import errorPage from '../pages/error';
 // EXPORTABLE CONSTANTS
 
 export const baseURL = 'https://sportsmanagerwebapi.azurewebsites.net/'
+//export const baseURL = 'https://localhost:44384/'
 
 export const proxyURL = 'https://cors-anywhere.herokuapp.com/'
 
@@ -671,21 +672,14 @@ export async function checkAvailabilityPlace(obj, cod, date) {
     var kUid = localStorage.getItem(sessionKEY);
     var vUid = localStorage.getItem(sessionID);
 
-    obj.setState({ alreadyLogged: 'loading' });
-
     await Axios.post(baseURL + `Places?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
         + `placeId=${cod}&`
-        + `dateBegin=${date}`
+        + `date=${date}`
         , baseConfig)
         .then(r => {
+            console.log(r);
             if (r.data.result === 'user') {
-                obj.setState({
-                    data: {
-                        rented: r.data.info.rented,
-                        occupied: r.data.info.occupied
-                    }
-                });
-                obj.setState({ alreadyLogged: r.data.result });
+                
                 if (r.data.info.flag !== null) alert(r.data.info.flag);
             }
             else {

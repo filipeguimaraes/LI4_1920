@@ -120,6 +120,7 @@ namespace WebApi_SP.ViewObj
                 u.Telemovel = "";
                 u.Morada = "";
                 u.Nif = "";
+                u.Creditos = 0;
 
                 uDAO.put(u);
 

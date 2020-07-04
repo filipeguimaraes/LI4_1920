@@ -44,7 +44,7 @@ import Button from '@material-ui/core/Button';
 import '../styles/classes.css';
 
 //webAPI
-import { checkAuthentication, validateAuth, checkPlacesPage, checkRentPlace, checkRefundRent } from '../components/WebAPI';
+import { checkAuthentication, validateAuth, checkPlacesPage, checkRentPlace, checkRefundRent, checkAvailabilityPlace } from '../components/WebAPI';
 import { validUser } from './user';
 
 
