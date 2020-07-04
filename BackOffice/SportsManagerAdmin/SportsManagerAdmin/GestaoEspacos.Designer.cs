@@ -44,6 +44,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.lucroEspaco = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,6 +69,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.textBox4);
+            this.groupBox1.Controls.Add(this.textBox3);
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.lucroEspaco);
             this.groupBox1.Controls.Add(this.comboBox2);
             this.groupBox1.Controls.Add(this.label5);
@@ -120,9 +126,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(16, 169);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(186, 13);
+            this.label3.Size = new System.Drawing.Size(179, 13);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Consultar nº de Aulas/Espaço (média)";
+            this.label3.Text = "Consultar nº de Aulas de um Espaço";
             // 
             // ConsultButton
             // 
@@ -204,6 +210,31 @@
             this.lucroEspaco.Text = "Consultar";
             this.lucroEspaco.UseVisualStyleBackColor = true;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(386, 29);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(137, 13);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Nº Aulas/Espaço em média";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(559, 31);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.ReadOnly = true;
+            this.textBox3.Size = new System.Drawing.Size(105, 20);
+            this.textBox3.TabIndex = 16;
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(255, 350);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.ReadOnly = true;
+            this.textBox4.Size = new System.Drawing.Size(64, 20);
+            this.textBox4.TabIndex = 17;
+            // 
             // GestaoEspacos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -236,5 +267,8 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button lucroEspaco;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textBox4;
     }
 }
