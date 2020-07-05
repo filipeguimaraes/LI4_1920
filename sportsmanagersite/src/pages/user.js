@@ -70,7 +70,8 @@ class User extends Component {
         this.state = {
             notifications,
             name: 'N/A',
-            alreadyLogged: 'loading'
+            alreadyLogged: 'loading',
+            creditos: 0
         }
     }
 
@@ -114,7 +115,7 @@ class User extends Component {
                         </Grid>
                         <Grid item xs>
                             <div style={{ padding: '30px' }}>
-                                <MyCard money={10.5} />
+                                <MyCard money={this.state.creditos.toFixed(2)} />
                             </div>
                         </Grid>
                         <Grid item xs={12}>

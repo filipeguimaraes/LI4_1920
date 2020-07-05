@@ -80,14 +80,14 @@ class Places extends Component {
             data: {
                 rented: [],
                 toRent: [],
-                occupied: [],
                 flag: null
             },
             alreadyLogged: 'loading',
             selectedDay: Date.now(),
             selectedTimeBegin: Date.now(),
             selectedTimeEnd: Date.now(),
-            selectedRow: null
+            selectedRow: null,
+            occupied: []
         }
     }
 
@@ -96,12 +96,13 @@ class Places extends Component {
         await checkAuthentication(this);
     }
 
-    handleDayClick(day) {
+    async handleDayClick(day) {
         this.setState({
             selectedDay: day
         });
-        checkAvailabilityPlace(this,this.state.selectedRow,new Date(this.state.selectedDay).toISOString());
-        console.log(day)
+        this.setState({
+            occupied: await checkAvailabilityPlace(this, this.state.selectedRow, new Date(day).toISOString())
+        });
     }
 
     handleTimeBeginChange(time) {
@@ -148,8 +149,12 @@ class Places extends Component {
                     columns={showcolumns}
                     data={this.state.data.toRent}
                     title=""
+                    onRowClick={(event, rowData) => {
+                        this.setState({
+                            selectedRow: rowData.codEspaco
+                        });
+                    }}
                     detailPanel={rowData => {
-                        this.setState({selectedRow: rowData.codEspaco});
                         var b = Date.now();
                         var e = Date.now();
                         return (
@@ -175,18 +180,9 @@ class Places extends Component {
                                             modal
                                             style={{ padding: '10' }}
                                             trigger={
-                                                <Button
-                                                    style={{ padding: '10' }}
-                                                    variant="outlined"
-                                                    onClick={
-                                                        async () => {
-                                                            await checkRentPlace(this,
-                                                                rowData.codEspaco,
-                                                                b.toISOString(),
-                                                                e.toISOString()
-                                                            );
-                                                        }
-                                                    }>Rent Space </Button>
+                                                <Button style={{ padding: '10' }} variant="outlined">
+                                                    Rent Space
+                                                </Button>
                                             }
                                             position="center">
                                             <Grid
@@ -205,7 +201,11 @@ class Places extends Component {
                                                     <Popup
                                                         modal
                                                         trigger={
-                                                            <Button variant="outlined">
+                                                            <Button variant="outlined" onClick={() => {
+                                                                this.setState({
+                                                                    selectedRow: rowData.codEspaco
+                                                                });
+                                                            }}>
                                                                 Chose Time Interval
                                                         </Button>
                                                         }
@@ -219,9 +219,9 @@ class Places extends Component {
                                                             <Grid item xs={12}>
                                                                 <MaterialTable
                                                                     columns={[
-                                                                        { title: "Begin", field: "begin", type: "time" },
-                                                                        { title: "End", field: "end", type: "time" }]}
-                                                                    data={this.state.data.occupied}
+                                                                        { title: "Begin", field: "dateBegin", type: "time" },
+                                                                        { title: "End", field: "dateEnd", type: "time" }]}
+                                                                    data={this.state.occupied}
                                                                     title="Busy Hours"
                                                                 />
                                                             </Grid>
@@ -240,7 +240,20 @@ class Places extends Component {
                                                                 </div>
                                                             </Grid>
                                                             <Grid item xs={12}>
-                                                                <Button onClick={() => { alert('clicado') }}>Confirm</Button>
+                                                                <Button onClick={() => {
+                                                                    var fy = new Date(this.state.selectedDay);
+
+                                                                    var db = new Date(this.state.selectedTimeBegin);
+                                                                    db.setFullYear('2020', fy.getMonth(), fy.getDay());
+
+                                                                    var de = new Date(this.state.selectedTimeEnd);
+                                                                    de.setFullYear('2020', fy.getMonth(), fy.getDay());
+
+                                                                    checkRentPlace(this, rowData.codEspaco,
+                                                                        db.toISOString(),
+                                                                        de.toISOString()
+                                                                    );
+                                                                }}>Confirm</Button>
                                                             </Grid>
                                                         </Grid>
                                                     </Popup>

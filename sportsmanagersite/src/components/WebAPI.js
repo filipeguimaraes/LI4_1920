@@ -106,8 +106,11 @@ export async function checkAuthentication(obj) {
         await Axios.get(baseURL + `Authentication?${sessionKEY}=${kUid}&${sessionID}=${vUid}`, baseConfig)
             .then(r => {
                 if (r.data.result === 'user' || r.data.result === 'instructor' || r.data.result === 'settings') {
-                    obj.setState({ alreadyLogged: r.data.result });
-                    obj.setState({ name: r.data.name });
+                    obj.setState({
+                        alreadyLogged: r.data.result,
+                        name: r.data.name,
+                        creditos: r.data.info.creditos
+                    });
                 }
                 else {
                     obj.setState({ alreadyLogged: null });
@@ -672,20 +675,14 @@ export async function checkAvailabilityPlace(obj, cod, date) {
     var kUid = localStorage.getItem(sessionKEY);
     var vUid = localStorage.getItem(sessionID);
 
-    await Axios.post(baseURL + `Places?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
+    return await Axios.post(baseURL + `Places?${sessionKEY}=${kUid}&${sessionID}=${vUid}&`
         + `placeId=${cod}&`
         + `date=${date}`
         , baseConfig)
         .then(r => {
             console.log(r);
             if (r.data.result === 'user') {
-                obj.setState({
-                    data: {
-                        occupied: r.data.info.occupied
-                    }
-                });
-
-                if (r.data.info.flag !== null) alert(r.data.info.flag);
+                return r.data.info.occupied;
             }
             else {
                 obj.setState({ alreadyLogged: null });
