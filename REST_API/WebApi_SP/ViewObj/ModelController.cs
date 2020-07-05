@@ -225,8 +225,9 @@ namespace WebApi_SP.ViewObj
 
                 Aula aula = new Aula(numTicket,priceTicket,DateTime.Parse(dateBegin),DateTime.Parse(dateEnd),
                     adress,instructorEmail,placeId);
-
-                new AulaDAO().put(aula);
+                
+                if (new EspacoDAO().available(placeId, dateBegin, dateEnd) == 0)
+                    new AulaDAO().put(aula);
 
                 authObj.Info = new AulaDAO().getAulasWhere("email", "=", authObj.Email);
             }
