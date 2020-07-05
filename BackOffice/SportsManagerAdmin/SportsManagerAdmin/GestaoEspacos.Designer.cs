@@ -31,6 +31,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.espacosRegistados = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lucroEspaco = new System.Windows.Forms.Button();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.ButtonClasses = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -39,14 +47,7 @@
             this.nrVezes = new System.Windows.Forms.TextBox();
             this.comboBoxEspaços = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.lucroEspaco = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -93,6 +94,75 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Estatísticas de Espaços";
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(255, 350);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.ReadOnly = true;
+            this.textBox4.Size = new System.Drawing.Size(64, 20);
+            this.textBox4.TabIndex = 17;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(559, 31);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.ReadOnly = true;
+            this.textBox3.Size = new System.Drawing.Size(105, 20);
+            this.textBox3.TabIndex = 16;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(386, 29);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(137, 13);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Nº Aulas/Espaço em média";
+            // 
+            // lucroEspaco
+            // 
+            this.lucroEspaco.Location = new System.Drawing.Point(19, 380);
+            this.lucroEspaco.Name = "lucroEspaco";
+            this.lucroEspaco.Size = new System.Drawing.Size(64, 24);
+            this.lucroEspaco.TabIndex = 14;
+            this.lucroEspaco.Text = "Consultar";
+            this.lucroEspaco.UseVisualStyleBackColor = true;
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(19, 347);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(191, 21);
+            this.comboBox2.TabIndex = 13;
+            this.comboBox2.Text = "Selecione um Espaço";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(16, 322);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(148, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Consultar lucro de um Espaço";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(255, 289);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(65, 20);
+            this.textBox2.TabIndex = 11;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(16, 289);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(149, 13);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Consultar lucro médio/Espaço";
             // 
             // textBox1
             // 
@@ -166,80 +236,22 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Consultar nº de alugueres de um Espaço";
             // 
-            // label4
+            // button1
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(16, 289);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(149, 13);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Consultar lucro médio/Espaço";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(255, 289);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(65, 20);
-            this.textBox2.TabIndex = 11;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(16, 322);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(148, 13);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "Consultar lucro de um Espaço";
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(19, 347);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(191, 21);
-            this.comboBox2.TabIndex = 13;
-            this.comboBox2.Text = "Selecione um Espaço";
-            // 
-            // lucroEspaco
-            // 
-            this.lucroEspaco.Location = new System.Drawing.Point(19, 380);
-            this.lucroEspaco.Name = "lucroEspaco";
-            this.lucroEspaco.Size = new System.Drawing.Size(64, 24);
-            this.lucroEspaco.TabIndex = 14;
-            this.lucroEspaco.Text = "Consultar";
-            this.lucroEspaco.UseVisualStyleBackColor = true;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(386, 29);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(137, 13);
-            this.label6.TabIndex = 15;
-            this.label6.Text = "Nº Aulas/Espaço em média";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(559, 31);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(105, 20);
-            this.textBox3.TabIndex = 16;
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(255, 350);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(64, 20);
-            this.textBox4.TabIndex = 17;
+            this.button1.Location = new System.Drawing.Point(26, 4);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Voltar";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // GestaoEspacos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
             this.Name = "GestaoEspacos";
             this.Text = "GestaoEspacos";
@@ -270,5 +282,6 @@
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Button button1;
     }
 }

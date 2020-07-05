@@ -31,7 +31,6 @@
             this.gestaoUsers = new System.Windows.Forms.Button();
             this.gestaoEspacos = new System.Windows.Forms.Button();
             this.gestaoAulas = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // gestaoUsers
@@ -64,21 +63,11 @@
             this.gestaoAulas.UseVisualStyleBackColor = true;
             this.gestaoAulas.Click += new System.EventHandler(this.gestaoAulas_Click);
             // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(564, 217);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(91, 42);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "button4";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button4);
             this.Controls.Add(this.gestaoAulas);
             this.Controls.Add(this.gestaoEspacos);
             this.Controls.Add(this.gestaoUsers);
@@ -93,6 +82,5 @@
         private System.Windows.Forms.Button gestaoUsers;
         private System.Windows.Forms.Button gestaoEspacos;
         private System.Windows.Forms.Button gestaoAulas;
-        private System.Windows.Forms.Button button4;
     }
 }
