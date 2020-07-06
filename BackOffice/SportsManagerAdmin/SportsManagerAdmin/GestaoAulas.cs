@@ -55,8 +55,7 @@ namespace SportsManagerAdmin
             }
 
             alunosPorAula();
-
-        
+            lucroMedioAula();
         }
 
         public int aulasCriadas()
@@ -98,6 +97,43 @@ namespace SportsManagerAdmin
             return result;
         }
 
+        public void lucroMedioAula()
+        {
+            var dbCon = c.Instance();
+            dbCon.DataBaseName = "sportsmanager";
+            float result = 0.0f;
+
+            if (dbCon.IsConnect())
+            {
+
+
+                var cmd = new MySqlCommand();
+                cmd.Connection = dbCon.Connection;
+                cmd.CommandText = "SELECT SUM(preco_bilhete) FROM FREQUENTA AS A INNER JOIN AULA AS E WHERE A.cod_aula = E.cod_aula;";
+
+                //este Open bugava ao tentar abrir apos o IsConnect (como estava antes)
+                //o que dava um erro de tentar abrir um canal que j� est� aberto.
+                //n�o vi mais metodos pq so estava mesmo o testar cenas elementares...
+                //mas se este d� os outros tamb�m v�o dar...depois temos � de ver o model
+                //cmd.Connection.Open();
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    result = reader.GetInt32(0);
+                }
+
+                dbCon.Close();
+
+                textBox1.Text = (result / (float)int.Parse(aulas.Text)).ToString();
+            }
+        }
+
         public void alunosPorAula()
         {
             int aulas = aulasCriadas();
@@ -137,6 +173,11 @@ namespace SportsManagerAdmin
             }
         }
 
-
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Form2 f2 = new Form2(this.c);
+            this.Hide();
+            f2.Show();
+        }
     }
 }
