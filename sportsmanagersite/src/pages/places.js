@@ -109,14 +109,12 @@ class Places extends Component {
         this.setState({
             selectedTimeBegin: time
         });
-        console.log(time)
     }
 
     handleTimeEndChange(time) {
         this.setState({
             selectedTimeEnd: time
         });
-        console.log(time)
     }
 
     render() {
@@ -244,11 +242,17 @@ class Places extends Component {
                                                                     var fy = new Date(this.state.selectedDay);
 
                                                                     var db = new Date(this.state.selectedTimeBegin);
-                                                                    db.setFullYear('2020', fy.getMonth(), fy.getDay());
 
                                                                     var de = new Date(this.state.selectedTimeEnd);
-                                                                    de.setFullYear('2020', fy.getMonth(), fy.getDay());
 
+                                                                    db.setFullYear(2020);
+                                                                    db.setMonth(fy.getMonth());
+                                                                    db.setDate(fy.getDate());
+
+                                                                    de.setFullYear(2020);
+                                                                    de.setMonth(fy.getMonth());
+                                                                    de.setDate(fy.getDate());
+                                                                    
                                                                     checkRentPlace(this, rowData.codEspaco,
                                                                         db.toISOString(),
                                                                         de.toISOString()
