@@ -252,11 +252,16 @@ class Places extends Component {
                                                                     de.setFullYear(2020);
                                                                     de.setMonth(fy.getMonth());
                                                                     de.setDate(fy.getDate());
-                                                                    
-                                                                    checkRentPlace(this, rowData.codEspaco,
-                                                                        db.toISOString(),
-                                                                        de.toISOString()
-                                                                    );
+
+
+
+                                                                    if (db < de && fy >= Date.now())
+                                                                        checkRentPlace(this, 
+                                                                            rowData.codEspaco,
+                                                                            db.toISOString(),
+                                                                            de.toISOString()
+                                                                        );
+                                                                    else alert("Wrong Dates.");
                                                                 }}>Confirm</Button>
                                                             </Grid>
                                                         </Grid>
